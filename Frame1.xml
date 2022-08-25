@@ -4,10 +4,10 @@
 		<Font virtual="true" font="Fonts\MORPHEUS_CYR.TTF" outline="NONE" height="60">
 		<Color r="1" g="1" b="1" />
 	</Font>
-		<Size x="475" y="435" />
+		<Size x="475" y="372" />
 		<Anchors>
 			<Anchor point="TOPLEFT">
-				<Offset x="100" y="-195" />
+				<Offset x="100" y="-201" />
 			</Anchor>
 		</Anchors>
 		<KeyValues>
@@ -29,7 +29,7 @@
 					</Anchors>
 					<FontHeight val="35" />
 				</FontString>
-				<FontString name="VersionString" inherits="GameFontNormal" setAllPoints="true" text="v1.1.4 © 2022 S3R43o3">
+				<FontString name="VersionString" inherits="GameFontNormal" setAllPoints="true" text="v1.2.1 2022 © S3R43o3">
 					<Size x="254" y="20" />
 					<Anchors>
 						<Anchor point="TOP" x="0" y="-65" />
@@ -56,7 +56,7 @@
 					<FontHeight />
 					<Color r="0" g="1" b="0" />
 				</FontString>
-				<FontString inherits="GameFontNormal" text="Oder verwende eine vorgefertigte Nachricht.">
+				<FontString name="InfoString" inherits="GameFontNormal" hidden="true" text="Oder verwende eine vorgefertigte Nachricht.">
 					<Size x="410" y="20" />
 					<Anchors>
 						<Anchor point="TOPLEFT" x="32" y="-259" />
@@ -129,6 +129,11 @@
 				<Anchors>
 					<Anchor point="BOTTOM" x="45" y="22" />
 				</Anchors>
+				<Scripts>
+					<OnClick>
+						ExitButton_OnClick()
+					</OnClick>
+				</Scripts>
 			</Button>
 			<Button name="ReloadButton" inherits="UIPanelButtonTemplate" enableMouse="true" enableMouseClicks="true" text="Reload">
 				<Size x="75" y="23" />
@@ -141,13 +146,13 @@
 					</OnClick>
 				</Scripts>
 			</Button>
-			<Button name="SetDefaultButton" inherits="UIPanelButtonTemplate" enableMouse="true" enableMouseClicks="true" text="Default">
+			<Button name="SetDefaultButton" inherits="UIPanelButtonTemplate" hidden="true" text="Default">
 				<Size x="75" y="23" />
 				<Anchors>
 					<Anchor point="TOPLEFT" x="146" y="-285" />
 				</Anchors>
 			</Button>
-			<Button name="SetOwlButton" inherits="UIPanelButtonTemplate" enableMouse="true" enableMouseClicks="true" text="Eule">
+			<Button name="SetOwlButton" inherits="UIPanelButtonTemplate" hidden="true" text="Eule">
 				<Size x="75" y="23" />
 				<Anchors>
 					<Anchor point="TOPLEFT" x="245" y="-285" />

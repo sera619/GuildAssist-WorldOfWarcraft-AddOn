@@ -4,8 +4,8 @@
 local UserGratulationMessage = "Herzlichen Glückwunsch";
 local AutomaticEnabled = true;
 local lastMessage;
-
-
+local defaultMessage = "Herzlichen Glückwunsch zu deinem Erfolg."
+local sendOwl = false;
 
 
 
@@ -18,6 +18,20 @@ function CongrACMCheck_OnClick()
         AutomaticEnabled = true;
         print("-[!]- auto gratulation ON")
     end
+end
+
+function SetMessageDefault()
+    UserGratulationMessage = defaultMessage;
+    print("Gratulation wurde auf DEFAULT gesetzt")
+    CurrentGratulationString:SetText(defaultMessage);
+    SendChatMessage(defaultMessage, "SAY");
+end
+
+function SendingOwl()
+    SendChatMessage("{o,o} I herd aboot that", "SAY")
+    SendChatMessage("/)__)", "SAY")
+    SendChatMessage("_\"_\"_", "SAY")
+    SendChatMessage("Glückwunsch!", "SAY")
 end
 
 function ReloadButton_OnClick()
@@ -57,13 +71,12 @@ frame:RegisterEvent("PLAYER_LOGOUT"); -- Fired when about to log out
 
 function frame:OnEvent(event, arg1)
     if (event == "ADDON_LOADED" and arg1 == "GuildAssist") then
+        print("Geladene Nachricht:".. SavedChatMessage ..", GuildAssist Addon loaded...\nUm das Optionsfenster zu öffnen tippe /ga in den Chat.");
         if(SavedChatMessage == nil) then
             SavedChatMessage = "HeyHo";
-            print("Geladene Nachricht:".. SavedChatMessage ..", GuildAssist Addon loaded...\nUm das Optionsfenster zu öffnen tippe /ga in den Chat.");
             return
         else
             UserGratulationMessage = SavedChatMessage;
-            print("Geladene Nachricht:".. SavedChatMessage ..", GuildAssist Addon loaded...\nUm das Optionsfenster zu öffnen tippe /ga in den Chat.");
             CurrentGratulationString:SetText(SavedChatMessage);
             SetGratulationMessage()
             AutomaticEnabled = SavedSendAutomatic
@@ -85,7 +98,7 @@ local autograts=CreateFrame('frame')
 autograts:RegisterEvent('CHAT_MSG_GUILD_ACHIEVEMENT')
 autograts:SetScript('OnEvent',function()
     autograts.trigger=true 
-    C_Timer.After(5,function()
+    C_Timer.After(2,function()
         if autograts.trigger and AutomaticEnabled == true then
             autograts.trigger=false
             SendChatMessage(UserGratulationMessage,'GUILD')
