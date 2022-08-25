@@ -1,0 +1,166 @@
+<Ui xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="MainUI" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Frame1.lua" />
+	<Frame name="MainFrame" inherits="BackdropTemplate" parent="UIParent" toplevel="true" movable="true" enableMouse="true" enableMouseClicks="true" enableMouseMotion="true">
+		<Font virtual="true" font="Fonts\MORPHEUS_CYR.TTF" outline="NONE" height="60">
+		<Color r="1" g="1" b="1" />
+	</Font>
+		<Size x="475" y="435" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="100" y="-195" />
+			</Anchor>
+		</Anchors>
+		<KeyValues>
+			<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" keyType="string" type="global" />
+		</KeyValues>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />
+			</BackgroundInsets>
+			<TileSize val="32" />
+			<EdgeSize val="32" />
+		</Backdrop>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="HeaderString" inherits="GameFontNormal" font="Fonts\MORPHEUS_CYR.TTF" text="Guild Assist" outline="THICK">
+					<Size x="271" y="51" />
+					<Anchors>
+						<Anchor point="TOP" relativePoint="TOP" x="0" y="-15" />
+					</Anchors>
+					<FontHeight val="35" />
+				</FontString>
+				<FontString name="VersionString" inherits="GameFontNormal" setAllPoints="true" text="v1.1.4 © 2022 S3R43o3">
+					<Size x="254" y="20" />
+					<Anchors>
+						<Anchor point="TOP" x="0" y="-65" />
+					</Anchors>
+				</FontString>
+				<FontString name="InformationString" inherits="GameFontNormal" text="Dieses kleine Addon ist zum automatisierten senden einer Glückwunsch Nachricht wenn ein Gildenmitglied einen Erfolg erreicht. Trage deine Glückwunschnachricht ein und setzte das Häckchen.">
+					<Size x="375" y="84" />
+					<Anchors>
+						<Anchor point="TOP" x="0" y="-105" />
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Deine aktuelle Nachricht:">
+					<Size x="375" y="31" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="50" y="-182" />
+					</Anchors>
+					<Color r="0.753" g="1" b="1" />
+				</FontString>
+				<FontString name="CurrentGratulationString" inherits="GameFontNormal" text="Herzlichen Glückwunsch, [Name]!" maxLines="1">
+					<Size x="410" y="36" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="32" y="-219" />
+					</Anchors>
+					<FontHeight />
+					<Color r="0" g="1" b="0" />
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Oder verwende eine vorgefertigte Nachricht.">
+					<Size x="410" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="32" y="-259" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="OkButton" inherits="UIPanelButtonTemplate" enableMouseClicks="true" text="Okay">
+				<Size x="75" y="23" />
+				<Anchors>
+					<Anchor point="BOTTOM" x="-54" y="21" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						OkButton_OnClick()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="ExitButton" inherits="UIPanelButtonTemplate" text="X">
+				<Size x="25" y="25" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="434" y="-15" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						ExitButton_OnClick()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<EditBox name="MessageEdit" inherits="InputBoxTemplate" parent="MainFrame" enableMouseClicks="true" enableKeyboard="true" autoFocus="false">
+				<Size x="410" y="17" />
+				<Anchors>
+					<Anchor point="BOTTOM" x="0" y="90" />
+				</Anchors>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="ACMCheckString" inherits="GameFontNormal" text="automatisch senden">
+							<Size x="164" y="30" />
+							<Anchors>
+								<Anchor point="BOTTOM" x="14" y="-36" />
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<CheckButton name="CongrACMCheck" inherits="UICheckButtonTemplate" text="CheckButton1">
+						<Size x="30" y="30" />
+						<Anchors>
+							<Anchor point="BOTTOM" x="-76" y="-36" />
+						</Anchors>
+						<Scripts>
+							<OnClick>
+								CongrACMCheck_OnClick()
+							</OnClick>
+						</Scripts>
+					</CheckButton>
+				</Frames>
+				<FontString name="GratulationEditString" inherits="ChatFontNormal" font="Fonts\2002B.ttf" text="dqwe">
+					<Size x="10.2" y="10.2" />
+					<Anchors>
+						<Anchor point="CENTER" relativePoint="CENTER" x="0" y="0" />
+					</Anchors>
+					<FontHeight val="16" />
+					<Color r="1" g="1" b="0" />
+				</FontString>
+			</EditBox>
+			<Button name="CancelButton" inherits="UIPanelButtonTemplate" enableMouse="true" enableMouseClicks="true" text="Abbruch">
+				<Size x="75" y="23" />
+				<Anchors>
+					<Anchor point="BOTTOM" x="45" y="22" />
+				</Anchors>
+			</Button>
+			<Button name="ReloadButton" inherits="UIPanelButtonTemplate" enableMouse="true" enableMouseClicks="true" text="Reload">
+				<Size x="75" y="23" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="349" y="-16" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						ReloadButton_OnClick()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="SetDefaultButton" inherits="UIPanelButtonTemplate" enableMouse="true" enableMouseClicks="true" text="Default">
+				<Size x="75" y="23" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="146" y="-285" />
+				</Anchors>
+			</Button>
+			<Button name="SetOwlButton" inherits="UIPanelButtonTemplate" enableMouse="true" enableMouseClicks="true" text="Eule">
+				<Size x="75" y="23" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="245" y="-285" />
+				</Anchors>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnMouseDown>
+				MainFrame:StartMoving()
+			</OnMouseDown>
+			<OnMouseUp>
+				MainFrame:StopMovingOrSizing()
+			</OnMouseUp>
+		</Scripts>
+	</Frame>
+</Ui>
