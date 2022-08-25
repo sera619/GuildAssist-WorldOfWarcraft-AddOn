@@ -1,7 +1,7 @@
 ## Interface: 90205
 ## Title: GuildAssist
 ## Notes-deDE: Kleiner automatischer Gratulations sender  
-## Version: 1.1.4
+## Version: 1.2.1
 ## Author: S3R43o3
 ## SavedVariables: SavedChatMessage
 ## SavedVariablesPerCharacter: SavedSendAutomatic
