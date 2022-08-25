@@ -7,3 +7,7 @@
 >First release.
 >If you facing any problems please open a new Issue.
 >Just unzip the ZIP-File into your World of Warcraft Addons directory.
+
+### Screenshots ###
+
+> - ![GUI](img/GUI.png)
