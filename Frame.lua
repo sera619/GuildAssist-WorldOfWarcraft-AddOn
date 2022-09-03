@@ -120,7 +120,7 @@ function ActivateChatbot()
         BotStatusString:SetText("Chat-Bot inaktiv")
         BotButton:SetText("ChatBot AN")
         C_Timer.After(0.5, function ()
-            SendChatMessage("GuildAssist Chat Bot ist jetzt inaktiv.")
+            SendChatMessage("GuildAssist Chat Bot ist jetzt inaktiv.", "GUILD")
         end)
     else
         ChatBotOn = true
@@ -128,7 +128,7 @@ function ActivateChatbot()
         BotStatusString:SetText("Chat-Bot aktiv")
         BotButton:SetText("ChatBot AUS")
         C_Timer.After(0.5, function ()
-            SendChatMessage("GuildAssist Chat Bot ist jetzt aktiv.")
+            SendChatMessage("GuildAssist Chat Bot ist jetzt aktiv.", "GUILD")
         end)
     end
     print("Set Chat-Bot: ", ChatBotOn)
@@ -213,13 +213,13 @@ Frame:SetScript("OnEvent", function(self, event, ...)
         BotStatusString:SetText("Chat-Bot inaktiv")
         BotButton:SetText("ChatBot AN")
 
-        print("GuildAssist2 geladen...\nDiscord: " .. SavedDiscord .. "\nNachricht: " .. SavedMessage .. "\nChatBot active: " .. ChatBotOn)
+        print("GuildAssist2 geladen...\nDiscord: " .. SavedDiscord .. "\nNachricht: " .. SavedMessage .. "\nChatBot active: ", ChatBotOn)
 
 
     end
     -- Post Discord
     if (event == "CHAT_MSG_GUILD" ) then
-        local player ,text = ...
+        local text, player = ...
         if (text == "!discord" and  LastMessageSend == "" and ChatBotOn == true) then
             LastMessageSend = text
             C_Timer.After(0.8,function ()
