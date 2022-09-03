@@ -1,0 +1,9 @@
+## Title: GuildAssist2
+## Version: 2.4.7
+## Author: S3R43o3
+## Interface: 90205
+## SavedVariables: SavedMessage, SavedDiscord, DiscordAutoOn, GZAutoOn, ShowWindowStart, ChatBotOn
+## Notes: GuildChat Utilities like a ChatBot, automatic gratulationmessaging uvm
+
+Frame.xml
+Frame.lua

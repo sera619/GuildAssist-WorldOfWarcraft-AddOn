@@ -1,0 +1,327 @@
+<Ui xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Frame.lua" />
+	<Frame name="UIFrame" inherits="BackdropTemplate" parent="UIParent" toplevel="true" movable="true" enableMouse="true" enableMouseClicks="true" enableMouseMotion="true">
+		<Size x="497" y="491" />
+		<Anchors>
+			<Anchor point="TOP" x="-248" y="-147" />
+		</Anchors>
+		<KeyValues>
+			<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" keyType="string" type="global" />
+		</KeyValues>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />
+			</BackgroundInsets>
+			<TileSize val="32" />
+			<EdgeSize val="32" />
+		</Backdrop>
+		<HitRectInsets>
+			<AbsInset left="1" right="1" top="1" bottom="1" />
+		</HitRectInsets>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="GZStringShow" inherits="GameFontNormal" text="FontString6" justifyH="LEFT">
+					<Size x="307" y="27" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="148" y="-218" />
+					</Anchors>
+					<Color r="0" g="1" b="1" />
+				</FontString>
+				<FontString name="DiscordStringShow" inherits="GameFontNormal" text="FontString7" justifyH="LEFT">
+					<Size x="307" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="148" y="-251" />
+					</Anchors>
+					<Color r="0" g="1" b="1" />
+				</FontString>
+				<FontString name="DiscordString" inherits="GameFontNormal" text="Discord Link:" justifyH="RIGHT">
+					<Size x="100" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="35" y="-251" />
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Neuer Discordlink">
+					<Size x="420" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="35" y="-330" />
+					</Anchors>
+				</FontString>
+				<FontString name="GZString" inherits="GameFontNormal" text="GZ Nachricht:" justifyH="RIGHT">
+					<Size x="100" y="27" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="35" y="-218" />
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Fenster beim start zeigen">
+					<Size x="157" y="23" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="48" y="-15" />
+					</Anchors>
+					<FontHeight val="10" />
+				</FontString>
+				<FontString name="VersionString" inherits="GameFontNormal" text="VersionString">
+					<Size x="420" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="35" y="-104" />
+					</Anchors>
+					<Color r="0.753" g="0.753" b="0" />
+				</FontString>
+				<FontString name="HeaderString" inherits="GameFontNormal" font="Fonts\MORPHEUS.TTF" text="Guild Assist" outline="THICK">
+					<Size x="420" y="52" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="35" y="-46" />
+					</Anchors>
+					<FontHeight val="60" />
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Neuer Glückwunschtext">
+					<Size x="420" y="32" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="35" y="-269" />
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Auto GZ">
+					<Size x="144" y="31" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="211" y="-385" />
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Auto Discord">
+					<Size x="144" y="32" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="211" y="-413" />
+					</Anchors>
+				</FontString>
+				<FontString name="BotStatusString" inherits="GameFontNormal" font="Fonts\MORPHEUS.TTF" text="BotStatus">
+					<Size x="420" y="33" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="35" y="-172" />
+					</Anchors>
+					<FontHeight val="24" />
+				</FontString>
+				<FontString name="WelcomeString" inherits="GameFontNormal" text="Willkommen, [player]">
+					<Size x="420" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="35" y="-124" />
+					</Anchors>
+					<Color r="0" g="0.753" b="0" />
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<CheckButton name="WindowStartCheckButton" inherits="UICheckButtonTemplate" enableMouseClicks="true" clampedToScreen="true" text="CheckButton1" checked="true">
+				<Size x="25" y="25" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="18" y="-15" />
+				</Anchors>
+			</CheckButton>
+			<EditBox name="GZInput" inherits="InputBoxTemplate" autoFocus="false">
+				<Size x="427" y="32" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="35" y="-346" />
+				</Anchors>
+			</EditBox>
+			<EditBox name="DiscordInput" inherits="InputBoxTemplate" autoFocus="false">
+				<Size x="427" y="32" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="35" y="-292" />
+				</Anchors>
+			</EditBox>
+			<Button name="OKButton" inherits="UIPanelButtonTemplate" text="Okay">
+				<Size x="75" y="23" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="82" y="-451" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						OKButtonClick()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="CancelButton" inherits="UIPanelButtonTemplate" text="Schließen">
+				<Size x="75" y="23" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="163" y="-451" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						HideInterface()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="XButton" inherits="UIPanelButtonTemplate" text="X">
+				<Size x="27" y="23" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="448" y="-15" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						HideInterface()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="DevButton" inherits="UIPanelButtonTemplate" text="Reload">
+				<Size x="75" y="23" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="357" y="-15" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						ReloadUI()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="HilfeButton" inherits="UIPanelButtonTemplate" enableMouse="true" enableMouseClicks="true" text="Hilfe">
+				<Size x="56" y="23" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="244" y="-451" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						ShowOptions()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<CheckButton name="GZCheckButton" inherits="UICheckButtonTemplate" text="CheckButton1">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="173" y="-384" />
+				</Anchors>
+				<Frames>
+					<CheckButton name="DiscordCheckButton" inherits="UICheckButtonTemplate" text="CheckButton1">
+						<Anchors>
+							<Anchor point="BOTTOM" x="0" y="-29" />
+						</Anchors>
+						<Scripts>
+							<OnClick>
+								SetDiscordActive()
+							</OnClick>
+						</Scripts>
+					</CheckButton>
+				</Frames>
+				<Scripts>
+					<OnClick>
+						SetGZActive()
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			<Button name="BotButton" inherits="UIPanelButtonTemplate" text="ChatBot Aus">
+				<Size x="119" y="23" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="306" y="-451" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						ActivateChatbot()
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				self:RegisterForDrag("LeftButton");
+			</OnLoad>
+			<OnDragStart>
+				self:StartMoving();
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing();
+			</OnDragStop>
+		</Scripts>
+	</Frame>
+	<Frame name="OptionFrame" inherits="BackdropTemplate" parent="UIParent" movable="true">
+		<Size x="303" y="491" />
+		<Anchors>
+			<Anchor point="RIGHT" relativeTo="UIFrame" x="310" y="0" />
+		</Anchors>
+		<KeyValues>
+			<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" keyType="string" type="global" />
+		</KeyValues>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />
+			</BackgroundInsets>
+			<TileSize val="32" />
+			<EdgeSize val="32" />
+		</Backdrop>
+		<HitRectInsets>
+			<AbsInset left="1" right="1" top="1" bottom="1" />
+		</HitRectInsets>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="HelpString" inherits="GameFontNormal" text="Um das Fenster beim Start nicht mehr anzuzeigen Entferne den Haken bei 'Fenster bei start zeigen'" justifyV="TOP">
+					<Size x="269" y="55" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="18" y="-231" />
+					</Anchors>
+				</FontString>
+				<FontString name="HelpString" inherits="GameFontNormal" text="Um die Grußnachricht zu ändern gebe in das Textfeld unter 'Neuer Glückwunschtext:' deine neue Nachricht ein und drücke den 'Okay' Button." justifyV="TOP">
+					<Size x="269" y="71" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="18" y="-106" />
+					</Anchors>
+				</FontString>
+				<FontString name="HelpString" inherits="GameFontNormal" text="Um den Discordlink zu ändern, gebe einen neuen Discordlink in das Textfeld unter 'Neuer Discordlink' ein und drücke den 'Okay' Button." justifyV="TOP">
+					<Size x="269" y="71" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="18" y="-172" />
+					</Anchors>
+				</FontString>
+				<FontString name="HelpHeader" inherits="GameFontNormal" font="Fonts\MORPHEUS.TTF" text="Hilfe" outline="THICK">
+					<Size x="269" y="25" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="18" y="-56" />
+					</Anchors>
+					<FontHeight val="22" />
+				</FontString>
+				<FontString name="HelpString" inherits="GameFontNormal" text="Das automatische Senden von Discordlink und Grußnachricht lässt sich über die jeweiligen Checkboxen steuern." justifyV="TOP">
+					<Size x="269" y="48" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="18" y="-292" />
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Tippe /ga in den Chat um das Menü zu öffnen.">
+					<Size x="269" y="35" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="18" y="-346" />
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" font="Fonts\MORPHEUS.TTF" text="Guild Assist" outline="THICK">
+					<Size x="269" y="25" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="18" y="-27" />
+					</Anchors>
+					<FontHeight val="28" />
+				</FontString>
+				<FontString inherits="GameFontNormal" text="">
+					<Size x="269" y="57" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="18" y="-388" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="OptionCloseButton" inherits="UIPanelButtonTemplate" text="Schließen">
+				<Size x="75" y="23" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="117" y="-451" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						ShowOptions()
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnDragStop>
+				self:StopMovingOrSizing();
+			</OnDragStop>
+			<OnDragStart>
+				self:StartMoving();
+			</OnDragStart>
+			<OnLoad>
+				self:RegisterForDrag("LeftButton");
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>
