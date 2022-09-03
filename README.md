@@ -35,4 +35,7 @@
 
 ### Screenshots ###
 
-> - ![GUI](img/GUI.png)
+> ![GUIv2](img/GUI2.png)
+>
+> ![GUI](img/GUI.png)
+>
