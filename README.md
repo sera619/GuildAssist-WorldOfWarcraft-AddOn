@@ -1,6 +1,7 @@
 # GUILDASSIST WoW AddOn #
 
-> A small AddOn to add some utilities to the guildchat.
+>A simple little addon to send automated guild chat messages when a guild member gets an achievement. You can choose between your own created message or predefined ASCII images. 
+Also save Discord/Teamspeak invitation links and send them to the guild chat via chat command "!discord" if activated.
 > The whole Project is now on Version 3.X. I refactor much like everything.
 >
 > - New graphical UserInterface
@@ -9,12 +10,20 @@
 > - Add ACii Images as premade GZ-Message to choose
 
 ## Features ##
+ 
 
-> - _gratulationmessage automatic_ to send it if a guildmate get a achievement
+> - allows you to use the keyboard arrow keys to scroll through your sent message history.
+> - Set the time in seconds between achieving the achievement and sending the congratulation message.
+> - minimap icon to show/hide addon menu
+> - Slashcommand "/ga" - Shows the AddOn Menu
+> - Slashcommand "/fs" - short command for buildin "/framestack".
+> - Slashcommand "/rl" - short command for buildin "/reload
+> - Slashcommand "/gahelp" - shows the AddOn Help
+
+Translated with www.DeepL.com/Translator (free version)
 
 ## Installation ##
 
->First release.
 >If you facing any problems please open a new Issue.
 >Just unzip the ZIP-File into your World of Warcraft Addons directory.
 
