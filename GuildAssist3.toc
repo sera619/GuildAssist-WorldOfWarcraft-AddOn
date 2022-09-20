@@ -1,6 +1,6 @@
 ## Title: |cff00ccffGuildAssist3|r Dev
 ## Author: S3R43o3
-## Version: 3.2.9
+## Version: 3.3.1
 ## Interface: 90207
 ## Notes: A Wrapper for common guild ultiltys
 ## DefaultState: enabled

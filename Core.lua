@@ -9,7 +9,7 @@ end
 
 ---------------- GUI configuration ----------------
 -- General Vars
-local addonVersion = "Version: 3.2.9";
+local addonVersion = "Version: 3.3.1";
 local branding = "AddOn Design \& Development 2022 \© S3R43o3";
 
 
@@ -810,8 +810,6 @@ GA_UIConfig:SetScript("OnEvent", function (self, event, ...)
     end
 
     if (event == "CHAT_MSG_GUILD_ACHIEVEMENT" and isGZAutoOn == true and GZMessageSended == false) then
-        local name, text= ...;
-        GA_UIConfig:Print("name: "..name.. "Message: " .. text);
         GZMessageSended = true;
         
         C_Timer.After(CurrentWaitTime, function ()
