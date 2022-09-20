@@ -6,6 +6,7 @@ for i = 1, NUM_CHAT_WINDOWS do
 end
 ----------------------------------------------------------------------------
 
+
 ---------------- GUI configuration ----------------
 -- General Vars
 local addonVersion = "Version: 3.2.9";
@@ -190,9 +191,11 @@ function GA_UIConfig:SetGZMessage(text)
 	end)
 end
 function GA_UIConfig:SetDiscordLink(link)
+    if(link == nil) then
+        GA_UIConfig.currentDiscordText:SetText("NO Discord set.")
+    end
     CurrentDiscordLink = link;
     SavedDiscord = CurrentDiscordLink;
-
         GA_UIConfig.currentDiscordText:SetText("\""..link.."\"");
 
         C_Timer.After(2, function ()
@@ -680,13 +683,29 @@ GA_UIConfig.sendTestDiscord:SetScript("OnClick", function (self, arg1, ...)
     end
 end)
 
+--- MINIMAP BUTTON 
+
+GA_UIConfig.mapButton = CreateFrame("Button", "GA_MinimapButton", Minimap, menuButton)
+GA_UIConfig.mapButton:SetPoint("RIGHT", Minimap, "BOTTOMLEFT", -10, 0)
+GA_UIConfig.mapButton:SetSize(20,20)
+GA_UIConfig.mapButton:SetNormalTexture("Interface\\Icons\\inv_misc_enggizmos_27")
+
+GA_UIConfig.mapButton:SetScript("OnClick", function ()
+    if (isGUIshow == false) then
+        GA_UIConfig:Show()
+        isGUIshow = true;
+    elseif(isGUIshow == true) then
+        GA_UIConfig:Hide()
+        isGUIshow = false;
+    end
+end)
+
 
 -------------------------------------
 
 
 
 GA_UIConfig:RegisterEvent("ADDON_LOADED")
-GA_UIConfig:RegisterEvent("ADDONS_UNLOADING")
 GA_UIConfig:RegisterEvent("CHAT_MSG_GUILD")
 GA_UIConfig:RegisterEvent("CHAT_MSG_GUILD_ACHIEVEMENT")
 GA_UIConfig:RegisterEvent('CHAT_MSG_SAY')
@@ -700,6 +719,7 @@ GA_UIConfig:SetScript("OnEvent", function (self, event, ...)
     local arg1 = ...;
     if (event == 'ADDON_LOADED' and arg1 == 'GuildAssist3') then
         GA_UIConfig:Print("Welcome back", UnitName("player").. "!");
+
 
         if (SavedShowMenuStart == nil) then
             SavedShowMenuStart = showAtStart;
