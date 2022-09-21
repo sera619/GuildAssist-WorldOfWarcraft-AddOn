@@ -186,17 +186,22 @@ GA_HelpFrame.howTo_05:SetPoint("CENTER", GA_HelpFrame.howTo_04, "BOTTOM", 0, -40
 GA_HelpFrame.howTo_05:SetText("You can also show a preview of your discordlink and gratulation message if you press the 'Test GZ' or 'Test Discord' button.")
 GA_HelpFrame.howTo_05:SetWidth(350)
 
+GA_HelpFrame.howTo_06 = GA_HelpFrame:CreateFontString(nil, "OVERLAY");
+GA_HelpFrame.howTo_06:SetFontObject("GameFontHighlight");
+GA_HelpFrame.howTo_06:SetPoint("CENTER", GA_HelpFrame.howTo_05, "BOTTOM", 0, -40)
+GA_HelpFrame.howTo_06:SetText("Please notice: To save your message or Discordlink please klick the \"Okay\" Button. That will reload you UI and save all settings.")
+GA_HelpFrame.howTo_06:SetWidth(350)
 
 
 -- Help UI buttons
-GA_HelpFrame.okayButton = CreateFrame("Button", nil, GA_HelpFrame, menuButton);
-GA_HelpFrame.okayButton:SetPoint("CENTER", GA_HelpFrame, "BOTTOM", 0, 30);
-GA_HelpFrame.okayButton:SetScale(0.8);
-GA_HelpFrame.okayButton:SetSize(100, 25);
-GA_HelpFrame.okayButton:SetText("Okay");
-GA_HelpFrame.okayButton:SetNormalFontObject(largeGameFont);
-GA_HelpFrame.okayButton:SetHighlightFontObject(largeHighlightFont);
-GA_HelpFrame.okayButton:SetScript("OnClick", function (self, arg1, ...)
+GA_HelpFrame.closeButton = CreateFrame("Button", nil, GA_HelpFrame, menuButton);
+GA_HelpFrame.closeButton:SetPoint("CENTER", GA_HelpFrame, "BOTTOM", 0, 30);
+GA_HelpFrame.closeButton:SetScale(0.8);
+GA_HelpFrame.closeButton:SetSize(100, 25);
+GA_HelpFrame.closeButton:SetText("Close");
+GA_HelpFrame.closeButton:SetNormalFontObject(largeGameFont);
+GA_HelpFrame.closeButton:SetHighlightFontObject(largeHighlightFont);
+GA_HelpFrame.closeButton:SetScript("OnClick", function (self, arg1, ...)
     local _ = ...;
     if (isHelpshow == true) then
         GA_HelpFrame:Hide()
@@ -609,21 +614,21 @@ end)
 
 ----- UI buttons -----
 -- UI okay button
-GA_UIConfig.okayButton = CreateFrame("Button", nil, GA_UIConfig, menuButton);
-GA_UIConfig.okayButton:SetScale(0.8);
-GA_UIConfig.okayButton:SetPoint("CENTER", GA_UIConfig, "TOP", 230, -630*1.24);
-GA_UIConfig.okayButton:SetSize(100, 25);
-GA_UIConfig.okayButton:SetText("Okay");
-GA_UIConfig.okayButton:SetNormalFontObject(largeGameFont);
-GA_UIConfig.okayButton:SetHighlightFontObject(largeHighlightFont);
-GA_UIConfig.okayButton:SetScript("OnClick", function (self, arg1, ...)
+GA_UIConfig.closeButton = CreateFrame("Button", nil, GA_UIConfig, menuButton);
+GA_UIConfig.closeButton:SetScale(0.8);
+GA_UIConfig.closeButton:SetPoint("CENTER", GA_UIConfig, "TOP", 230, -630*1.24);
+GA_UIConfig.closeButton:SetSize(100, 25);
+GA_UIConfig.closeButton:SetText("Okay");
+GA_UIConfig.closeButton:SetNormalFontObject(largeGameFont);
+GA_UIConfig.closeButton:SetHighlightFontObject(largeHighlightFont);
+GA_UIConfig.closeButton:SetScript("OnClick", function (self, arg1, ...)
     local _ = ...;
     ReloadUI();
 end)
 
 -- UI cancel button
-GA_UIConfig.cancelButton = CreateFrame("Button", nil, GA_UIConfig.okayButton, menuButton);
-GA_UIConfig.cancelButton:SetPoint("CENTER",GA_UIConfig.okayButton, "RIGHT", 50,0);
+GA_UIConfig.cancelButton = CreateFrame("Button", nil, GA_UIConfig.closeButton, menuButton);
+GA_UIConfig.cancelButton:SetPoint("CENTER",GA_UIConfig.closeButton, "RIGHT", 50,0);
 GA_UIConfig.cancelButton:SetSize(100, 25);
 GA_UIConfig.cancelButton:SetText("Cancel");
 GA_UIConfig.cancelButton:SetNormalFontObject(largeGameFont);
