@@ -1,7 +1,7 @@
 # GUILDASSIST WoW AddOn #
 
->A simple little addon to send automated guild chat messages when a guild member gets an achievement. You can choose between your own created message or predefined ASCII images. 
-Also save Discord/Teamspeak invitation links and send them to the guild chat via chat command "!discord" if activated.
+>A simple little addon to send automated guild chat messages when a guild member gets an achievement. You can choose between your own created message or predefined ASCII images.
+> Also save Discord/Teamspeak invitation links and send them to the guild chat via chat command "!discord" if activated.
 > The whole Project is now on Version 3.X. I refactor much like everything.
 >
 > - New graphical UserInterface
@@ -19,9 +19,9 @@ Also save Discord/Teamspeak invitation links and send them to the guild chat via
 > - Slashcommand "/rl" - short command for buildin "/reload
 > - Slashcommand "/gahelp" - shows the AddOn Help
 
-
 ## Installation ##
 
+>You can simple download and install this AddOn on [Curse Forge](https://www.curseforge.com/wow/addons/guildassist)!
 >If you facing any problems please open a new Issue.
 >Just unzip the ZIP-File into your World of Warcraft Addons directory.
 
