@@ -9,7 +9,7 @@ end
 
 ---------------- GUI configuration ----------------
 -- General Vars
-local addonVersion = "Version: 3.3.1";
+local addonVersion = "Version: 3.3.3";
 local branding = "AddOn Design \& Development 2022 \© S3R43o3";
 
 
@@ -22,7 +22,6 @@ local isGZAutoOn = false;
 local sendHeart = false;
 local sendTruck = false;
 local showAtStart = true;
-local showWindowAtStart = false;
 
 local DefaultWaitTime = 3;
 local DefaultGZMessage = "Herzlichen Glückwunsch";
@@ -61,13 +60,13 @@ local defaults = {
 
 ]]
 
-local GA_UIConfig;
+
 GA_UIConfig  = CreateFrame("Frame", "GA_UIFrame", UIParent, basicFrame);
 ----------------create events---------------------
 
 
 
-------------------------------------------------------
+
 
 -- sizing and position of UI Frame
 GA_UIConfig:SetSize(800, 650);
@@ -87,14 +86,14 @@ GA_UIConfig:SetUserPlaced(true);
 GA_UIConfig.title = GA_UIConfig:CreateFontString(nil, "OVERLAY");
 GA_UIConfig.title:SetFontObject("GameFontHighlight");
 GA_UIConfig.title:SetPoint("LEFT", GA_UIConfig.TitleBg, "LEFT", 10, 0);
-GA_UIConfig.title:SetText("Guild Assist v3.0 - Menu");
+GA_UIConfig.title:SetText("Guild Assist - Menu");
 GA_UIConfig.title:SetTextColor(255, 0, 0);
 
 
 
 
 
----- help frame ----
+----------------- help frame -----------------
 GA_HelpFrame = CreateFrame("Frame", "GA_HelpFrame", GA_UIConfig, basicFrame);
 GA_HelpFrame:SetSize(400, 650);
 GA_HelpFrame:SetPoint("CENTER", GA_UIConfig, "RIGHT", 210, 0);
@@ -110,7 +109,7 @@ GA_HelpFrame.title = GA_HelpFrame:CreateFontString(nil, "OVERLAY");
 GA_HelpFrame.title:SetFontObject("GameFontHighlight");
 GA_HelpFrame.title:SetPoint("LEFT", GA_HelpFrame.TitleBg, "LEFT", 10, 0);
 GA_HelpFrame.title:SetText("Guild Assist - Help");
-GA_HelpFrame.title:SetTextColor(0, 22, 155);
+GA_HelpFrame.title:SetTextColor(255, 0, 0);
 
 -- help frame strings
 GA_HelpFrame.innerTitle = GA_HelpFrame:CreateFontString(nil, "OVERLAY");
@@ -153,9 +152,41 @@ GA_HelpFrame.command_04:SetText("'/gahelp' - shows the helpmenu");
 GA_HelpFrame.help_03 = GA_HelpFrame:CreateFontString(nil, "OVERLAY");
 GA_HelpFrame.help_03:SetFontObject(largeGameFont);
 GA_HelpFrame.help_03:SetPoint("CENTER", GA_HelpFrame.innerTitle, "TOP", 0, -210);
-GA_HelpFrame.help_03:SetText("Menu");
+GA_HelpFrame.help_03:SetText("How to");
 
---GA_HelpFrame:Hide();
+
+GA_HelpFrame.howTo_01 = GA_HelpFrame:CreateFontString(nil, "OVERLAY");
+GA_HelpFrame.howTo_01:SetFontObject("GameFontHighlight");
+GA_HelpFrame.howTo_01:SetPoint("CENTER", GA_HelpFrame.help_03, "BOTTOM", 0, -35)
+GA_HelpFrame.howTo_01:SetText("To set your custom gratulation message just enter a message in the textbox in the GZ-Message Auto Options section and press 'Set New Gratulation'.")
+GA_HelpFrame.howTo_01:SetWidth(350)
+
+GA_HelpFrame.howTo_02 = GA_HelpFrame:CreateFontString(nil, "OVERLAY");
+GA_HelpFrame.howTo_02:SetFontObject("GameFontHighlight");
+GA_HelpFrame.howTo_02:SetPoint("CENTER", GA_HelpFrame.howTo_01, "BOTTOM", 0, -40)
+GA_HelpFrame.howTo_02:SetText("If you check 'Use ASCii Truck' or 'Use ASCii Heart' the Addon will send a predefined ASCii Art instead of your custom Message.")
+GA_HelpFrame.howTo_02:SetWidth(350)
+
+GA_HelpFrame.howTo_03 = GA_HelpFrame:CreateFontString(nil, "OVERLAY");
+GA_HelpFrame.howTo_03:SetFontObject("GameFontHighlight");
+GA_HelpFrame.howTo_03:SetPoint("CENTER", GA_HelpFrame.howTo_02, "BOTTOM", 0, -40)
+GA_HelpFrame.howTo_03:SetText("You can change the time between achievment earned and send the gratulation message. This is limited to 1 sec minimum and 10 sec maximum.")
+GA_HelpFrame.howTo_03:SetWidth(350)
+
+
+GA_HelpFrame.howTo_04 = GA_HelpFrame:CreateFontString(nil, "OVERLAY");
+GA_HelpFrame.howTo_04:SetFontObject("GameFontHighlight");
+GA_HelpFrame.howTo_04:SetPoint("CENTER", GA_HelpFrame.howTo_03, "BOTTOM", 0, -40)
+GA_HelpFrame.howTo_04:SetText("To set a Discord link just enter a link in the textbox int the Discord Auto Options section and press 'Set New Discord'.")
+GA_HelpFrame.howTo_04:SetWidth(350)
+
+GA_HelpFrame.howTo_05 = GA_HelpFrame:CreateFontString(nil, "OVERLAY");
+GA_HelpFrame.howTo_05:SetFontObject("GameFontHighlight");
+GA_HelpFrame.howTo_05:SetPoint("CENTER", GA_HelpFrame.howTo_04, "BOTTOM", 0, -40)
+GA_HelpFrame.howTo_05:SetText("You can also show a preview of your discordlink and gratulation message if you press the 'Test GZ' or 'Test Discord' button.")
+GA_HelpFrame.howTo_05:SetWidth(350)
+
+
 
 -- Help UI buttons
 GA_HelpFrame.okayButton = CreateFrame("Button", nil, GA_HelpFrame, menuButton);
@@ -211,7 +242,7 @@ end
 GA_UIConfig.innerTitle = GA_UIConfig:CreateFontString(nil, "OVERLAY");
 GA_UIConfig.innerTitle:SetFont("Fonts\\MORPHEUS.TTF", 32,"THICKOUTLINE");
 GA_UIConfig.innerTitle:SetTextColor(195, 0, 0);
-GA_UIConfig.innerTitle:SetPoint("CENTER", GA_UIConfig, "TOP", 0, -40);
+GA_UIConfig.innerTitle:SetPoint("CENTER", GA_UIConfig, "TOP", 0, -50);
 --GA_UIConfig.innerTitle:SetScale(1.2);
 GA_UIConfig.innerTitle:SetText("Guild Assist 3");
 
@@ -239,6 +270,9 @@ local welcomeText = welcome1..welcome2..welcome3..welcome4
 GA_UIConfig.welcomeString:SetText(welcomeText);
 
 
+
+
+-- Start Checkbox
 GA_UIConfig.checkBoxShowStart = CreateFrame("CheckButton","GA_checkBoxShowStart", GA_UIConfig, "UICheckButtonTemplate");
 GA_UIConfig.checkBoxShowStart:SetPoint("CENTER", GA_UIConfig ,"TOPLEFT", 25, -35);
 GA_UIConfig.checkBoxShowStart.text:SetText("Show Window on Start");
@@ -650,7 +684,7 @@ GA_UIConfig.sendTestGZ:SetScript("OnClick", function (self, arg1, ...)
             return
         end
         if (sendHeart == true) then
-            GA_UIConfig:Print("SSending Current GZ Message (ASCII ART 'Heart'):");
+            GA_UIConfig:Print("Sending Current GZ Message (ASCII ART 'Heart'):");
             GA_UIConfig:Print("\(\¯\`v\´\¯\)\.\. Alles")
             GA_UIConfig:Print("\`\•\.\¸\.\•\. Gute zu")
             GA_UIConfig:Print("\¸\.\•\´\.\.\.\.\. deinen Erfolg!")
@@ -714,16 +748,15 @@ GA_UIConfig:RegisterEvent('PLAYER_LOGOUT')
 ------------------------------------------------------
 --------------- START / INIT ADDON -------------------
 
-
 GA_UIConfig:SetScript("OnEvent", function (self, event, ...)
     local arg1 = ...;
     if (event == 'ADDON_LOADED' and arg1 == 'GuildAssist3') then
         GA_UIConfig:Print("Welcome back", UnitName("player").. "!");
-
-
+        
+        
         if (SavedShowMenuStart == nil) then
             SavedShowMenuStart = showAtStart;
-
+            
             SetShowStart(showAtStart);
         else
             showAtStart = SavedShowMenuStart;
@@ -776,14 +809,14 @@ GA_UIConfig:SetScript("OnEvent", function (self, event, ...)
             GA_UIConfig:SetDiscordLink(SavedDiscordLink)
             GA_UIConfig.currentDiscordText:SetText("\""..CurrentDiscordLink.."\"")
         end
-
+        
         if(DiscordAutoToggle == nil) then
             DiscordAutoToggle = isDiscordAutoOn;
         else
             isDiscordAutoOn = DiscordAutoToggle;
             SetDiscordAutomatic(isDiscordAutoOn);
         end
-
+        
         if(MessageAutoToggle == nil) then
             MessageAutoToggle = isGZAutoOn;
         else
@@ -796,7 +829,7 @@ GA_UIConfig:SetScript("OnEvent", function (self, event, ...)
             isGUIshow = false;
         end
     end
-
+    
     if (event == "CHAT_MSG_GUILD" and isDiscordAutoOn == true and not CurrentDiscordLink == "" ) then --and (not CurrentDiscordLink == "" or CurrentDiscordLink ==nil)) then
         local text, name = ...;
         local player = UnitName("player").."-Blackhand";
@@ -808,7 +841,7 @@ GA_UIConfig:SetScript("OnEvent", function (self, event, ...)
             return
         end
     end
-
+    
     if (event == "CHAT_MSG_GUILD_ACHIEVEMENT" and isGZAutoOn == true and GZMessageSended == false) then
         GZMessageSended = true;
         
@@ -819,7 +852,7 @@ GA_UIConfig:SetScript("OnEvent", function (self, event, ...)
             if(sendTruck == true) then
                 GA_UIConfig:SendGZTrain();
             end
-
+            
             if (sendHeart == false and sendTruck == false) then
                 SendChatMessage(CurrentGZMessage, "GUILD");
             end
@@ -841,10 +874,11 @@ GA_UIConfig:SetScript("OnEvent", function (self, event, ...)
 end)
 
 
-
-
 -- ShowUp
 GA_UIConfig:Show();
+
+------------------------------------------------------
+
 
 ---------------- create slashcommands ----------------
 -- show up GUI command
