@@ -21,7 +21,7 @@
 
 ## Installation ##
 
->You can simple download and install this AddOn on [Curse Forge](https://www.curseforge.com/wow/addons/guildassist)!
+>You can simple download and install this AddOn on [Curse Forge](https://www.curseforge.com/wow/addons/guildassist3)!
 >If you facing any problems please open a new Issue.
 >Just unzip the ZIP-File into your World of Warcraft Addons directory.
 
