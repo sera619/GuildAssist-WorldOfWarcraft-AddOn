@@ -19,7 +19,6 @@ Also save Discord/Teamspeak invitation links and send them to the guild chat via
 > - Slashcommand "/rl" - short command for buildin "/reload
 > - Slashcommand "/gahelp" - shows the AddOn Help
 
-Translated with www.DeepL.com/Translator (free version)
 
 ## Installation ##
 
