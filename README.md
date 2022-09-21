@@ -33,6 +33,13 @@
 
 ## Changelog ##
 
+v3.3.5 (no Release):
+
+> - add new Frame for mythic + Routes
+> - add basic constructor for fontstrings & buttons
+> - add scrollframe and scrollframe behaivour
+
+
 v3.3.4:
 
 > - add 'how to' to helpframe
