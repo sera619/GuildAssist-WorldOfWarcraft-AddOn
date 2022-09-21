@@ -10,7 +10,6 @@ Also save Discord/Teamspeak invitation links and send them to the guild chat via
 > - Add ACii Images as premade GZ-Message to choose
 
 ## Features ##
- 
 
 > - allows you to use the keyboard arrow keys to scroll through your sent message history.
 > - Set the time in seconds between achieving the achievement and sending the congratulation message.
@@ -30,3 +29,13 @@ Translated with www.DeepL.com/Translator (free version)
 ## Preview ##
 
 ![Graphical UI](img/GUI.png)
+
+## Changelog ##
+
+v3.3.1:
+
+> - add 'how to' to helpframe
+> - change color from helpframe title
+> - Update version
+> - refactoring code
+> - add config.lua
