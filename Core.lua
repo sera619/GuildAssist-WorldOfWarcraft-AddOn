@@ -32,6 +32,7 @@ local CurrentGZMessage = "";
 
 -- Template strings
 local menuButton = "GameMenuButtonTemplate";
+local dialogFrame = "UIPanelDialogTemplate";
 local basicFrame = "BasicFrameTemplateWithInset";
 local largeGameFont = "GameFontNormalLarge";
 local largeHighlightFont = "GameFontHighlightLarge";
@@ -60,7 +61,7 @@ local defaults = {
 ]]
 
 
-GA_UIConfig  = CreateFrame("Frame", "GA_UIFrame", UIParent, basicFrame);
+GA_UIConfig  = CreateFrame("Frame", "GA_UIConfig", UIParent, basicFrame);
 ----------------create events---------------------
 
 
@@ -81,6 +82,18 @@ GA_UIConfig:SetToplevel(true);
 GA_UIConfig:SetUserPlaced(true);
 
 ------ childframes / regions ------
+
+-------- Mythic plus routes ---------
+
+--GA_UIConfig.mythicRoutes = GA_CreateDungeonTutorial(GA_UIConfig);
+
+------------------------------------------
+
+
+
+
+
+
 -- main title string
 GA_UIConfig.title = GA_UIConfig:CreateFontString(nil, "OVERLAY");
 GA_UIConfig.title:SetFontObject("GameFontHighlight");
@@ -241,7 +254,7 @@ end
 
 
 
------------- UI ELEMENTS ------------
+------------ MAIN UI ELEMENTS ------------
 -- Main ui inner title
 GA_UIConfig.innerTitle = GA_UIConfig:CreateFontString(nil, "OVERLAY");
 GA_UIConfig.innerTitle:SetFont("Fonts\\MORPHEUS.TTF", 32,"THICKOUTLINE");
@@ -402,11 +415,11 @@ GA_UIConfig.DiscordEditBox:SetAutoFocus(false);
 
 -- user input box
 GA_UIConfig.checkBoxDiscord = CreateFrame("CHECKBUTTON", nil, GA_UIConfig, "UICheckButtonTemplate");
-GA_UIConfig.checkBoxDiscord:SetPoint("TOPRIGHT", GA_UIConfig.DiscordEditBox, "CENTER", -35, -160);
+GA_UIConfig.checkBoxDiscord:SetPoint("TOPRIGHT", GA_UIConfig.DiscordEditBox, "CENTER", -35, -25);
 GA_UIConfig.checkBoxDiscord.text:SetText("Auto Discord Link");
 --- set GZ Message 
 GA_UIConfig.DiscordSetButton = CreateFrame("BUTTON",nil,GA_UIConfig, menuButton);
-GA_UIConfig.DiscordSetButton:SetPoint("CENTER", GA_UIConfig, "BOTTOM", 270, 80);
+GA_UIConfig.DiscordSetButton:SetPoint("CENTER", GA_UIConfig.currentDiscordText, "CENTER", 0, -120);
 GA_UIConfig.DiscordSetButton:SetScale(0.8)
 GA_UIConfig.DiscordSetButton:SetSize(260, 25);
 GA_UIConfig.DiscordSetButton:SetText("Set new Discord")
@@ -737,9 +750,10 @@ GA_UIConfig.mapButton:SetScript("OnClick", function ()
         isGUIshow = false;
     end
 end)
-
-
 -------------------------------------
+
+------------------ Guides-------------------
+
 
 
 
