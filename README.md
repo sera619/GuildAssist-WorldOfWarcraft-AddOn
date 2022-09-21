@@ -31,10 +31,11 @@ Also save Discord/Teamspeak invitation links and send them to the guild chat via
 
 ## Changelog ##
 
-v3.3.1:
+v3.3.4:
 
 > - add 'how to' to helpframe
 > - change color from helpframe title
 > - Update version
 > - refactoring code
 > - add config.lua
+> - rename close-help button
