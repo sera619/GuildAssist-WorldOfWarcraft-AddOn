@@ -28,6 +28,7 @@
 ## Preview ##
 
 ![Graphical UI](img/GUI.png)
+![Help frame](img/GUI2.png)
 
 ## Changelog ##
 
