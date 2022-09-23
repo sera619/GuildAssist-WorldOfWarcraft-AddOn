@@ -85,7 +85,17 @@ GA_UIConfig:SetUserPlaced(true);
 
 -------- Mythic plus routes ---------
 
---GA_UIConfig.mythicRoutes = GA_CreateDungeonTutorial(GA_UIConfig);
+GA_UIConfig.mythicRoutes = GA_CreateDungeonTutorial(GA_UIConfig);
+
+
+------------------ Guides-------------------
+GA_UIConfig.dungeonTracker = GA_InstanceTracker(GA_UIConfig)
+--GA_UIConfig.dungeonTracker.plaguefall:SetTextColor(255,0,0)
+GA_UIConfig.dungeonTracker:SetScript("OnShow", function ()
+    GA_ColorTextDungeon(GA_UIConfig.dungeonTracker)
+end)
+GA_UIConfig.dungeonTracker:Hide()
+
 
 ------------------------------------------
 
@@ -628,7 +638,7 @@ end)
 -- UI okay button
 GA_UIConfig.closeButton = CreateFrame("Button", nil, GA_UIConfig, menuButton);
 GA_UIConfig.closeButton:SetScale(0.8);
-GA_UIConfig.closeButton:SetPoint("CENTER", GA_UIConfig, "TOP", 230, -630*1.24);
+GA_UIConfig.closeButton:SetPoint("CENTER", GA_UIConfig, "TOP", 130, -630*1.24);
 GA_UIConfig.closeButton:SetSize(100, 25);
 GA_UIConfig.closeButton:SetText("Okay");
 GA_UIConfig.closeButton:SetNormalFontObject(largeGameFont);
@@ -657,9 +667,26 @@ GA_UIConfig.cancelButton:SetScript("OnClick", function (self, arg1, ...)
     --GA_UIConfig:SendGZHeart();
 end)
 
+-- mythic+ routes button
+GA_UIConfig.mythicRoutesButton = CreateFrame("Button", nil, GA_UIConfig.cancelButton, menuButton);
+GA_UIConfig.mythicRoutesButton:SetPoint("CENTER", GA_UIConfig.cancelButton, "RIGHT", 50, 0)
+GA_UIConfig.mythicRoutesButton:SetSize(100,25)
+GA_UIConfig.mythicRoutesButton:SetText("Mythic +")
+GA_UIConfig.mythicRoutesButton:SetNormalFontObject(largeGameFont);
+GA_UIConfig.mythicRoutesButton:SetHighlightFontObject(largeHighlightFont);
+GA_UIConfig.mythicRoutesButton:SetScript("OnClick", function () 
+    if (GA_UIConfig.mythicRoutes:IsShown() == true) then
+        GA_UIConfig.mythicRoutes:Hide()
+    else
+        GA_UIConfig.mythicRoutes:Show()
+    end
+end)
+-- GA_UIConfig.mythicRoutesButton:SetEnabled(false)
+
+
 -- UI help button
-GA_UIConfig.helpButton = CreateFrame("Button", nil, GA_UIConfig.cancelButton, menuButton);
-GA_UIConfig.helpButton:SetPoint("CENTER",GA_UIConfig.cancelButton, "RIGHT", 50,0);
+GA_UIConfig.helpButton = CreateFrame("Button", nil, GA_UIConfig.mythicRoutesButton, menuButton);
+GA_UIConfig.helpButton:SetPoint("CENTER",GA_UIConfig.mythicRoutesButton, "RIGHT", 50,0);
 GA_UIConfig.helpButton:SetSize(100, 25);
 GA_UIConfig.helpButton:SetText("Help");
 GA_UIConfig.helpButton:SetNormalFontObject(largeGameFont);
@@ -734,6 +761,7 @@ GA_UIConfig.sendTestDiscord:SetScript("OnClick", function (self, arg1, ...)
     end
 end)
 
+
 --- MINIMAP BUTTON 
 
 GA_UIConfig.mapButton = CreateFrame("Button", "GA_MinimapButton", Minimap, menuButton)
@@ -752,7 +780,6 @@ GA_UIConfig.mapButton:SetScript("OnClick", function ()
 end)
 -------------------------------------
 
------------------- Guides-------------------
 
 
 
@@ -770,8 +797,9 @@ GA_UIConfig:SetScript("OnEvent", function (self, event, ...)
     local arg1 = ...;
     if (event == 'ADDON_LOADED' and arg1 == 'GuildAssist3') then
         GA_UIConfig:Print("Welcome back", UnitName("player").. "!");
+
         
-        
+
         if (SavedShowMenuStart == nil) then
             SavedShowMenuStart = showAtStart;
             
