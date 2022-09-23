@@ -13,6 +13,7 @@
 
 > - allows you to use the keyboard arrow keys to scroll through your sent message history.
 > - Set the time in seconds between achieving the achievement and sending the congratulation message.
+> - Shows your currently locked mythic +0 dungeons as a compact list above PVE window (if PVE window is open)
 > - minimap icon to show/hide addon menu
 > - Slashcommand "/ga" - Shows the AddOn Menu
 > - Slashcommand "/fs" - short command for buildin "/framestack".
@@ -37,12 +38,15 @@ v3.4.2 (Release Version)
 > - add instance id tracker for mythic +0 Dungeons
 > - add gui frame for instance tracker
 > - add basic mythic+ routes frame(not enabled yet)
+> - create dungeon name list in ger and eng
+> - create UpdateHandler for tracker
 
 v3.3.5 (no Release):
 
 > - add new Frame for mythic + Routes
 > - add basic constructor for fontstrings & buttons
 > - add scrollframe and scrollframe behaivour
+
 
 
 v3.3.4:
