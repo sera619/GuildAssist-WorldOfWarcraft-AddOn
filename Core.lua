@@ -91,11 +91,14 @@ GA_UIConfig.mythicRoutes = GA_CreateDungeonTutorial(GA_UIConfig);
 ------------------ Guides-------------------
 GA_UIConfig.dungeonTracker = GA_InstanceTracker(GA_UIConfig)
 --GA_UIConfig.dungeonTracker.plaguefall:SetTextColor(255,0,0)
-GA_UIConfig.dungeonTracker:SetScript("OnShow", function ()
-    GA_ColorTextDungeon(GA_UIConfig.dungeonTracker)
-end)
 GA_UIConfig.dungeonTracker:Hide()
-
+PVEFrame:SetScript("OnShow", function ()
+    GA_ColorTextDungeon(GA_UIConfig.dungeonTracker)
+    GA_UIConfig.dungeonTracker:Show()
+end)
+PVEFrame:SetScript("OnHide", function ()
+    GA_UIConfig.dungeonTracker:Hide()
+end)
 
 ------------------------------------------
 

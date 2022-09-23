@@ -209,7 +209,8 @@ function GA_InstanceTracker(parent)
     uiFrame.theNecroticWake:SetText(DungeonNamesDE[2]);
     uiFrame.theaterOfPain:SetText(DungeonNamesDE[8]);
     uiFrame.tazavesh:SetText(DungeonNamesDE[9]);
-
+    
+    GA_ColorTextDungeon(uiFrame)
     return uiFrame
 end
 
