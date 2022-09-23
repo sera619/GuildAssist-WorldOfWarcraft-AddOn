@@ -32,6 +32,11 @@
 ![Help frame](img/GUI2.png)
 
 ## Changelog ##
+v3.4.2 (Release Version)
+
+> - add instance id tracker for mythic +0 Dungeons
+> - add gui frame for instance tracker
+> - add basic mythic+ routes frame(not enabled yet)
 
 v3.3.5 (no Release):
 

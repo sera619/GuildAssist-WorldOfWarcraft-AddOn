@@ -284,7 +284,7 @@ function GA_TrackDungeons()
         for j = 1, #DungeonNamesDE do
             local dName = DungeonNamesDE[j]
             if (name == dName and difficulty == 23 and locked == true) then
-                print(name)
+                --print(name)
                 table.insert(lockedDungeons, name)
             end
         end

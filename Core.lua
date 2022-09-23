@@ -8,7 +8,7 @@ end
 
 ---------------- GUI configuration ----------------
 -- General Vars
-local addonVersion = "Version: 3.3.4";
+local addonVersion = "Version: 3.4.2";
 local branding = "AddOn Design \& Development 2022 \© S3R43o3";
 
 
@@ -85,7 +85,7 @@ GA_UIConfig:SetUserPlaced(true);
 
 -------- Mythic plus routes ---------
 
-GA_UIConfig.mythicRoutes = GA_CreateDungeonTutorial(GA_UIConfig);
+--GA_UIConfig.mythicRoutes = GA_CreateDungeonTutorial(GA_UIConfig);
 
 
 ------------------ Guides-------------------
@@ -684,7 +684,7 @@ GA_UIConfig.mythicRoutesButton:SetScript("OnClick", function ()
         GA_UIConfig.mythicRoutes:Show()
     end
 end)
--- GA_UIConfig.mythicRoutesButton:SetEnabled(false)
+GA_UIConfig.mythicRoutesButton:SetEnabled(false)
 
 
 -- UI help button
