@@ -250,9 +250,7 @@ function GA_UIConfig:SetGZMessage(text)
 	if(sendHeart == false and sendTruck == false) then
         GA_UIConfig.currentMessageText:SetText("\""..text.."\"");
     end
-    C_Timer.After(2, function ()
-        GA_UIConfig:Print("GZ Message set to: ",text.."!")
-	end)
+    GA_UIConfig:Print("GZ Message set to: ",text.."!")
 end
 function GA_UIConfig:SetDiscordLink(link)
     if(CurrentDiscordLink == link) then
