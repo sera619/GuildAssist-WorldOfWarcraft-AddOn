@@ -31,8 +31,10 @@
 
 ![Graphical UI](img/GUI.png)
 ![Help frame](img/GUI2.png)
+![Instance Tracker](img/GUI_tracker.png)
 
 ## Changelog ##
+
 v3.4.2 (Release Version)
 
 > - add instance id tracker for mythic +0 Dungeons
