@@ -131,9 +131,9 @@ end
 
 -- mythic dungeon instance tracker
 
-function GA_InstanceTracker(parent)
+function GA_InstanceTracker()
     -- base frame
-    local uiFrame = CreateFrame("Frame", "GA_InstanceTracker", parent, "UIPanelDialogTemplate");
+    local uiFrame = CreateFrame("Frame", "GA_InstanceTracker", PVEFrame, "UIPanelDialogTemplate");
     --[[    
         2291 	De Other Side
         2287 	Halls of Atonement
@@ -209,8 +209,17 @@ function GA_InstanceTracker(parent)
     uiFrame.theNecroticWake:SetText(DungeonNamesDE[2]);
     uiFrame.theaterOfPain:SetText(DungeonNamesDE[8]);
     uiFrame.tazavesh:SetText(DungeonNamesDE[9]);
-    
-    GA_ColorTextDungeon(uiFrame)
+    uiFrame.mistOfTirneScithe:SetTextColor(0, 155, 0);
+    uiFrame.theNecroticWake:SetTextColor(0, 155, 0);
+    uiFrame.hallsOfAtonement:SetTextColor(0, 155, 0);
+    uiFrame.theaterOfPain:SetTextColor(0, 155, 0);
+    uiFrame.plaguefall:SetTextColor(0, 155, 0);
+    uiFrame.tazavesh:SetTextColor(0, 155, 0);
+    uiFrame.sanguineDepths:SetTextColor(0, 155, 0);
+    uiFrame.otherSide:SetTextColor(0, 155, 0);
+    uiFrame.mistOfTirneScithe:SetTextColor(0, 155, 0);
+    uiFrame.spiresOfAscension:SetTextColor(0, 155, 0);
+
     return uiFrame
 end
 

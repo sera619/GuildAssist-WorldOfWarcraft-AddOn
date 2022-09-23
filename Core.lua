@@ -8,7 +8,7 @@ end
 
 ---------------- GUI configuration ----------------
 -- General Vars
-local addonVersion = "Version: 3.4.2";
+local addonVersion = "Version: 3.4.4";
 local branding = "AddOn Design \& Development 2022 \© S3R43o3";
 
 
@@ -89,7 +89,7 @@ GA_UIConfig:SetUserPlaced(true);
 
 
 ------------------ Guides-------------------
-GA_UIConfig.dungeonTracker = GA_InstanceTracker(GA_UIConfig)
+GA_UIConfig.dungeonTracker = GA_InstanceTracker()
 --GA_UIConfig.dungeonTracker.plaguefall:SetTextColor(255,0,0)
 GA_UIConfig.dungeonTracker:Hide()
 PVEFrame:SetScript("OnShow", function ()
@@ -242,26 +242,29 @@ end)
 --------------------------------------------------------------------------------
 
 function GA_UIConfig:SetGZMessage(text)
+    if (CurrentGZMessage == text)then
+        return
+    end
 	CurrentGZMessage = text;
 	SavedMessage = CurrentGZMessage;
 	if(sendHeart == false and sendTruck == false) then
         GA_UIConfig.currentMessageText:SetText("\""..text.."\"");
     end
     C_Timer.After(2, function ()
-        GA_UIConfig:Print("New GZ Message set to: ",text.."!")
+        GA_UIConfig:Print("GZ Message set to: ",text.."!")
 	end)
 end
 function GA_UIConfig:SetDiscordLink(link)
-    if(link == nil) then
+    if(CurrentDiscordLink == link) then
+        return
+    end
+    if(link == nil or link == "") then
         GA_UIConfig.currentDiscordText:SetText("NO Discord set.")
     end
     CurrentDiscordLink = link;
     SavedDiscord = CurrentDiscordLink;
-        GA_UIConfig.currentDiscordText:SetText("\""..link.."\"");
+    GA_UIConfig:Print("Discord-Link set to: ",link.."!")
 
-        C_Timer.After(2, function ()
-        GA_UIConfig:Print("New Discord-Link set to: ",link.."!")
-	end)
 end
 
 
@@ -286,7 +289,7 @@ GA_UIConfig.brandingString:SetText(addonVersion.. "\n" .. branding);
 
 GA_UIConfig.welcomeString = GA_UIConfig:CreateFontString(nil, "OVERLAY");
 GA_UIConfig.welcomeString:SetPoint("CENTER", GA_UIConfig.brandingString, "CENTER", 0, -90);
-GA_UIConfig.welcomeString:SetFont("Fonts\\FRIZQT__.TTF", 16);
+GA_UIConfig.welcomeString:SetFont("Fonts\\FRIZQT__.TTF", 13);
 GA_UIConfig.welcomeString:SetHeight(200);
 GA_UIConfig.welcomeString:SetWidth(750)
 
@@ -393,7 +396,8 @@ GA_UIConfig.GZSetButton:SetScript("OnClick", function (self, arg1, ...)
         GA_UIConfig:Print("ERROR - No Message set!");
         return;
     else
-        GA_UIConfig:SetGZMessage("\""..text.."\"");
+        GA_UIConfig:SetGZMessage(text);
+        GA_UIConfig.GZEditBox:SetText("");
         PlaySound(888);
     end
 end)
@@ -446,6 +450,7 @@ GA_UIConfig.DiscordSetButton:SetScript("OnClick", function (self, arg1, ...)
         return;
     else
         GA_UIConfig:SetDiscordLink(text);
+        GA_UIConfig.DiscordEditBox:SetText("")
         PlaySound(888);
     end
 end)
@@ -463,17 +468,23 @@ end
 
 
 function SetDiscordAutomatic(boolean)
+
+    GA_UIConfig.checkBoxDiscord:SetChecked(boolean);
     if (boolean == true) then
-        isDiscordAutoOn =true;
+        if(DiscordAutoToggle == boolean) then
+            return
+        end
+        isDiscordAutoOn = true;
         DiscordAutoToggle = isDiscordAutoOn;
         GA_UIConfig:Print("Discord Automatic ON");
-        GA_UIConfig.checkBoxDiscord:SetChecked(isDiscordAutoOn);
 
     elseif (boolean == false) then
-        isDiscordAutoOn = false;
+        if(boolean == DiscordAutoToggle) then
+            return
+        end
         DiscordAutoToggle = isDiscordAutoOn;
+        isDiscordAutoOn = false;
         GA_UIConfig:Print("Discord Automatic OFF");
-        GA_UIConfig.checkBoxDiscord:SetChecked(isDiscordAutoOn);
         
     end
     return isDiscordAutoOn
@@ -481,18 +492,23 @@ end
 
 function SetGZAutomatic(boolean)
     if (boolean == true) then
+        GA_UIConfig.checkBoxMessage:SetChecked(boolean);
+        if(boolean == MessageAutoToggle) then
+            return
+        end
         isGZAutoOn = true;
         MessageAutoToggle = isGZAutoOn;
-        GA_UIConfig.checkBoxMessage:SetChecked(isGZAutoOn);
         GA_UIConfig:Print("GZ Automatic ON");
     elseif (boolean == false) then
+        GA_UIConfig.checkBoxMessage:SetChecked(boolean);
+        if(boolean == MessageAutoToggle) then
+            return
+        end
         isGZAutoOn = false;
         MessageAutoToggle = isGZAutoOn;
-        GA_UIConfig.checkBoxMessage:SetChecked(isGZAutoOn);
         GA_UIConfig:Print("GZ Automatic OFF");
         
     end
-    return isGZAutoOn
 end
 
 function SetSendHeart(boolean)
@@ -500,13 +516,19 @@ function SetSendHeart(boolean)
         if (sendTruck == true)then
             SetSendTruck(false)
         end
+        GA_UIConfig.checkBoxHeart:SetChecked(boolean);
+        if(boolean == GZSendHeart) then
+            return
+        end
         sendHeart = true;
-        GA_UIConfig.checkBoxHeart:SetChecked(sendHeart);
         GA_UIConfig.currentMessageText:SetText("\[ASCii ART\] \"Heart\"");
         GA_UIConfig:Print("Send Heart ASCii ON");
     elseif(boolean == false) then
+        GA_UIConfig.checkBoxHeart:SetChecked(boolean)
+        if(boolean == GZSendHeart) then
+            return
+        end
         sendHeart= false;
-        GA_UIConfig.checkBoxHeart:SetChecked(sendHeart)
         GA_UIConfig:Print("Send Heart ASCii OFF");
         if (sendTruck == false) then
             GA_UIConfig.currentMessageText:SetText("\"" .. CurrentGZMessage.."\"");
@@ -519,14 +541,19 @@ function SetSendTruck(boolean)
         if(sendHeart == true) then
             SetSendHeart(false);
         end
+        GA_UIConfig.checkBoxTruck:SetChecked(boolean)
+        if(boolean == GZSendTruck)then
+            return
+        end
         sendTruck = true;
-        GA_UIConfig.checkBoxTruck:SetChecked(sendTruck)
         GA_UIConfig:Print("Send Truck ASCii ON");
         GA_UIConfig.currentMessageText:SetText("\[ASCii ART\] \"Truck\"");
-
     elseif(boolean == false) then
+        GA_UIConfig.checkBoxTruck:SetChecked(boolean)
+        if(boolean == GZSendTruck)then
+            return
+        end
         sendTruck = false;
-        GA_UIConfig.checkBoxTruck:SetChecked(sendTruck)
         GA_UIConfig:Print("Send Truck ASCii OFF");
         if (sendHeart == false) then
             GA_UIConfig.currentMessageText:SetText("\"" .. CurrentGZMessage.."\"");
@@ -537,11 +564,18 @@ end
 function SetShowStart(boolean)
     if (boolean == true) then
         GA_UIConfig.checkBoxShowStart:SetChecked(boolean);
+        if(boolean == SavedShowMenuStart) then
+            return
+        end
         showAtStart = true;
         SavedShowMenuStart = showAtStart;
         GA_UIConfig:Print("Show Window at Start ON")
+
     elseif(boolean == false) then
         GA_UIConfig.checkBoxShowStart:SetChecked(boolean);
+        if(boolean == SavedShowMenuStart) then
+            return
+        end
         showAtStart = false;
         SavedShowMenuStart = showAtStart;
         GA_UIConfig:Print("Show Window at Start OFF")
@@ -581,7 +615,7 @@ end
 
 GA_UIConfig.checkBoxShowStart:SetScript("OnClick", function (self, arg1, ...)
     local arg2 = ...;
-    PlaySound(888);
+    PlaySound(111);
     if(GA_UIConfig.checkBoxShowStart:GetChecked() == true) then
         SetShowStart(true);
     elseif (GA_UIConfig.checkBoxShowStart:GetChecked() == false) then
@@ -593,7 +627,7 @@ end)
 
 GA_UIConfig.checkBoxHeart:SetScript("OnClick", function (self, arg1, ...)
     local arg2 = ...;
-    PlaySound(888);
+    PlaySound(111);
     if(GA_UIConfig.checkBoxHeart:GetChecked() == false)then
         SetSendHeart(false);
     elseif (GA_UIConfig.checkBoxHeart:GetChecked() == true) then
@@ -603,7 +637,7 @@ end)
 
 GA_UIConfig.checkBoxTruck:SetScript("OnClick", function (self, arg1, ...)
     local arg2 = ...;
-    PlaySound(888);
+    PlaySound(111);
     if(GA_UIConfig.checkBoxTruck:GetChecked() == false)then
         SetSendTruck(false);
     elseif (GA_UIConfig.checkBoxTruck:GetChecked() == true) then
@@ -612,10 +646,12 @@ GA_UIConfig.checkBoxTruck:SetScript("OnClick", function (self, arg1, ...)
 end)
 
 GA_UIConfig.checkBoxDiscord:SetScript("OnClick", function (self, arg1, ...)
+    PlaySound(111)
+
     local arg2 = ...;
     --print(arg1, arg2)
     if (GA_UIConfig.checkBoxDiscord:GetChecked() == true)then
-        PlaySound(888);
+        PlaySound(111);
         SetDiscordAutomatic(true)
     elseif(GA_UIConfig.checkBoxDiscord:GetChecked() == false)then
         SetDiscordAutomatic(false);
@@ -626,7 +662,7 @@ end)
 GA_UIConfig.checkBoxMessage:SetScript("OnClick", function (self, arg1, ...)
     local arg2 = ...;
     --print(arg1, arg2)
-    PlaySound(888);
+    PlaySound(111);
     if (GA_UIConfig.checkBoxMessage:GetChecked() == true)then
         SetGZAutomatic(true);
     elseif(GA_UIConfig.checkBoxMessage:GetChecked() == false)then
@@ -647,6 +683,8 @@ GA_UIConfig.closeButton:SetText("Okay");
 GA_UIConfig.closeButton:SetNormalFontObject(largeGameFont);
 GA_UIConfig.closeButton:SetHighlightFontObject(largeHighlightFont);
 GA_UIConfig.closeButton:SetScript("OnClick", function (self, arg1, ...)
+    PlaySound(111)
+
     local _ = ...;
     ReloadUI();
 end)
@@ -660,6 +698,8 @@ GA_UIConfig.cancelButton:SetNormalFontObject(largeGameFont);
 GA_UIConfig.cancelButton:SetHighlightFontObject(largeHighlightFont);
 GA_UIConfig.cancelButton:SetScript("OnClick", function (self, arg1, ...)
     local _ = ...;
+    PlaySound(111)
+
     --print("args: ", _);
     GA_UIConfig:Hide();
     isGUIshow = false;
@@ -678,6 +718,7 @@ GA_UIConfig.mythicRoutesButton:SetText("Mythic +")
 GA_UIConfig.mythicRoutesButton:SetNormalFontObject(largeGameFont);
 GA_UIConfig.mythicRoutesButton:SetHighlightFontObject(largeHighlightFont);
 GA_UIConfig.mythicRoutesButton:SetScript("OnClick", function () 
+    PlaySound(111)
     if (GA_UIConfig.mythicRoutes:IsShown() == true) then
         GA_UIConfig.mythicRoutes:Hide()
     else
@@ -696,6 +737,7 @@ GA_UIConfig.helpButton:SetNormalFontObject(largeGameFont);
 GA_UIConfig.helpButton:SetHighlightFontObject(largeHighlightFont);
 GA_UIConfig.helpButton:SetScript("OnClick", function (self, arg1, ...)
     local _ = ...;
+    PlaySound(111)
     if (isHelpshow == false) then
         GA_HelpFrame:Show()
         isHelpshow = true
@@ -706,6 +748,7 @@ GA_UIConfig.helpButton:SetScript("OnClick", function (self, arg1, ...)
 end)
 
 GA_HelpFrame:Hide()
+isHelpshow = false
 
 
 --[[
@@ -758,10 +801,8 @@ GA_UIConfig.sendTestDiscord:SetNormalFontObject(largeGameFont);
 GA_UIConfig.sendTestDiscord:SetHighlightFontObject(largeHighlightFont);
 GA_UIConfig.sendTestDiscord:SetScript("OnClick", function (self, arg1, ...)
     local _ = ...;
-    if ( not CurrentDiscordLink == "") then
-        PlaySound(888);
-        GA_UIConfig:Print("Unser Discord: "..CurrentDiscordLink)
-    end
+    PlaySound(888);
+    GA_UIConfig:Print("\[Guild Assist\] Unser Discord: "..CurrentDiscordLink)
 end)
 
 
@@ -769,16 +810,20 @@ end)
 
 GA_UIConfig.mapButton = CreateFrame("Button", "GA_MinimapButton", Minimap, menuButton)
 GA_UIConfig.mapButton:SetPoint("RIGHT", Minimap, "BOTTOMLEFT", -10, 0)
-GA_UIConfig.mapButton:SetSize(20,20)
+GA_UIConfig.mapButton:SetSize(28,28)
 GA_UIConfig.mapButton:SetNormalTexture("Interface\\Icons\\inv_misc_enggizmos_27")
 
-GA_UIConfig.mapButton:SetScript("OnClick", function ()
+GA_UIConfig.mapButton:SetScript("OnClick", function (self)
+    PlaySound(111)
     if (isGUIshow == false) then
         GA_UIConfig:Show()
         isGUIshow = true;
-    elseif(isGUIshow == true) then
+        return isGUIshow
+    end
+    if(isGUIshow == true) then
         GA_UIConfig:Hide()
         isGUIshow = false;
+        return isGUIshow
     end
 end)
 -------------------------------------
@@ -805,7 +850,6 @@ GA_UIConfig:SetScript("OnEvent", function (self, event, ...)
 
         if (SavedShowMenuStart == nil) then
             SavedShowMenuStart = showAtStart;
-            
             SetShowStart(showAtStart);
         else
             showAtStart = SavedShowMenuStart;
@@ -821,6 +865,28 @@ GA_UIConfig:SetScript("OnEvent", function (self, event, ...)
             CurrentWaitTime = SavedWaitTime;
             GA_UIConfig.WaitTimeString:SetText("Time: "..tostring(CurrentWaitTime).." second\(s\)");
             GA_UIConfig.sliderMessageWait:SetValue(CurrentWaitTime);
+        end
+        
+        if(SavedMessage == nil or SavedMessage == "") then
+            GA_UIConfig:SetGZMessage(DefaultGZMessage)
+            if ( sendHeart == false and sendTruck == false) then
+                GA_UIConfig.currentMessageText:SetText("\""..CurrentGZMessage.."\"");
+            end
+        else
+            CurrentGZMessage = SavedMessage;
+            GA_UIConfig:SetGZMessage(CurrentGZMessage)
+            if ( sendHeart == false and sendTruck == false) then
+                GA_UIConfig.currentMessageText:SetText("\""..CurrentGZMessage.."\"");
+            end
+        end
+        
+        if(SavedDiscord== "" or SavedDiscord == nil )then
+            GA_UIConfig:SetDiscordLink(CurrentDiscordLink)
+            GA_UIConfig.currentDiscordText:SetText("\""..CurrentDiscordLink.."\"")
+        else
+            CurrentDiscordLink = SavedDiscord
+            GA_UIConfig:SetDiscordLink(SavedDiscord)
+            GA_UIConfig.currentDiscordText:SetText("\""..CurrentDiscordLink.."\"")
         end
         if(GZSendHeart == nil) then
             GZSendHeart = sendHeart;
@@ -838,27 +904,6 @@ GA_UIConfig:SetScript("OnEvent", function (self, event, ...)
         end
         
         
-        if(SavedMessage == nil or SavedMessage == "") then
-            GA_UIConfig:SetGZMessage(DefaultGZMessage)
-            if ( sendHeart == false and sendTruck == false) then
-                GA_UIConfig.currentMessageText:SetText("\""..CurrentGZMessage.."\"");
-            end
-        else
-            CurrentGZMessage = SavedMessage;
-            GA_UIConfig:SetGZMessage(CurrentGZMessage)
-            if ( sendHeart == false and sendTruck == false) then
-                GA_UIConfig.currentMessageText:SetText("\""..CurrentGZMessage.."\"");
-            end
-        end
-        
-        if(SavedDiscordLink== "" or SavedDiscordLink == nil )then
-            GA_UIConfig:SetDiscordLink(CurrentDiscordLink)
-            GA_UIConfig.currentDiscordText:SetText("\""..CurrentDiscordLink.."\"")
-        else
-            GA_UIConfig:SetDiscordLink(SavedDiscordLink)
-            GA_UIConfig.currentDiscordText:SetText("\""..CurrentDiscordLink.."\"")
-        end
-        
         if(DiscordAutoToggle == nil) then
             DiscordAutoToggle = isDiscordAutoOn;
         else
@@ -873,27 +918,65 @@ GA_UIConfig:SetScript("OnEvent", function (self, event, ...)
             SetGZAutomatic(isGZAutoOn);
         end
         
-        if(showAtStart == false) then
+        if(SavedShowMenuStart == false) then
             GA_UIConfig:Hide()
-            isGUIshow = false;
+            isGUIshow = false
+            GA_UIConfig:Print("Addon successfully loaded!\nEnter \"/ga\" in Chat to open menu")
+        else
+            GA_UIConfig:Show()
+            isGUIshow = true
+            GA_UIConfig:Print("Addon successfully loaded!")
         end
     end
     
-    if (event == "CHAT_MSG_GUILD" and isDiscordAutoOn == true and not CurrentDiscordLink == "" ) then --and (not CurrentDiscordLink == "" or CurrentDiscordLink ==nil)) then
+    if (event == "CHAT_MSG_GUILD" and isDiscordAutoOn == true ) then --and (not CurrentDiscordLink == "" or CurrentDiscordLink ==nil)) then
         local text, name = ...;
-        local player = UnitName("player").."-Blackhand";
-        if (name == player)then
+        local player, realm = UnitFullName("player");
+        if (name == player.."-"..realm)then
             return
         end
+
+        --print(text, name, "player: "..player, "realm: "..realm)
         if (text == "!discord") then
-            SendChatMessage("Unser Discord: "..CurrentDiscordLink)
+            local formattedLink = string.gsub(CurrentDiscordLink, "\/", "\/")
+            formattedLink = "\[Guild Assist\] Unser Discord: "..formattedLink;
+            print(formattedLink)
+            
+            C_Timer.After(2, function ()
+                SendChatMessage(formattedLink, "GUILD")
+            end)
+            
             return
         end
     end
+    --[[
+
+        if (event == "CHAT_MSG_SAY" and isDiscordAutoOn == true ) then --and (not CurrentDiscordLink == "" or CurrentDiscordLink ==nil)) then
+            local text, name = ...;
+            print(text, name)
+            if (text == "!discord") then
+                local formattedLink = string.gsub(CurrentDiscordLink, "\/", "\/")
+                formattedLink = "\[Guild Assist\] Unser Discord: "..formattedLink;
+                --print(formattedLink)
+                
+                C_Timer.After(2, function ()
+                    SendChatMessage(formattedLink, "WHISPER", nil, name);
+                end)
+            end
+            local player = UnitName("player").."-Blackhand";
+            if (name == player)then
+                return
+            end
+        end
+    ]]
     
     if (event == "CHAT_MSG_GUILD_ACHIEVEMENT" and isGZAutoOn == true and GZMessageSended == false) then
+        local text, name = ...;        
+        local player, realm = UnitFullName("player");
+        if (name == player.."-"..realm)then
+            return
+        end
         GZMessageSended = true;
-        
         C_Timer.After(CurrentWaitTime, function ()
             if(sendHeart == true) then
                 GA_UIConfig:SendGZHeart();
@@ -919,12 +1002,13 @@ GA_UIConfig:SetScript("OnEvent", function (self, event, ...)
         GZSendHeart = sendHeart;
         GZSendTruck = sendTruck;
         SavedWaitTime = CurrentWaitTime;
+        SavedShowMenuStart = showAtStart;
     end
 end)
 
 
 -- ShowUp
-GA_UIConfig:Show();
+--GA_UIConfig:Show();
 
 ------------------------------------------------------
 
@@ -936,9 +1020,11 @@ SlashCmdList.GASHOW = function ()
     if (isGUIshow == true) then
         GA_UIConfig:Hide();
         isGUIshow = false;
+        return isGUIshow
     else
         GA_UIConfig:Show();
         isGUIshow = true;
+        return isGUIshow
     end
 end
 

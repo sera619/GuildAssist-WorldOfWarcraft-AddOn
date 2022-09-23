@@ -35,6 +35,18 @@
 
 ## Changelog ##
 
+v3.4.4 (Hotfix Update)
+
+> - add escape sequences to dicords links for "/"
+> - remove not needed output on addon load
+> - fix output bug with discord links that would not be sended
+> - fix not colored mythic dungeon names on dungeon tracker frame at first start
+> - add missing show window on start save variable
+> - fix closing tracker window if menu window close
+> - add soundeffects to changes and clicks
+> - adjust minimap button size
+> - update version
+
 v3.4.2 (Release Version)
 
 > - add instance id tracker for mythic +0 Dungeons
@@ -48,8 +60,6 @@ v3.3.5 (no Release):
 > - add new Frame for mythic + Routes
 > - add basic constructor for fontstrings & buttons
 > - add scrollframe and scrollframe behaivour
-
-
 
 v3.3.4:
 
