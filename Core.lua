@@ -467,8 +467,8 @@ end
 
 function SetDiscordAutomatic(boolean)
 
-    GA_UIConfig.checkBoxDiscord:SetChecked(boolean);
     if (boolean == true) then
+        GA_UIConfig.checkBoxDiscord:SetChecked(boolean);
         if(DiscordAutoToggle == boolean) then
             return
         end
@@ -477,15 +477,16 @@ function SetDiscordAutomatic(boolean)
         GA_UIConfig:Print("Discord Automatic ON");
 
     elseif (boolean == false) then
+        GA_UIConfig.checkBoxDiscord:SetChecked(boolean);
         if(boolean == DiscordAutoToggle) then
             return
         end
-        DiscordAutoToggle = isDiscordAutoOn;
         isDiscordAutoOn = false;
+        DiscordAutoToggle = isDiscordAutoOn;
         GA_UIConfig:Print("Discord Automatic OFF");
         
     end
-    return isDiscordAutoOn
+
 end
 
 function SetGZAutomatic(boolean)
@@ -644,12 +645,11 @@ GA_UIConfig.checkBoxTruck:SetScript("OnClick", function (self, arg1, ...)
 end)
 
 GA_UIConfig.checkBoxDiscord:SetScript("OnClick", function (self, arg1, ...)
-    PlaySound(111)
 
     local arg2 = ...;
     --print(arg1, arg2)
+    PlaySound(111);
     if (GA_UIConfig.checkBoxDiscord:GetChecked() == true)then
-        PlaySound(111);
         SetDiscordAutomatic(true)
     elseif(GA_UIConfig.checkBoxDiscord:GetChecked() == false)then
         SetDiscordAutomatic(false);
@@ -929,21 +929,20 @@ GA_UIConfig:SetScript("OnEvent", function (self, event, ...)
     
     if (event == "CHAT_MSG_GUILD" and isDiscordAutoOn == true ) then --and (not CurrentDiscordLink == "" or CurrentDiscordLink ==nil)) then
         local text, name = ...;
-        local player, realm = UnitFullName("player");
-        if (name == player.."-"..realm)then
-            return
-        end
-
+        
         --print(text, name, "player: "..player, "realm: "..realm)
         if (text == "!discord") then
             local formattedLink = string.gsub(CurrentDiscordLink, "\/", "\/")
-            formattedLink = "\[Guild Assist\] Unser Discord: "..formattedLink;
+            formattedLink = "\[Guild Assist\] Discord: "..formattedLink;
             print(formattedLink)
             
             C_Timer.After(2, function ()
                 SendChatMessage(formattedLink, "GUILD")
             end)
             
+        end
+        local player, realm = UnitFullName("player");
+        if (name == player.."-"..realm)then
             return
         end
     end
