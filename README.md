@@ -2,10 +2,9 @@
 
 > A simple little addon to send automated guild chat messages when a guild member gets an achievement. You can choose between your own created message or predefined ASCII images.
 > Also save Discord/Teamspeak invitation links and send them to the guild chat via chat command "!discord" if activated.
-> The whole Project is now on Version 3.X. I refactor much like everything.
+> The whole Project is now on Version 4.1.6 I refactor/redesign much like everything. As example the whole Addon can now be configured in the interface options from blizzad like all common Addons.
 >
 > - New graphical UserInterface
-> - Remove .XML Files
 > - Translate to english
 > - Add ACii Images as premade GZ-Message to choose
 
@@ -15,10 +14,13 @@
 > - Set the time in seconds between achieving the achievement and sending the congratulation message.
 > - Shows your currently locked mythic +0 dungeons as a compact list above PVE window (if PVE window is open)
 > - minimap icon to show/hide addon menu
-> - Slashcommand "/ga" - Shows the AddOn Menu
-> - Slashcommand "/fs" - short command for buildin "/framestack".
+> - Slashcommand "/fs" - short command for buildin "/framestack"
 > - Slashcommand "/rl" - short command for buildin "/reload
-> - Slashcommand "/gahelp" - shows the AddOn Help
+> - Slashcommand "/ga" - Shows the AddOn Menu
+> - Slashcommand "/ga help" - Shows/Hide the GuildAssist Addon Helpframe.
+> - Slashcommand "/ga tracker" - Shows/Hide the GuildAssist Mythic Dungeon ID Tracker.
+> - Slashcommand "/ga config" - Shows/Hide the GuildAssist Addon optionsmenu.
+
 
 ## Installation ##
 
@@ -30,10 +32,22 @@
 ## Preview ##
 
 ![Graphical UI](img/GUI.png)
-![Help frame](img/GUI2.png)
 ![Instance Tracker](img/GUI_tracker.png)
 
 ## Changelog ##
+
+v4.1.6 (Release Update)
+
+> - Add "Ace3" to the project
+> - Create New UI Design
+> - Add Options for Addon to the Interface-Option tab from blizzard
+> - Create Welcome Screen
+> - Create Help Screen
+> - Add new slashcommands
+> - Refactoring Core, config
+> - Add external String libary
+> - Add new Minimap Button to open/hide options/help
+> - Add new Previews
 
 v3.4.4 (Hotfix Update)
 

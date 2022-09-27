@@ -1,10 +1,12 @@
-## Title: |cff00ccffGuildAssist3|r 3.4.4
-## Author: S3R43o3
-## Version: 3.4.4
 ## Interface: 90207
-## Notes: A Wrapper for common guild ultiltys
-## DefaultState: enabled
-## SavedVariables: SavedMessage, SavedDiscord, DiscordAutoToggle, MessageAutoToggle, GZSendTruck, GZSendHeart, SavedWaitTime, SavedShowMenuStart
+## Title: |cff00ccffGuildAssist3|r 4.1.6 
+## Version: 1.0
+## Author: S3R43o3
+## Notes: A little Wrapper for common Guildactions
+## SavedVariables: GuildAssistDB, GuildAssistLDB, GA_MinimapPos
+## OptionalDeps: Ace3
 
+embeds.xml
+tables.lua
 config.lua
 Core.lua

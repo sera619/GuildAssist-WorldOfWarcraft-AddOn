@@ -1,139 +1,298 @@
+local _, GuildAssist = ...; 
+local AceGUI = LibStub("AceGUI-3.0")
+local addOnVersion = "4.1.6"
+local branding = "GuildAssist3 v"..addOnVersion.." | Addon Design & Development © S3R43o3 2022"
+
 local menuButton = "GameMenuButtonTemplate";
 local basicFrame = "BasicFrameTemplateWithInset";
 local largeGameFont = "GameFontNormalLarge";
 local largeHighlightFont = "GameFontHighlightLarge";
+local transparentFrame = "TooltipBackdropTemplate";
 
-_G.DungeonNamesDE = {
-    "Die Nebel von Tirna Scithe",
-    "Die Nekrotische Schneise",
-    "Hallen der Sühne",
-    "Theater der Schmerzen",
-    "Seuchensturz",
-    "Die Andre Seite",
-    "Spitzen des Aufstiegs",
-    "Die Blutigen Tiefen",
-    "Tazavesh, der Verhüllte Markt",
-}
-_G.DungeonNamesEN = {
-    "Mists of Tirna Scithe",
-    "The Necrotic Wake",
-    "Plaguefall",
-    "Halls of Atonement",
-    "Theater of Pain",
-    "De Other Side",
-    "Spires of Ascension",
-    "Sanguine Depths",
-    "Tazavesh the Veiled Market",
-}
-
-function GA_CreateButton(buttontext, yOffset, xOffset)
-    local btn = CreateFrame("Button", nil, GA_UIConfig, menuButton);
-    btn:SetPoint("CENTER", UIParent, "CENTER", tonumber(yOffset), tonumber(xOffset));
-    btn:SetSize(120, 30);
-    btn:SetNormalFontObject(largeGameFont);
-    btn:SetHighlightFontObject(largeHighlightFont);
-    btn:SetText(buttontext);
-    return btn;
-end
-
-function GA_CreateButtonBorder(buttontext, yOffset, xOffset)
-    local btn = CreateFrame("Button", nil, GA_UIConfig, "UIPanelBorderedButtonTemplate")
-    btn:SetPoint("CENTER", UIParent, "CENTER", tonumber(yOffset), tonumber(xOffset));
-    btn:SetSize(120, 30);
-    btn:SetText(buttontext);
-    return btn;
-end
-
-local function ScrollFrame_OnMouseWheel(self, delta)
-    local newValue = self:GetVerticalScroll() - (delta * 20);
-    if (newValue < 0) then
-        newValue = 0
-    elseif (newValue > self:GetVerticalScrollRange()) then
-        newValue = self:GetVerticalScrollRange();
+-- function that draws the widgets for the first tab
+local function DrawGroup1(container)
+    local desc = AceGUI:Create("Label")
+    desc:SetText("This is Tab 1")
+    desc:SetFullWidth(true)
+    container:AddChild(desc)
+    
+    local button = AceGUI:Create("Button")
+    button:SetText("Tab 1 Button")
+    button:SetWidth(200)
+    container:AddChild(button)
     end
-    self:SetVerticalScroll(newValue);
+
+-- function that draws the widgets for the second tab
+local function DrawGroup2(container)
+    local desc = AceGUI:Create("Label")
+    desc:SetText("This is Tab 2")
+    desc:SetFullWidth(true)
+    container:AddChild(desc)
+
+    local button = AceGUI:Create("Button")
+    button:SetText("Tab 2 Button")
+    button:SetWidth(200)
+    container:AddChild(button)
 end
 
---  Create tutorialFrame (SCROLLFRAME)
-local function GA_CreateTutorialButton(layoutParent, parent, buttontext, yOffset, xOffset)
-    local btn = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
-    btn:SetSize(195, 25);
-    btn:SetPoint("CENTER", layoutParent, "BOTTOM", tonumber(yOffset), tonumber(xOffset))
-    btn:SetNormalFontObject("GameFontNormal");
-    btn:SetHighlightFontObject("GameFontHighlight");
-    btn:SetText(tostring(buttontext));
-    return btn;
+-- Callback function for OnGroupSelected
+local function SelectGroup(container, event, group)
+    container:ReleaseChildren()
+    if group == "tab1" then
+        DrawGroup1(container)
+    elseif group == "tab2" then
+        DrawGroup2(container)
+    end
 end
 
-function GA_CreateDungeonTutorial(parent)
+-- Create Help frame
+function GA_CreateHelpFrame()
+    --local testString = "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatibus quas dolore adipisci quibusdam fuga tempora, ducimus quo aperiam hic aliquid, provident magnam, tenetur esse vitae. Atque tenetur consectetur minima. Totam saepe rerum sed, ipsa magnam eaque, architecto beatae distinctio sequi atque dicta eum alias id nam, similique maxime accusantium velit."
+    local rootFrame = AceGUI:Create("Frame")
+    rootFrame:SetTitle("GuildAssist3 - Help")
+    rootFrame:SetStatusText(branding)
+    rootFrame:SetCallback("OnClose", function (widget) AceGUI:Release(widget) end)
+    rootFrame:SetLayout("Flow")
+    rootFrame:SetHeight(500)
+    rootFrame:SetWidth(600)
 
-    local tutorialInfo = "Here you can get the routes for the Mythic+ dungeons. Just click the button for the dungeon you like.";
-    local dungeonNames = { "Upper Karazhan", "Lower Karazhan", "Mechagon:Junkyard", "Mechagon:Workshop", "Grimrail Depot",
-        "Iron Docks", "Tazavesh: Streets of Wonder", "Tazavesh: So'leah's Gambit" }
+    local scrollcontainer = AceGUI:Create("SimpleGroup") -- "InlineGroup" is also good
+    scrollcontainer:SetFullWidth(true)
+    scrollcontainer:SetFullHeight(true) -- probably?
+    scrollcontainer:SetLayout("Fill") -- important!
 
-    local tutorialFrame = CreateFrame("Frame", "GA_TutorialFrame", parent, "UIPanelDialogTemplate");
-    tutorialFrame:SetSize(250, 650);
-    tutorialFrame:SetPoint("CENTER", parent, "LEFT", -135, 0);
-    tutorialFrame.scrollFrame = CreateFrame("ScrollFrame", nil, tutorialFrame, "UIPanelScrollFrameTemplate");
-    tutorialFrame.scrollFrame:SetPoint("TOPLEFT", GA_TutorialFrameDialogBG, "TOPLEFT", 4, -8);
-    tutorialFrame.scrollFrame:SetPoint("BOTTOMRIGHT", GA_TutorialFrameDialogBG, "BOTTOMRIGHT", -3, 4);
-    tutorialFrame.scrollFrame:SetClipsChildren(true);
-    tutorialFrame.scrollFrame:SetScript("OnMouseWheel", ScrollFrame_OnMouseWheel);
-    tutorialFrame.scrollFrame.ScrollBar:ClearAllPoints();
-    tutorialFrame.scrollFrame.ScrollBar:SetPoint("TOPLEFT", tutorialFrame.scrollFrame, "TOPRIGHT", -12, -18);
-    tutorialFrame.scrollFrame.ScrollBar:SetPoint("BOTTOMLEFT", tutorialFrame.scrollFrame, "BOTTOMRIGHT", -7, 18);
+    rootFrame:AddChild(scrollcontainer)
 
-    local child = CreateFrame("Frame", nil, tutorialFrame.scrollFrame);
-    child:SetSize(208, 550);
+    local scroll = AceGUI:Create("ScrollFrame")
+    scroll:SetLayout("Flow") -- probably?
+    scrollcontainer:AddChild(scroll)
 
-    --- SCROLL CHILDS ---
-    child.innerTitle = child:CreateFontString(nil, "OVERLAY");
-    child.innerTitle:SetFont("Fonts\\MORPHEUS.TTF", 27, "THICKOUTLINE");
-    child.innerTitle:SetTextColor(195, 0, 0);
-    child.innerTitle:SetPoint("CENTER", child, "TOP", 0, -20);
-    child.innerTitle:SetText("Mythic+ Routes");
+    
+    --  add widgets to "scroll"
+    -- chat command help
+    local commandContainer = AceGUI:Create("InlineGroup")
+    commandContainer:SetLayout("List")
+    local commandHeader = AceGUI:Create("Label")
+    commandHeader:SetFullWidth(true)
+    commandHeader:SetFont("Fonts\\MORPHEUS.TTF", 22, "THICKOUTLINE")
+    commandHeader:SetColor(195, 0, 0);
+    commandHeader:SetText("Chat Commands")
+    commandContainer:SetFullWidth(true)
 
-    child.dungeon_01_string = child:CreateFontString(nil, "OVERLAY");
-    child.dungeon_01_string:SetWidth(195);
-    child.dungeon_01_string:SetPoint("CENTER", child.innerTitle, "BOTTOM", 0, -30);
-    child.dungeon_01_string:SetFontObject("GameFontNormal");
-    child.dungeon_01_string:SetWordWrap(true);
-    child.dungeon_01_string:SetText(tutorialInfo);
-    child.dungeon_01_string:SetHeight(50.0);
+    commandContainer:AddChild(commandHeader)
 
-    -- Dungeon buttons
-    child.upperKaraButton = GA_CreateTutorialButton(child.dungeon_01_string, child, tostring(dungeonNames[1]), 0, -20)
-    child.lowerKaraButton = GA_CreateTutorialButton(child.upperKaraButton, child, tostring(dungeonNames[2]), 0, -20)
-    child.mechaJunkButton = GA_CreateTutorialButton(child.lowerKaraButton, child, tostring(dungeonNames[3]), 0, -20)
-    child.mechaWorkButton = GA_CreateTutorialButton(child.mechaJunkButton, child, tostring(dungeonNames[4]), 0, -20)
-    child.grimrailButton = GA_CreateTutorialButton(child.mechaWorkButton, child, tostring(dungeonNames[5]), 0, -20)
-    child.irondocksButton = GA_CreateTutorialButton(child.grimrailButton, child, tostring(dungeonNames[6]), 0, -20)
-    child.tazaStreets = GA_CreateTutorialButton(child.irondocksButton, child, tostring(dungeonNames[7]), 0, -20)
-    child.tazaGambit = GA_CreateTutorialButton(child.tazaStreets, child, tostring(dungeonNames[8]), 0, -20)
+    for k,v in pairs(GA_HelpStringTable) do
+        --print("| k: ",k ,"| v: ", v.text)
 
-    -- close button
-    child.closeButton = CreateFrame("Button", nil, child, "UIPanelButtonTemplate");
-    child.closeButton:SetPoint("CENTER", tutorialFrame, "BOTTOM", 0, 25)
-    child.closeButton:SetSize(80, 20)
-    child.closeButton:SetText("Close")
-    child.closeButton:SetScript("OnClick", function()
-        if (tutorialFrame:IsShown() == true) then
-            tutorialFrame:Hide()
-        else
-            tutorialFrame:Show()
-        end
+        local helpText = AceGUI:Create("Label")
+        helpText:SetFontObject("GameFontNormal")
+
+        helpText:SetFullWidth(true)
+        helpText:SetText(v.header.." - "..v.text)
+
+        commandContainer:AddChild(helpText)
+
+    end
+    scroll:AddChild(commandContainer)
+
+    -- gratulation automatic help
+    local gratulationContainer = AceGUI:Create("InlineGroup")
+    gratulationContainer:SetFullWidth(true)
+    gratulationContainer:SetLayout("Flow")
+
+    local gratulationHeader = AceGUI:Create("Label")
+    gratulationHeader:SetPoint("CENTER")
+    gratulationHeader:SetFont("Fonts\\MORPHEUS.TTF", 22, "THICKOUTLINE")
+    gratulationHeader:SetColor(195, 0, 0);
+    gratulationHeader:SetText("Gratulation Automatic")
+    gratulationHeader:SetFullWidth(true)
+    
+    gratulationContainer:AddChild(gratulationHeader)
+    for k, v in pairs(GA_HelpGratulation) do
+        local helpText = AceGUI:Create("Label")
+        helpText:SetFontObject("GameFontNormal")
+        helpText:SetFullWidth(true)
+        helpText:SetText(v)
+        
+        gratulationContainer:AddChild(helpText)
+    end
+    scroll:AddChild(gratulationContainer)
+
+    -- discord automatic help
+    local discordContainer = AceGUI:Create("InlineGroup")
+    discordContainer:SetFullWidth(true)
+    discordContainer:SetLayout("Flow")
+
+    local discordHeader = AceGUI:Create("Label")
+    discordHeader:SetFullWidth(true)
+    discordHeader:SetPoint("CENTER")
+    discordHeader:SetFont("Fonts\\MORPHEUS.TTF", 22, "THICKOUTLINE")
+    discordHeader:SetColor(195, 0, 0);
+    discordHeader:SetText("Discord/Teamspeak Automatic")
+
+    discordContainer:AddChild(discordHeader)
+    for k, v in pairs(GA_HelpDiscord) do
+        local helpText = AceGUI:Create("Label")
+        helpText:SetFontObject("GameFontNormal")
+        helpText:SetFullWidth(true)
+        helpText:SetText(v)
+        
+        discordContainer:AddChild(helpText)
+    end
+    scroll:AddChild(discordContainer)
+
+    -- dungeon id tracker help
+    local trackerContainer = AceGUI:Create("InlineGroup")
+    trackerContainer:SetFullWidth(true)
+    trackerContainer:SetLayout("Flow")
+
+    local trackerHeader = AceGUI:Create("Label")
+    trackerHeader:SetFullWidth(true)
+    trackerHeader:SetPoint("CENTER")
+    trackerHeader:SetFont("Fonts\\MORPHEUS.TTF", 22, "THICKOUTLINE")
+    trackerHeader:SetColor(195, 0, 0);
+    trackerHeader:SetText("Dungeon Tracker")
+
+    trackerContainer:AddChild(trackerHeader)
+    for k, v in pairs(GA_HelpDiscord) do
+        local helpText = AceGUI:Create("Label")
+        helpText:SetFontObject("GameFontNormal")
+        helpText:SetFullWidth(true)
+        helpText:SetText(v)
+        
+        trackerContainer:AddChild(helpText)
+    end
+    scroll:AddChild(trackerContainer)
+
+
+
+    -- general help
+    local generalhelpContainer = AceGUI:Create("InlineGroup")
+    generalhelpContainer:SetFullWidth(true)
+    generalhelpContainer:SetLayout("Flow")
+
+    local generalhelpHeader = AceGUI:Create("Label")
+    generalhelpHeader:SetFullWidth(true)
+    generalhelpHeader:SetPoint("CENTER")
+    generalhelpHeader:SetFont("Fonts\\MORPHEUS.TTF", 22, "THICKOUTLINE")
+    generalhelpHeader:SetColor(195, 0, 0);
+    generalhelpHeader:SetText("General Help")
+
+    generalhelpContainer:AddChild(generalhelpHeader)
+    for k, v in pairs(GA_HelpCustom) do
+        local helpText = AceGUI:Create("Label")
+        helpText:SetFontObject("GameFontNormal")
+        helpText:SetFullWidth(true)
+        helpText:SetText(v)
+        
+        generalhelpContainer:AddChild(helpText)
+    end
+    scroll:AddChild(generalhelpContainer)
+
+    --[[
+
+        local i = 1
+        repeat
+            local container = AceGUI:Create("InlineGroup")
+            container:SetFullWidth(true)
+            
+            
+            local headingFrame = AceGUI:Create("Label")
+            headingFrame:SetText("Header No. "..tostring(i))
+            headingFrame:SetFullWidth(true)
+            
+            local helpText = AceGUI:Create("Label")
+            helpText:SetFontObject("GameFontNormal")
+            helpText:SetText(tostring(i).." "..testString)
+            helpText:SetFullWidth(true)
+            
+            container:AddChild(headingFrame)
+            container:AddChild(helpText)
+            scroll:AddChild(container)
+            print("Frame Number "..tostring(i).." created!")
+            i = i + 1
+        until i == 10
+        
+    ]]
+    return rootFrame
+end
+
+
+function GA_CreateWelcomeFrame()
+    local rootFrame = AceGUI:Create("Frame")
+    rootFrame:SetTitle("Welcome to GuildAssist3")
+    rootFrame:SetStatusText(branding)
+    rootFrame:SetWidth(700)
+    rootFrame:SetHeight(250)
+    rootFrame:SetLayout("Flow")
+    rootFrame:SetFullWidth(true)
+    rootFrame:SetCallback("OnClose", function (widget) 
+        AceGUI:Release(widget)
     end)
 
-    tutorialFrame.scrollFrame:SetScrollChild(child);
 
-    return tutorialFrame;
+
+    local header = AceGUI:Create("Label")
+
+    header:SetFont("Fonts\\MORPHEUS.TTF", 32, "THICKOUTLINE")
+    header:SetColor(195, 0, 0);
+    header:SetText("Welcome")
+    header:SetFullWidth(true)
+    header:SetPoint("CENTER")
+    rootFrame:AddChild(header)
+    
+    
+    for k, v in pairs(GA_WelcomeStringTable) do
+        local text = AceGUI:Create("Label")
+        text:SetFont("Fonts\\ARIALN.TTF", 16, "OUTLINE")
+        text:SetColor(255, 205, 0)
+        text:SetFullWidth(true)
+        text:SetText(v)
+        text:SetPoint("CENTER")
+        rootFrame:AddChild(text)
+    end
+    return rootFrame
 end
 
--- mythic dungeon instance tracker
 
-function GA_InstanceTracker()
+function GA_CreateMenu()
+    -- create ui frame
+    local frame = AceGUI:Create("Frame")
+    frame:SetTitle("GuildAssist3")
+    frame:SetStatusText(branding)
+    frame:SetCallback("OnClose", function(widget) AceGUI:Release(widget) end)
+    frame:SetLayout("Fill")
+
+    -- Create the TabGroup
+    local tab =  AceGUI:Create("TabGroup")
+    tab:SetLayout("Flow")
+    -- Setup which tabs to show
+    tab:SetTabs({{text="Gratulation Options", value="tab1"}, {text="Discord Options", value="tab2"}})
+    -- Register callback
+    tab:SetCallback("OnGroupSelected", SelectGroup)
+    -- Set initial Tab (this will fire the OnGroupSelected callback)
+    tab:SelectTab("tab1")
+    -- add to the frame container
+    frame:AddChild(tab)
+    --[[
+        local editbox = AceGUI:Create("EditBox")
+        editbox:SetLabel("Insert text:")
+        editbox:SetWidth(200)
+        frame:AddChild(editbox)
+        
+        local button = AceGUI:Create("Button")
+        button:SetText("Click Me!")
+        button:SetWidth(200)
+        frame:AddChild(button)
+        ]]
+
+
+    return frame
+end
+
+function GA_CreateInstanceTracker()
     -- base frame
-    local uiFrame = CreateFrame("Frame", "GA_InstanceTracker", PVEFrame, "UIPanelDialogTemplate");
+    local uiFrame = CreateFrame("Frame", "GA_CreateInstanceTracker", PVEFrame, "UIPanelDialogTemplate");
     --[[    
         2291 	De Other Side
         2287 	Halls of Atonement
@@ -152,52 +311,52 @@ function GA_InstanceTracker()
     -- window title
     uiFrame.title = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.title:SetFontObject("GameFontHighlight");
-    uiFrame.title:SetPoint("TOPLEFT", GA_InstanceTrackerDialogBG, "TOPLEFT", 10, 15);
+    uiFrame.title:SetPoint("TOPLEFT", GA_CreateInstanceTrackerDialogBG, "TOPLEFT", 10, 15);
     uiFrame.title:SetText("Guild Assist - Instance Tracker");
     uiFrame.title:SetTextColor(255, 0, 0);
 
     -- inner Title
     uiFrame.innerTitle = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.innerTitle:SetFontObject("GameFontNormal");
-    uiFrame.innerTitle:SetPoint("CENTER", GA_InstanceTrackerDialogBG, "CENTER", 0, 35);
+    uiFrame.innerTitle:SetPoint("CENTER", GA_CreateInstanceTrackerDialogBG, "CENTER", 0, 35);
     uiFrame.innerTitle:SetText("Your free mythic instance are:");
     -- DUNGEON STRINGS
     -- de other side
     uiFrame.otherSide = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.otherSide:SetFontObject("GameFontHighlight");
-    uiFrame.otherSide:SetPoint("TOPLEFT", GA_InstanceTrackerDialogBG, "TOPLEFT", 15, -20);
+    uiFrame.otherSide:SetPoint("TOPLEFT", GA_CreateInstanceTrackerDialogBG, "TOPLEFT", 15, -20);
     -- halls of atonement
     uiFrame.hallsOfAtonement = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.hallsOfAtonement:SetFontObject("GameFontHighlight");
-    uiFrame.hallsOfAtonement:SetPoint("TOPLEFT", GA_InstanceTrackerDialogBG, "TOPLEFT", 15, -35);
+    uiFrame.hallsOfAtonement:SetPoint("TOPLEFT", GA_CreateInstanceTrackerDialogBG, "TOPLEFT", 15, -35);
     --	Mists of Tirna Scithe
     uiFrame.mistOfTirneScithe = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.mistOfTirneScithe:SetFontObject("GameFontHighlight");
-    uiFrame.mistOfTirneScithe:SetPoint("TOPLEFT", GA_InstanceTrackerDialogBG, "TOPLEFT", 15, -50);
+    uiFrame.mistOfTirneScithe:SetPoint("TOPLEFT", GA_CreateInstanceTrackerDialogBG, "TOPLEFT", 15, -50);
 
     uiFrame.plaguefall = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.plaguefall:SetFontObject("GameFontHighlight");
-    uiFrame.plaguefall:SetPoint("TOPLEFT", GA_InstanceTrackerDialogBG, "TOPLEFT", 15, -65);
+    uiFrame.plaguefall:SetPoint("TOPLEFT", GA_CreateInstanceTrackerDialogBG, "TOPLEFT", 15, -65);
 
     uiFrame.sanguineDepths = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.sanguineDepths:SetFontObject("GameFontHighlight");
-    uiFrame.sanguineDepths:SetPoint("TOPRIGHT", GA_InstanceTrackerDialogBG, "TOPRIGHT", -15, -20);
+    uiFrame.sanguineDepths:SetPoint("TOPRIGHT", GA_CreateInstanceTrackerDialogBG, "TOPRIGHT", -15, -20);
 
     uiFrame.spiresOfAscension = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.spiresOfAscension:SetFontObject("GameFontHighlight");
-    uiFrame.spiresOfAscension:SetPoint("TOPRIGHT", GA_InstanceTrackerDialogBG, "TOPRIGHT", -15, -35);
+    uiFrame.spiresOfAscension:SetPoint("TOPRIGHT", GA_CreateInstanceTrackerDialogBG, "TOPRIGHT", -15, -35);
 
     uiFrame.theNecroticWake = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.theNecroticWake:SetFontObject("GameFontHighlight");
-    uiFrame.theNecroticWake:SetPoint("TOPRIGHT", GA_InstanceTrackerDialogBG, "TOPRIGHT", -15, -50);
+    uiFrame.theNecroticWake:SetPoint("TOPRIGHT", GA_CreateInstanceTrackerDialogBG, "TOPRIGHT", -15, -50);
 
     uiFrame.theaterOfPain = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.theaterOfPain:SetFontObject("GameFontHighlight");
-    uiFrame.theaterOfPain:SetPoint("TOPRIGHT", GA_InstanceTrackerDialogBG, "TOPRIGHT", -15, -65);
+    uiFrame.theaterOfPain:SetPoint("TOPRIGHT", GA_CreateInstanceTrackerDialogBG, "TOPRIGHT", -15, -65);
 
     uiFrame.tazavesh = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.tazavesh:SetFontObject("GameFontHighlight");
-    uiFrame.tazavesh:SetPoint("TOP", GA_InstanceTrackerDialogBG, "TOP", 0, -78);
+    uiFrame.tazavesh:SetPoint("TOP", GA_CreateInstanceTrackerDialogBG, "TOP", 0, -78);
 
 
     uiFrame.otherSide:SetText(DungeonNamesDE[5]);
