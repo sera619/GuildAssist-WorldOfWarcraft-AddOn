@@ -61,7 +61,7 @@ v3.4.4 (Hotfix Update)
 > - adjust minimap button size
 > - update version
 
-v3.4.2 (Release Version)
+v3.4.2 (Release Update)
 
 > - add instance id tracker for mythic +0 Dungeons
 > - add gui frame for instance tracker
