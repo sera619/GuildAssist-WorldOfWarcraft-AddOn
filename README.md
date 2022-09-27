@@ -21,7 +21,6 @@
 > - Slashcommand "/ga tracker" - Shows/Hide the GuildAssist Mythic Dungeon ID Tracker.
 > - Slashcommand "/ga config" - Shows/Hide the GuildAssist Addon optionsmenu.
 
-
 ## Installation ##
 
 >**This Addon is only tested on the latest world of warcraft retail version 9.2.7!**
