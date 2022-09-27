@@ -2,11 +2,15 @@
 local _, GuildAssist = ...;
 local gratulationSend = false
 local discordSend = false
+for i = 1, NUM_CHAT_WINDOWS do
+	_G["ChatFrame"..i.."EditBox"]:SetAltArrowKeyMode(false)
+end
 
 GuildAssist = LibStub("AceAddon-3.0"):NewAddon("GuildAssist3", "AceConsole-3.0", "AceEvent-3.0" );
 
 
 if GuildAssist then
+	-- enable alt and arrowkeys to chat 
 	SLASH_RELOAD1 = "/rl";
 	SlashCmdList.RELOAD = ReloadUI;
 
@@ -628,7 +632,7 @@ function GuildAssist:OnInitialize()
 	end
 	
 	if (self.db.profile.firstStart) then
-		--self.db.profile.firstStart = true;
+		self.db.profile.firstStart = false;
 		self.ui.welcomeFrame = GA_CreateWelcomeFrame()
 	end
 
