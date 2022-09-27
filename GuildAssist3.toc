@@ -3,7 +3,7 @@
 ## Version: 4.1.6
 ## Author: S3R43o3
 ## Notes: A little Wrapper for common Guildactions
-## SavedVariables: GuildAssistDB, GuildAssistLDB, GA_MinimapPos
+## SavedVariables: GuildAssistDB, GuildAssistLDB,
 ## OptionalDeps: Ace3
 ## Dependencies: Ace3
 
@@ -11,4 +11,5 @@
 embeds.xml
 tables.lua
 config.lua
+UI_Templates.lua
 Core.lua
