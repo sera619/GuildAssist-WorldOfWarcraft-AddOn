@@ -2,66 +2,28 @@
 local _, GuildAssist = ...;
 local gratulationSend = false
 local discordSend = false
-for i = 1, NUM_CHAT_WINDOWS do
-	_G["ChatFrame"..i.."EditBox"]:SetAltArrowKeyMode(false)
-end
-
-GuildAssist = LibStub("AceAddon-3.0"):NewAddon("GuildAssist3", "AceConsole-3.0", "AceEvent-3.0" );
-
-
-if GuildAssist then
-	-- enable alt and arrowkeys to chat 
-	SLASH_RELOAD1 = "/rl";
-	SlashCmdList.RELOAD = ReloadUI;
-
-	-- faster show framestack command
-	SLASH_FRAMESTK1 = "/fs";
-	SlashCmdList.FRAMESTK = function ()
-		LoadAddOn('Blizzard_DebugTools')
-		FrameStackTooltip_Toggle()
-	end
-end
-
-
 local AConfig = LibStub("AceConfig-3.0")
 local AConfigDialog = LibStub("AceConfigDialog-3.0")
 local AceGUI = LibStub("AceGUI-3.0")
 
--- create minimap button 
-local LDB = LibStub("LibDataBroker-1.1", true)
-local LDBIcon = LDB and LibStub("LibDBIcon-1.0", true)
-if LDB then
-	local GA_MinimapBtn = LDB:NewDataObject("GuildAssistLDB", {
-		type = "launcher",
-		text = "GuildAssist",
-		icon = "Interface\\Icons\\inv_misc_enggizmos_27",
-		OnClick = function(_, button)
-			if button == "RightButton" then
-				if (GuildAssist.ui.help:IsShown() == false) then
-					GuildAssist.ui.help = GA_CreateHelpFrame()
-				else
-					GuildAssist.ui.help:Hide()
-				end
-			end
-			if button == "LeftButton" then
-				if (InterfaceOptionsFrame:IsShown() == false) then
-					InterfaceOptionsFrame_OpenToCategory(GuildAssist.optionsFrame)
-					InterfaceOptionsFrame_OpenToCategory(GuildAssist.optionsFrame)
-				else
-					InterfaceOptionsFrame:Hide()
-				end
-			end
-		end,
-		OnTooltipShow = function(tt)
-			tt:AddLine("GuildAssist3")
-			tt:AddLine("|cffffff00LeftClick|r to open the GuildAssist Settings.")
-			tt:AddLine("|cffffff00RightClick|r to open the GuildAssist Help.")
-		end,
-	})
-	if LDBIcon then
-		LDBIcon:Register("GuildAssist3", GA_MinimapBtn) -- PC_MinimapPos is a SavedVariable which is set to 90 as default
+GuildAssist = LibStub("AceAddon-3.0"):NewAddon("GuildAssist3", "AceConsole-3.0", "AceEvent-3.0" );
+-- enable alt and arrowkeys to chat 
+for i = 1, _G.NUM_CHAT_WINDOWS do
+	_G["ChatFrame"..i.."EditBox"]:SetAltArrowKeyMode(false)
+end
+if GuildAssist then
+	SLASH_RELOAD1 = "/rl";
+	_G.SlashCmdList.RELOAD = _G.ReloadUI;
+	
+	-- faster show framestack command
+	SLASH_FRAMESTK1 = "/fs";
+	_G.SlashCmdList.FRAMESTK = function ()
+		LoadAddOn('Blizzard_DebugTools')
+		_G.FrameStackTooltip_Toggle()
 	end
 end
+
+
 
 local defaults = {
 	profile = {
@@ -81,6 +43,9 @@ local defaults = {
 		waitTimeGratulation = 3,
 		sendAsciiTruck = false,
 		sendAsciiHeart = false,
+		minimap = { 
+			hide = false,
+		},
 	},
 }
 
@@ -341,8 +306,8 @@ local options = {
 					name = "Send Test Discord",
 					func = "SendTestDiscord",
 				},
-			}},
-			trackerSetting = {
+		}},
+		trackerSetting = {
 			order = 3,
 			name ="Dungeontracker Settings",
 			handler = GuildAssist,
@@ -363,7 +328,7 @@ local options = {
 					fontSize = "medium",
 					width = "full"
 				}					
-			}},
+		}},
 	},
 	}
 
@@ -385,22 +350,55 @@ end
 function GuildAssist:SendTestDiscord()
 	if(self.db.profile.discordmsg ~= "No Discord set.")then
 		self:Print("Your Discordmessage:")
-		self:Print("\[Discord\] "..self.db.profile.discordmsg)
+		self:Print("[Discord] "..self.db.profile.discordmsg)
 	end
 end
 
 function GuildAssist:TestSendGZTruck()
-	self:Print("l\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*l ll\_")
-	self:Print("l\_\_\_\_GZ\_\_\_TRUCK\_\_l ll'''''l'''''\_\_\_")
-	self:Print("l\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_l lll\_l\_l\_l\_\_\_l)")
-	self:Print("l\(\@\)\*\(\@\)\*\*\*\*\*\*\*\*\(\@\)\*\*\(\@\)\*\*\*\*\(\@\)")
+	self:Print("l*********************l ll_")
+	self:Print("l____GZ___TRUCK__l ll\'\'\'\'\'l\'\'\'\'\'___")
+	self:Print("l_________________l lll_l_l_l___l)")
+	self:Print("l(@)*(@)********(@)**(@)****(@)")
 end
 
 function GuildAssist:TestSendGZHeart()
-	self:Print("\(\¯\`v\´\¯\)\.\. Alles")
-	self:Print("\`\•\.\¸\.\•\. Gute zu")
-	self:Print("\¸\.\•\´\.\.\.\.\. deinen Erfolg!")
-	self:Print("\(\¸\¸\.\•\¨\¯\`\•\»")
+	self:Print("(¯`v´¯).. Alles")
+	self:Print(" `•.¸.•´. Gute zu")
+	self:Print(" ¸.•´..... deinen Erfolg!")
+	self:Print("(¸¸.•¨¯`•»")
+end
+
+
+
+function GuildAssist:SendGZTruck()
+    C_Timer.After(0.15, function()
+        SendChatMessage("l*********************l ll_", "GUILD");
+    end)
+    C_Timer.After(0.2, function()
+        SendChatMessage("l____GZ___TRUCK__l ll\'\'\'\'\'l\'\'\'\'\'___", "GUILD");
+    end)
+
+    C_Timer.After(0.25, function()
+        SendChatMessage("l_________________l lll_l_l_l___l)", "GUILD");
+    end)
+    C_Timer.After(0.3, function()
+        SendChatMessage("l(@)*(@)********(@)**(@)****(@)","GUILD");
+    end)
+end
+
+function GuildAssist:SendGZHeart()
+    C_Timer.After(0.1, function()
+        SendChatMessage("(¯`v´¯).. Alles", "GUILD")
+    end)
+    C_Timer.After(0.2, function()
+        SendChatMessage(" `•.¸.•´. Gute zu", "GUILD")
+    end)
+    C_Timer.After(0.3, function()
+        SendChatMessage(" ¸.•´..... deinen Erfolg!", "GUILD")
+    end)
+    C_Timer.After(0.4, function()
+        SendChatMessage("(¸¸.•¨¯`•»", "GUILD")
+    end)
 end
 
 function GuildAssist:OpenHelpFrame()
@@ -416,40 +414,8 @@ function GuildAssist:IsShowHelpOnStart(info)
 	return self.db.profile.showHelpOnStart
 end
 
-
-
-function GuildAssist:SendGZTruck()
-    C_Timer.After(0.1, function()
-        SendChatMessage("l\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*l ll\_", "GUILD");
-    end)
-    C_Timer.After(0.2, function()
-        SendChatMessage("l\_\_\_\_GZ\_\_\_TRUCK\_\_l ll'''''l'''''\_\_\_", "GUILD");
-    end)
-    C_Timer.After(0.3, function()
-        SendChatMessage("l\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_l lll\_l\_l\_l\_\_\_l)", "GUILD");
-    end)
-    C_Timer.After(0.4, function()
-        SendChatMessage("l\(\@\)\*\(\@\)\*\*\*\*\*\*\*\*\(\@\)\*\*\(\@\)\*\*\*\*\(\@\)", "GUILD");
-    end)
-end
-
-function GuildAssist:SendGZHeart()
-    C_Timer.After(0.1, function()
-        SendChatMessage("\(\¯\`v\´\¯\)\.\. Alles", "GUILD")
-    end)
-    C_Timer.After(0.2, function()
-        SendChatMessage("\`\•\.\¸\.\•\. Gute zu", "GUILD")
-    end)
-    C_Timer.After(0.3, function()
-        SendChatMessage("\¸\.\•\´\.\.\.\.\. deinen Erfolg!", "GUILD")
-    end)
-    C_Timer.After(0.4, function()
-        SendChatMessage("\(\¸\¸\.\•\¨\¯\`\•\»", "GUILD")
-    end)
-end
-
-
 -- toggle ascii heart
+
 function GuildAssist:IsSendAsciiHeart(info)
 	return self.db.profile.sendAsciiHeart
 end
@@ -485,7 +451,6 @@ function GuildAssist:SetWaitTimeAutoGratulation(info, value)
 	self:Print("Set Gratulation Waittime: ", value)
 end
 
-
 -- set wait time before send discord link
 function GuildAssist:GetWaitTimeAutoDiscord(info)
 	return self.db.profile.waitTimeDiscord
@@ -495,7 +460,6 @@ function GuildAssist:SetWaitTimeAutoDiscord(info, value)
 	self.db.profile.waitTimeDiscord = value
 	self:Print("Set Discord Waittime: ", value)
 end
-
 
 -- toggle auto gratulationMessage
 function GuildAssist:IsSendAutoGratulation(info)
@@ -507,7 +471,6 @@ function GuildAssist:ToggleAutoGratulation(info, value)
 	self:Print("Set Gratulation Automatic: ", value)
 end
 
-
 -- toggle auto discord
 function GuildAssist:IsAutoDiscord(info)
 	return self.db.profile.sendAutoDiscord
@@ -518,7 +481,6 @@ function GuildAssist:ToggleSendAutoDiscord(info, value)
 	self:Print("Set Discord Automatic: ", value)
 end
 
-
 -- toggle show options on start
 function GuildAssist:IsShowOptionOnStart(info)
 	return self.db.profile.showOptionsOnStart
@@ -528,7 +490,6 @@ function GuildAssist:ToggleShowOptionMenuOnStart(info, value)
 	self.db.profile.showOptionsOnStart = value
 	self:Print("Show Optionwindow on start: ", value)
 end
-
 
 -- set discord Link
 function GuildAssist:GetDiscordMessage(info)
@@ -543,7 +504,6 @@ function GuildAssist:SetDiscordMessage(info, newValue)
 	self:Print("Set Discord Message to: ", newValue)
 end
 
-
 -- set custom gratulationMessage
 function GuildAssist:GetGratulationMessage(info)
 	return self.db.profile.gratulationMessage
@@ -557,7 +517,6 @@ function GuildAssist:SetGratulationMessage(info, newValue)
 	self:Print("Set Gratulation Message to: ", newValue)
 end
 
-
 -- toggle show addon menu on start
 function GuildAssist:IsShowMenuOnStart(info)
 	return self.db.profile.showMenuOnStart
@@ -567,8 +526,6 @@ function GuildAssist:ToggleShowMenuOnStart(info, value)
 	self.db.profile.showMenuOnStart = value
 	self:Print("Show menu on start: ", value)
 end
-
-
 
 function GuildAssist:IsShowInChat(info)
     return self.db.profile.showInChat
@@ -589,28 +546,61 @@ function GuildAssist:ToggleShowOnScreen(info, value)
 end
 
 
+local LDB = LibStub("LibDataBroker-1.1", true)
+local LDBIcon = LDB and LibStub("LibDBIcon-1.0", true)
+
 function GuildAssist:OnInitialize()
 	-- Called when the addon is loaded
 	-- Print a message to the chat frame
 	self:Print("Initialize GuildAssist ...")
-
-
+    
 	-- register DB
 	self.db = LibStub("AceDB-3.0"):New("GuildAssistDB", defaults, true)
-
+	
 	-- register Options menu
 	AConfig:RegisterOptionsTable("GuildAssist_options", options)
 	self.optionsFrame = AConfigDialog:AddToBlizOptions("GuildAssist_options", "GuildAssist3")
-
+	if LDB then
+		local icon = LDB:NewDataObject("GuildAssistDB", {
+		type = "launcher",
+		text = "GuildAssist",
+		icon = "Interface\\Icons\\inv_misc_enggizmos_27",
+		OnClick = function(_, button)
+			if button == "RightButton" then
+				if (GuildAssist.ui.help:IsShown() == false) then
+					GuildAssist.ui.help = GA_CreateHelpFrame()
+				else
+					GuildAssist.ui.help:Hide()
+				end
+			end
+			if button == "LeftButton" then
+				if (_G.InterfaceOptionsFrame:IsShown() == false) then
+					_G.InterfaceOptionsFrame_OpenToCategory(GuildAssist.optionsFrame)
+					_G.InterfaceOptionsFrame_OpenToCategory(GuildAssist.optionsFrame)
+					--GuildAssist:SendGZTruck()
+				else
+					_G.InterfaceOptionsFrame:Hide()
+				end
+			end
+		end,
+		OnTooltipShow = function(tt)
+			tt:AddLine("GuildAssist3")
+			tt:AddLine("|cffffff00LeftClick|r to open the GuildAssist Settings.")
+			tt:AddLine("|cffffff00RightClick|r to open the GuildAssist Help.")
+			end,
+		})
+		if LDBIcon then
+			LDBIcon:Register("GuildAssist3", icon, self.db.profile.minimap) -- PC_MinimapPos is a SavedVariable which is set to 90 as default
+		end
+	end
+	
 	-- add profiles 	
 	local profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
 	AConfig:RegisterOptionsTable("GuildAssist_Profiles", profiles)
 	AConfigDialog:AddToBlizOptions("GuildAssist_Profiles", "Profiles", "GuildAssist3")
-
 	-- register chat commands
 	self:RegisterChatCommand("guildassist","ChatCommand")
 	self:RegisterChatCommand("ga", "ChatCommand")
-	
 	-- Create all UI frames
 	self.ui = GA_CreateMenu()
 
@@ -627,8 +617,8 @@ function GuildAssist:OnInitialize()
 		self.ui.help:Hide()
 	end
 	if (self.db.profile.showOptionsOnStart) then
-		InterfaceOptionsFrame_OpenToCategory(GuildAssist.optionsFrame)
-		InterfaceOptionsFrame_OpenToCategory(GuildAssist.optionsFrame)
+		_G.InterfaceOptionsFrame_OpenToCategory(GuildAssist.optionsFrame)
+		_G.InterfaceOptionsFrame_OpenToCategory(GuildAssist.optionsFrame)
 	end
 	
 	if (self.db.profile.firstStart) then
@@ -657,7 +647,7 @@ function GuildAssist:OnDisable()
 end
 
 function GuildAssist:SendDiscordLink()
-	local value = "\[Discord\] "
+	local value = " [Discord] "
 	value = value..self.db.profile.discordmsg
 	C_Timer.After(self.db.profile.waitTimeDiscord, function ()
 		SendChatMessage(value, "GUILD")
@@ -727,7 +717,7 @@ function GuildAssist:ZONE_CHANGED()
             self:Print(self.db.profile.message);
         end
 		if self.db.profile.showOnScreen then
-			UIErrorsFrame:AddMessage(self.db.profile.message, 1, 1, 1)
+			_G.UIErrorsFrame:AddMessage(self.db.profile.message, 1, 1, 1)
 		else
 			self:Print(self.db.profile.message)
 		end
@@ -745,7 +735,7 @@ function GuildAssist:ChatCommand(input)
 	elseif input:trim() == "show" and (self.db.profile.showInChat or self.db.profile.showOnScreen) then
 		-- show test message
 		if self.db.profile.showOnScreen then
-			UIErrorsFrame:AddMessage(self.db.profile.message, 1.0, 1.0, 1.0, 5.0)
+			_G.UIErrorsFrame:AddMessage(self.db.profile.message, 1.0, 1.0, 1.0, 5.0)
 		end
 		if self.db.profile.showInChat then
 			self:Print(self.db.profile.message)
@@ -763,11 +753,11 @@ function GuildAssist:ChatCommand(input)
 			self.ui.tracker = GA_CreateInstanceTracker()
 		end
 	elseif input:trim() == "config" then
-		if InterfaceOptionsFrame:IsShown() then
-			InterfaceOptionsFrame:Hide()
+		if _G.InterfaceOptionsFrame:IsShown() then
+			_G.InterfaceOptionsFrame:Hide()
 		else
-			InterfaceOptionsFrame_OpenToCategory(self.optionsFrame)
-			InterfaceOptionsFrame_OpenToCategory(self.optionsFrame)
+			_G.InterfaceOptionsFrame_OpenToCategory(self.optionsFrame)
+			_G.InterfaceOptionsFrame_OpenToCategory(self.optionsFrame)
 		end
 	else
         LibStub("AceConfigCmd-3.0"):HandleCommand("ga", "GuildAssist_options", input)
