@@ -292,7 +292,7 @@ end
 
 function GA_CreateInstanceTracker()
     -- base frame
-    local uiFrame = CreateFrame("Frame", "GA_CreateInstanceTracker", PVEFrame, "UIPanelDialogTemplate");
+    local uiFrame = CreateFrame("Frame", "GA_CreateInstanceTracker", _G.PVEFrame, "UIPanelDialogTemplate");
     --[[    
         2291 	De Other Side
         2287 	Halls of Atonement
@@ -306,57 +306,57 @@ function GA_CreateInstanceTracker()
     ]]
 
     uiFrame:SetSize(400, 125);
-    uiFrame:SetPoint("TOPRIGHT", PVEFrame, "TOPRIGHT", 0, 120);
+    uiFrame:SetPoint("TOPRIGHT", _G.PVEFrame, "TOPRIGHT", 0, 120);
 
     -- window title
     uiFrame.title = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.title:SetFontObject("GameFontHighlight");
-    uiFrame.title:SetPoint("TOPLEFT", GA_CreateInstanceTrackerDialogBG, "TOPLEFT", 10, 15);
+    uiFrame.title:SetPoint("TOPLEFT", _G.GA_CreateInstanceTrackerDialogBG, "TOPLEFT", 10, 15);
     uiFrame.title:SetText("Guild Assist - Instance Tracker");
     uiFrame.title:SetTextColor(255, 0, 0);
 
     -- inner Title
     uiFrame.innerTitle = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.innerTitle:SetFontObject("GameFontNormal");
-    uiFrame.innerTitle:SetPoint("CENTER", GA_CreateInstanceTrackerDialogBG, "CENTER", 0, 35);
+    uiFrame.innerTitle:SetPoint("CENTER", _G.GA_CreateInstanceTrackerDialogBG, "CENTER", 0, 35);
     uiFrame.innerTitle:SetText("Your free mythic instance are:");
     -- DUNGEON STRINGS
     -- de other side
     uiFrame.otherSide = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.otherSide:SetFontObject("GameFontHighlight");
-    uiFrame.otherSide:SetPoint("TOPLEFT", GA_CreateInstanceTrackerDialogBG, "TOPLEFT", 15, -20);
+    uiFrame.otherSide:SetPoint("TOPLEFT", _G.GA_CreateInstanceTrackerDialogBG, "TOPLEFT", 15, -20);
     -- halls of atonement
     uiFrame.hallsOfAtonement = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.hallsOfAtonement:SetFontObject("GameFontHighlight");
-    uiFrame.hallsOfAtonement:SetPoint("TOPLEFT", GA_CreateInstanceTrackerDialogBG, "TOPLEFT", 15, -35);
+    uiFrame.hallsOfAtonement:SetPoint("TOPLEFT", _G.GA_CreateInstanceTrackerDialogBG, "TOPLEFT", 15, -35);
     --	Mists of Tirna Scithe
     uiFrame.mistOfTirneScithe = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.mistOfTirneScithe:SetFontObject("GameFontHighlight");
-    uiFrame.mistOfTirneScithe:SetPoint("TOPLEFT", GA_CreateInstanceTrackerDialogBG, "TOPLEFT", 15, -50);
+    uiFrame.mistOfTirneScithe:SetPoint("TOPLEFT", _G.GA_CreateInstanceTrackerDialogBG, "TOPLEFT", 15, -50);
 
     uiFrame.plaguefall = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.plaguefall:SetFontObject("GameFontHighlight");
-    uiFrame.plaguefall:SetPoint("TOPLEFT", GA_CreateInstanceTrackerDialogBG, "TOPLEFT", 15, -65);
+    uiFrame.plaguefall:SetPoint("TOPLEFT", _G.GA_CreateInstanceTrackerDialogBG, "TOPLEFT", 15, -65);
 
     uiFrame.sanguineDepths = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.sanguineDepths:SetFontObject("GameFontHighlight");
-    uiFrame.sanguineDepths:SetPoint("TOPRIGHT", GA_CreateInstanceTrackerDialogBG, "TOPRIGHT", -15, -20);
+    uiFrame.sanguineDepths:SetPoint("TOPRIGHT", _G.GA_CreateInstanceTrackerDialogBG, "TOPRIGHT", -15, -20);
 
     uiFrame.spiresOfAscension = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.spiresOfAscension:SetFontObject("GameFontHighlight");
-    uiFrame.spiresOfAscension:SetPoint("TOPRIGHT", GA_CreateInstanceTrackerDialogBG, "TOPRIGHT", -15, -35);
+    uiFrame.spiresOfAscension:SetPoint("TOPRIGHT", _G.GA_CreateInstanceTrackerDialogBG, "TOPRIGHT", -15, -35);
 
     uiFrame.theNecroticWake = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.theNecroticWake:SetFontObject("GameFontHighlight");
-    uiFrame.theNecroticWake:SetPoint("TOPRIGHT", GA_CreateInstanceTrackerDialogBG, "TOPRIGHT", -15, -50);
+    uiFrame.theNecroticWake:SetPoint("TOPRIGHT", _G.GA_CreateInstanceTrackerDialogBG, "TOPRIGHT", -15, -50);
 
     uiFrame.theaterOfPain = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.theaterOfPain:SetFontObject("GameFontHighlight");
-    uiFrame.theaterOfPain:SetPoint("TOPRIGHT", GA_CreateInstanceTrackerDialogBG, "TOPRIGHT", -15, -65);
+    uiFrame.theaterOfPain:SetPoint("TOPRIGHT", _G.GA_CreateInstanceTrackerDialogBG, "TOPRIGHT", -15, -65);
 
     uiFrame.tazavesh = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.tazavesh:SetFontObject("GameFontHighlight");
-    uiFrame.tazavesh:SetPoint("TOP", GA_CreateInstanceTrackerDialogBG, "TOP", 0, -78);
+    uiFrame.tazavesh:SetPoint("TOP", _G.GA_CreateInstanceTrackerDialogBG, "TOP", 0, -78);
 
 
     uiFrame.otherSide:SetText(DungeonNamesDE[5]);
