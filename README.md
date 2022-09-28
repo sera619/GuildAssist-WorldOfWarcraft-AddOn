@@ -46,6 +46,7 @@ v4.1.8 (Release Update)
 > - add Rightclick + Shift / LeftClick + Shift for enable/disable discord automatic / gratulation automatic to minimapbutton
 > - create changlog window
 > - update alignment from some text
+> - Fix the "/ga tracker" chatcommand
 
 v4.1.6 (Release Update)
 

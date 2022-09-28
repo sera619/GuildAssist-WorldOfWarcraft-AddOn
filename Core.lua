@@ -401,7 +401,7 @@ local options = {
 --		inviteSetting = inviteSettings,
 		trackerSetting = trackerSettings,
 	},
-	}
+}
 	--:UI-Achievement-WoodBorder
 -- setter and getter functions for options
 function GuildAssist:GetInviteWakeword(info)
@@ -409,6 +409,9 @@ function GuildAssist:GetInviteWakeword(info)
 end
 
 function GuildAssist:SetInviteWakeword(info, value)
+	if (value == "") then
+		value = "No Wakeword set."
+	end
 	self.db.profile.inviteWakeword = value
 	self:Print("Auto-Invite Wakeword is set to: ", value)
 	
@@ -750,7 +753,7 @@ function GuildAssist:OnInitialize()
 	if (self.db.profile.firstStart) then
 		self.db.profile.firstStart = false;
 	end
-	if (not self.db.profile.firstStart and not self.db.profile.showWelcomeOnStart) then
+	if (not self.db.profile.showWelcomeOnStart) then
 		self.ui.welcomeFrame:Hide()
 	end
 	-- enable dungeon tracker on LFG frame show
@@ -765,9 +768,9 @@ function GuildAssist:OnInitialize()
 		end
 	end)
 
-	self.ui.patchnotes = GA_CreateUpdateFrame()
 	if (self.db.profile.newAddonPatch) then
 		self.db.profile.newAddonPatch = false
+		self.ui.patchnotes = GA_CreateUpdateFrame()
 	end
 	------------ Debugge Development Settings -----------
 	--self.ui.calendar = GA_CreateCalender()

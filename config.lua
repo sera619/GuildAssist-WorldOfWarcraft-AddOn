@@ -1,6 +1,6 @@
 local _, GuildAssist = ...; 
 local AceGUI = LibStub("AceGUI-3.0")
-local addOnVersion = "4.1.8"
+local addOnVersion = "4.1.9"
 local branding = "GuildAssist3 v"..addOnVersion.." | Design & Development © S3R43o3 2022"
 
 local menuButton = "GameMenuButtonTemplate";
@@ -23,7 +23,7 @@ function GA_CreateUpdateFrame()
     header:SetFont(headFont, 30, "THINOUTLINE")
     header:SetColor(255, 0, 0)
     header:SetFullWidth(true)
-    header:SetText("Patchnotes Version 4.1.8")
+    header:SetText("Patchnotes Version "..tostring(addOnVersion))
     header:SetJustifyH("CENTER")
     rootFrame:AddChild(header)
 
