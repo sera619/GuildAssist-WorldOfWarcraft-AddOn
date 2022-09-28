@@ -34,6 +34,7 @@ local defaults = {
 		showOptionsOnStart = false,
 		showHelpOnStart = false,
 		showWelcomeOnStart = false,
+		showDungeontracker = true,
 		discordmsg = "No Discord set.",
 		gratulationMessage = "No Gratulation set.",
 		sendAutoGratulation = false,
@@ -128,7 +129,38 @@ local generalSettings = {
 		}
 	}
 }
-
+local trackerSettings = {
+	order = 3,
+	name ="Dungeontracker Settings",
+	handler = GuildAssist,
+	desc = "Here you can setup the Dungeontracker settings.",
+	type = "group",
+	width = "full",
+	args = {
+		trackerHeader ={
+			name = "Dungeontracker Settings",
+			order = 0,
+			type = "header",
+			width = "full"
+		},
+		trackerDesc = {
+			name = "Here you can setup the all Dungeontracker options.",
+			order = 1,
+			type = "description",
+			fontSize = "medium",
+			width = "full"
+		},
+		trackerToggle = {
+			name = "Show Dungeontracker",
+			desc = "Toggle the Dungeontracker ",
+			order = 2,
+			type = "toggle",
+			set = "ToggleShowDungeontracker",
+			get = "IsShowDungeonTracker",
+			width = "full"
+		}
+	}
+}
 
 local options = {
 	name ="GuildAssist3 Options",
@@ -321,32 +353,20 @@ local options = {
 					func = "SendTestDiscord",
 				},
 		}},
-		trackerSetting = {
-			order = 3,
-			name ="Dungeontracker Settings",
-			handler = GuildAssist,
-			desc = "Here you can setup the Dungeontracker settings.",
-			type = "group",
-			width = "full",
-			args = {
-				trackerHeader ={
-					name = "Dungeontracker Settings",
-					order = 0,
-					type = "header",
-					width = "full"
-				},
-				trackerDesc = {
-					name = "Here you can setup the all Dungeontracker options.",
-					order = 1,
-					type = "description",
-					fontSize = "medium",
-					width = "full"
-				}					
-		}},
+		trackerSetting = trackerSettings,
 	},
 	}
 	--:UI-Achievement-WoodBorder
 -- setter and getter functions for options
+function GuildAssist:ToggleShowDungeontracker(info, value)
+	self.db.profile.showDungeontracker = value
+	self:Print("Show Dungeontracker set to: ", value)
+end
+
+function GuildAssist:IsShowDungeonTracker(info)
+	return self.db.profile.showDungeontracker
+end
+
 function GuildAssist:ToggleShowWelcomeOnStart(info, value)
 	self.db.profile.showWelcomeOnStart = value
 	self:Print("Show Welcomemessage at Start set to: ", value)
@@ -668,11 +688,9 @@ function GuildAssist:OnInitialize()
 	if (not self.db.profile.firstStart and not self.db.profile.showWelcomeOnStart) then
 		self.ui.welcomeFrame:Hide()
 	end
-	------------ Debugge Development Settings -----------
-	--self.ui.calendar = GA_CreateCalender()
-	
+	-- enable dungeon tracker on LFG frame show
 	_G.PVEFrame:SetScript("OnShow",function (self, ...)
-		if not GuildAssist.ui.tracker:IsShown() then
+		if not GuildAssist.ui.tracker:IsShown() and self.db.profile.showDungeontracker then
 			GuildAssist.ui.tracker:Show()
 		else
 			return
@@ -683,6 +701,9 @@ function GuildAssist:OnInitialize()
 			GuildAssist.ui.tracker:Hide()
 		end
 	end)
+	------------ Debugge Development Settings -----------
+	--self.ui.calendar = GA_CreateCalender()
+	
 end
 
 function GuildAssist:OnEnable()
