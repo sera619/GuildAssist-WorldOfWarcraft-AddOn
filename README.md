@@ -2,17 +2,15 @@
 
 > A simple little addon to send automated guild chat messages when a guild member gets an achievement. You can choose between your own created message or predefined ASCII images.
 > Also save Discord/Teamspeak invitation links and send them to the guild chat via chat command "!discord" if activated.
-> The whole Project is now on Version 4.1.6 I refactor/redesign much like everything. As example the whole Addon can now be configured in the interface options from blizzad like all common Addons.
->
-> - New graphical UserInterface
-> - Translate to english
-> - Add ACii Images as premade GZ-Message to choose
+> The whole Project is now on Version 4.1.9 I refactor/redesign much like everything. As example the whole Addon can now be configured in the interface options from blizzad like all common Addons.
+> For more information got to [Changelog](##-Changelog)
 
 ## Features ##
 
 > - allows you to use the keyboard arrow keys to scroll through your sent message history.
 > - Set the time in seconds between achieving the achievement and sending the congratulation message.
 > - Shows your currently locked mythic +0 dungeons as a compact list above PVE window (if PVE window is open)
+> - Allow to send a custom defined discord/Teamspeak Invitelink/ServerIP to Guildchatchannel
 > - minimap icon to show/hide addon menu
 > - Slashcommand "/fs" - short command for buildin "/framestack"
 > - Slashcommand "/rl" - short command for buildin "/reload
