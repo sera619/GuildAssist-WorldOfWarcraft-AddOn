@@ -25,7 +25,6 @@ _G.GA_HelpStringTable = {
         header = "/ga",
         text = "Shows/Hide the GuildAssist Addon Menu Panel"
     },
-
 }
 
 
@@ -43,19 +42,21 @@ _G.GA_HelpDiscord = {
 }
 
 _G.GA_HelpTracker ={
-    help1 = "The dungeontracker will keep track your dungeon ids for all mythic dungoens(not mythic plus!). The tracker will appear if you open the LFG window.",
-    help2 = "Simple as it is, green dungeons have a free loot id and red havent."
+    help2 = "The dungeontracker will keep track your dungeon ids for all mythic dungoens(not mythic plus!). The tracker will appear if you open the LFG window.",
+    help3 = "Simple as it is, green dungeons have a free loot id and red havent."
 }
 
 _G.GA_HelpCustom ={
-    help1 = "If you facing any bug oder have some other trouble with the addon also if you have any suggestion, please DONT BE SHY and contact me instantly, i will not bite!",
-    help2 = "Any constructive feedback are welcome! This helps me to make the addon comfortable. THANK YOU!"
+    help2 = "If you facing any bug oder have some other trouble with the addon also if you have any suggestion, please DONT BE SHY and contact me instantly, i will not bite!",
+    help3 = "Any constructive feedback are welcome! This helps me to make the addon comfortable. THANK YOU!"
 }
 _G.GA_WelcomeStringTable ={
-    welcome2 = "Hello and welcome to Guild Assist! |nThis is my very first World of Warcraft Addon that I code at all. So dont be that hard to me!",
+    welcome2 = "Hello and welcome to GuildAssist3! |nThis is my very first World of Warcraft Addon that I code at all. So dont be that hard to me!",
     welcome3 = "This Addon currently havent much features but in future it is planned to be a interactive raid/dungeon calender with discordbot synchronization.",
-    welcome4 = "For this it also exist a Discord Bot that is coded by my own too. |n|nThis is a very early Version at all if you facing any bugs or some other trouble.",
+    welcome4 = "|nFor this it also exist a Discord Bot that is coded by my own too. |nThis is a very early Version at all if you facing any bugs or some other trouble.",
     welcome5 = "Please contact me \"TrickOnFlick#2943\" on Battle.net, Thank you!",
+    welcome6 = "|n|cffaa0000Please check the Interface Options Menu to setup GuildAssist3.|r"
+
 }
 
 _G.DungeonNamesDE = {
