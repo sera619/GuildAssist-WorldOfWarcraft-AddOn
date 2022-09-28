@@ -1,11 +1,12 @@
 ## Interface: 90207
-## Title: |cff00ccffGuildAssist3|r 4.1.6 
+## Title: |cffffccffGuildAssist3|r 4.1.8 
 ## Version: 4.1.6
 ## Author: S3R43o3
-## Notes: A little Wrapper for common Guildactions
-## SavedVariables: GuildAssistDB, GuildAssistLDB,
+## Notes: A little Wrapper for common Guildutility
+## SavedVariables: GuildAssistDB, GuildAssistLDB
+## RequiredDeps: Ace3
 ## OptionalDeps: Ace3
-## Dependencies: Ace3
+
 
 
 embeds.xml

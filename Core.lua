@@ -23,8 +23,6 @@ if GuildAssist then
 	end
 end
 
-
-
 local defaults = {
 	profile = {
 		firstStart= true,
@@ -35,8 +33,9 @@ local defaults = {
 		showMenuOnStart = false,
 		showOptionsOnStart = false,
 		showHelpOnStart = false,
-		discordmsg = "",
-		gratulationMessage = "",
+		showWelcomeOnStart = false,
+		discordmsg = "No Discord set.",
+		gratulationMessage = "No Gratulation set.",
 		sendAutoGratulation = false,
 		sendAutoDiscord = false,
 		waitTimeDiscord = 2,
@@ -49,79 +48,94 @@ local defaults = {
 	},
 }
 
+local generalSettings = {
+	name ="General Settings",
+	order = 0,
+	handler = GuildAssist,
+	desc = "Here you can setup the Discord Automatic settings.",
+	type = "group",
+	width = "full",
+	args = {
+		generalHeader = {
+			type = "header",
+			name = "General Options",
+			desc = "Common GuildAssist options.",
+			order = 0
+		},
+		generalDesc = {
+			type = "description",
+			order = 1,
+			name = "General options for GuildAssist Addon.",
+			fontSize = "medium"
+		},
+		--[[
+		showMenuOnStart = {
+			type ="toggle",
+			name ="Show menu on Start",
+			desc = "Toggle to show addon menu at start.",
+			get = "IsShowMenuOnStart",
+			set = "ToggleShowMenuOnStart",
+			order = 2,
+			width = "full"
+		}, 
+		]]
+		showWelcomeOnStart ={
+			type = "toggle",
+			name = "Show Welcome at Start",
+			desc = "Toggle to show Welcomewindow at start.",
+			get = "IsShowWelcomeOnStart",
+			set = "ToggleShowWelcomeOnStart",
+			width = "full",
+			order = 2,
+		},
+		showOptionsOnStart = {
+			type ="toggle",
+			name ="Show options menu on Start",
+			desc = "Toggle to show addon options at start.",
+			get = "IsShowOptionOnStart",
+			set = "ToggleShowOptionMenuOnStart",
+			order = 3,
+			width = "full"
+		},
+		showHelpOnStart = {
+			type ="toggle",
+			name ="Show help window on Start",
+			desc = "Toggle to show addon help at start.",
+			get = "IsShowHelpOnStart",
+			set = "ToggleShowHelpOnStart",
+			order = 4,
+			width = "full"
+		},
+		generalHeaderHelp = {
+			type = "header",
+			name = "Need Help?",
+			desc = "Do you need help?",
+			order = 5
+		},
+		generalHelpDesc = {
+			type = "description",
+			order =6,
+			name = "If you want a list with chatcommands and features or faceing bugs or some other trouble just click here!",
+			width = "full",
+			fontSize = "medium"
+			
+		},
+		generalHelpButton = {
+			type = "execute",
+			order = 7,
+			name = "Show Help",
+			func = "OpenHelpFrame"
+		}
+	}
+}
+
+
 local options = {
 	name ="GuildAssist3 Options",
 	handler = GuildAssist,
 	type = "group",
 	args = {
-		generalSetting = {
-		name ="General Settings",
-		order = 0,
-		handler = GuildAssist,
-		desc = "Here you can setup the Discord Automatic settings.",
-		type = "group",
-		width = "full",
-		args = {
-			generalHeader = {
-				type = "header",
-				name = "General Options",
-				desc = "Common GuildAssist options.",
-				order = 0
-			},
-			generalDesc = {
-				type = "description",
-				order = 1,
-				name = "General options for GuildAssist Addon.",
-				fontSize = "medium"
-			},
-			showMenuOnStart = {
-				type ="toggle",
-				name ="Show menu on Start",
-				desc = "Toggle to show addon menu at start.",
-				get = "IsShowMenuOnStart",
-				set = "ToggleShowMenuOnStart",
-				order = 2,
-				width = "full"
-			},
-			showOptionsOnStart = {
-				type ="toggle",
-				name ="Show options menu on Start",
-				desc = "Toggle to show addon options at start.",
-				get = "IsShowOptionOnStart",
-				set = "ToggleShowOptionMenuOnStart",
-				order = 3,
-				width = "full"
-			},
-			showHelpOnStart = {
-				type ="toggle",
-				name ="Show help window on Start",
-				desc = "Toggle to show addon help at start.",
-				get = "IsShowHelpOnStart",
-				set = "ToggleShowHelpOnStart",
-				order = 4,
-				width = "full"
-			},
-			generalHeaderHelp = {
-				type = "header",
-				name = "Need Help?",
-				desc = "Do you need help?",
-				order = 5
-			},
-			generalHelpDesc = {
-				type = "description",
-				order =6,
-				name = "If you want a list with chatcommands and features or faceing bugs or some other trouble just click here!",
-				width = "full",
-				fontSize = "medium"
-				
-			},
-			generalHelpButton = {
-				type = "execute",
-				order = 7,
-				name = "Show Help",
-				func = "OpenHelpFrame"
-			}
-		}},
+		generalSetting = generalSettings,
 		gratulationSetting = {
 		name ="Gratulation Settings",
 		order = 1,
@@ -331,8 +345,16 @@ local options = {
 		}},
 	},
 	}
-
+	--:UI-Achievement-WoodBorder
 -- setter and getter functions for options
+function GuildAssist:ToggleShowWelcomeOnStart(info, value)
+	self.db.profile.showWelcomeOnStart = value
+	self:Print("Show Welcomemessage at Start set to: ", value)
+end
+
+function GuildAssist:IsShowWelcomeOnStart(info)
+	return self.db.profile.showWelcomeOnStart
+end
 function GuildAssist:SendTestGratulation()
 	self:Print("Your Gratulationmessage:")
 	if (self.db.profile.sendAsciiTruck or self.db.profile.sendAsciiHeart)then
@@ -367,8 +389,6 @@ function GuildAssist:TestSendGZHeart()
 	self:Print(" ¸.•´..... deinen Erfolg!")
 	self:Print("(¸¸.•¨¯`•»")
 end
-
-
 
 function GuildAssist:SendGZTruck()
     C_Timer.After(0.15, function()
@@ -413,8 +433,6 @@ end
 function GuildAssist:IsShowHelpOnStart(info)
 	return self.db.profile.showHelpOnStart
 end
-
--- toggle ascii heart
 
 function GuildAssist:IsSendAsciiHeart(info)
 	return self.db.profile.sendAsciiHeart
@@ -560,20 +578,22 @@ function GuildAssist:OnInitialize()
 	-- register Options menu
 	AConfig:RegisterOptionsTable("GuildAssist_options", options)
 	self.optionsFrame = AConfigDialog:AddToBlizOptions("GuildAssist_options", "GuildAssist3")
+
+	-- register minimapbutton 
 	if LDB then
 		local icon = LDB:NewDataObject("GuildAssistDB", {
 		type = "launcher",
 		text = "GuildAssist",
 		icon = "Interface\\Icons\\inv_misc_enggizmos_27",
 		OnClick = function(_, button)
-			if button == "RightButton" then
+			if button == "RightButton" and not IsShiftKeyDown() then
 				if (GuildAssist.ui.help:IsShown() == false) then
 					GuildAssist.ui.help = GA_CreateHelpFrame()
 				else
 					GuildAssist.ui.help:Hide()
 				end
 			end
-			if button == "LeftButton" then
+			if button == "LeftButton" and not IsShiftKeyDown() then
 				if (_G.InterfaceOptionsFrame:IsShown() == false) then
 					_G.InterfaceOptionsFrame_OpenToCategory(GuildAssist.optionsFrame)
 					_G.InterfaceOptionsFrame_OpenToCategory(GuildAssist.optionsFrame)
@@ -582,15 +602,35 @@ function GuildAssist:OnInitialize()
 					_G.InterfaceOptionsFrame:Hide()
 				end
 			end
+			if(button == "LeftButton" and IsShiftKeyDown()) then
+				if (self.db.profile.sendAutoGratulation) then
+					self.db.profile.sendAutoGratulation = false
+					GuildAssist:ToggleAutoGratulation(_, false)
+				else
+					self.db.profile.sendAutoGratulation = true
+					GuildAssist:ToggleAutoGratulation(_, true)
+				end
+			end
+			if(button == "RightButton" and IsShiftKeyDown()) then
+				if (self.db.profile.sendAutoDiscord) then
+					self.db.profile.sendAutoDiscord = false
+					GuildAssist:ToggleSendAutoDiscord(_,false)
+				else
+					self.db.profile.sendAutoDiscord = true
+					GuildAssist:ToggleSendAutoDiscord(_,true)
+				end
+			end
 		end,
 		OnTooltipShow = function(tt)
 			tt:AddLine("GuildAssist3")
 			tt:AddLine("|cffffff00LeftClick|r to open the GuildAssist Settings.")
 			tt:AddLine("|cffffff00RightClick|r to open the GuildAssist Help.")
-			end,
+			tt:AddLine("|cffffff00LeftClick + [Shift]|r to enable/disable Auto-Gratulation.")
+			tt:AddLine("|cffffff00RightClick + [Shift]|r to enable/disable Auto-Discord.")
+		end,
 		})
 		if LDBIcon then
-			LDBIcon:Register("GuildAssist3", icon, self.db.profile.minimap) -- PC_MinimapPos is a SavedVariable which is set to 90 as default
+			LDBIcon:Register("GuildAssist3", icon, self.db.profile.minimap)
 		end
 	end
 	
@@ -621,11 +661,28 @@ function GuildAssist:OnInitialize()
 		_G.InterfaceOptionsFrame_OpenToCategory(GuildAssist.optionsFrame)
 	end
 	
+	self.ui.welcomeFrame = GA_CreateWelcomeFrame()
 	if (self.db.profile.firstStart) then
 		self.db.profile.firstStart = false;
-		self.ui.welcomeFrame = GA_CreateWelcomeFrame()
 	end
-
+	if (not self.db.profile.firstStart and not self.db.profile.showWelcomeOnStart) then
+		self.ui.welcomeFrame:Hide()
+	end
+	------------ Debugge Development Settings -----------
+	--self.ui.calendar = GA_CreateCalender()
+	
+	_G.PVEFrame:SetScript("OnShow",function (self, ...)
+		if not GuildAssist.ui.tracker:IsShown() then
+			GuildAssist.ui.tracker:Show()
+		else
+			return
+		end
+	end)
+	_G.PVEFrame:SetScript("OnHide", function (self, ...)
+		if GuildAssist.ui.tracker:IsShown() then
+			GuildAssist.ui.tracker:Hide()
+		end
+	end)
 end
 
 function GuildAssist:OnEnable()
@@ -633,12 +690,10 @@ function GuildAssist:OnEnable()
 	local player, realm = UnitFullName("player")
 	local full_name = player.."-"..realm
 	self.db:SetProfile(full_name)
-	self:Print("GuildAssist successfully loaded!")
+	self:Print("GuildAssist |cff00ff00successfully|r loaded!\n\r Welcome back |cffb620e8"..UnitName("player").."|r")
 	self:RegisterEvent("ZONE_CHANGED")
 	self:RegisterEvent("CHAT_MSG_GUILD_ACHIEVEMENT")
 	self:RegisterEvent("CHAT_MSG_GUILD")
-
-
 	    
 end
 
@@ -656,7 +711,7 @@ end
 
 function GuildAssist:CHAT_MSG_GUILD(arg1,arg2,...)
 	local _ = ...;
-	if (arg1 == "!discord" and not discordSend) then
+	if (arg2== "!discord" and not discordSend) then
 		if(self.db.profile.discordmsg ~= "No Discord set." and self.db.profile.sendAutoDiscord) then
 			discordSend = true
 			C_Timer.After(self.db.profile.waitTimeDiscord, function ()
@@ -674,7 +729,7 @@ end
 
 function GuildAssist:CHAT_MSG_GUILD_ACHIEVEMENT(args, ...)
 	local arg1, arg2  = ...;
-	if (self.db.profile.IsSendAutoGratulation and not gratulationSend )then
+	if (self.db.profile.sendAutoGratulation and not gratulationSend )then
 		if(self.db.profile.sendAsciiTruck or self.db.profile.sendAsciiHeart)then
 			if (self.db.profile.sendAsciiHeart )then
 				gratulationSend = true
@@ -693,19 +748,21 @@ function GuildAssist:CHAT_MSG_GUILD_ACHIEVEMENT(args, ...)
 					gratulationSend = false
 				end)
 			end
-		elseif (( not self.db.profile.sendAsciiHeart and not self.db.profile.sendAsciiTruck ) and self.db.profile.gratulationMessage ~= "No Gratulation set.")then
-			gratulationSend = true
-			C_Timer.After(self.db.profile.waitTimeGratulation, function ()
-				SendChatMessage(GuildAssist:GetGratulationMessage(), "GUILD")
-			end)
-			C_Timer.After(2, function ()
-				gratulationSend = false
-			end)
+		elseif ( not self.db.profile.sendAsciiHeart and not self.db.profile.sendAsciiTruck ) and self.db.profile.sendAutoGratulation and not gratulationSend then
+			if self.db.profile.gratulationMessage ~= "No Gratulation set." then
+				gratulationSend = true
+				C_Timer.After(self.db.profile.waitTimeGratulation, function ()
+					SendChatMessage(GuildAssist:GetGratulationMessage(), "GUILD")
+				end)
+				C_Timer.After(2, function ()
+					gratulationSend = false
+				end)
+			else
+				return self:Print("Cant send a empty Gratulation, please set one or use a premade ASCii Image!")
+			end
 		else
-			return
+			return self:Print("|cffff0000Something with Ascii or Gratulation Message went wrong!|r")
 		end
-	else
-		return
 	end
 end
 
@@ -750,7 +807,8 @@ function GuildAssist:ChatCommand(input)
 		if self.ui.tracker:IsShown() then
 			self.ui.tracker:Hide()
 		else
-			self.ui.tracker = GA_CreateInstanceTracker()
+			GA_ColorTextDungeon(self.ui.tracker)
+			self.ui.tracker:Show()
 		end
 	elseif input:trim() == "config" then
 		if _G.InterfaceOptionsFrame:IsShown() then
