@@ -765,8 +765,8 @@ function GuildAssist:OnInitialize()
 		end
 	end)
 
+	self.ui.patchnotes = GA_CreateUpdateFrame()
 	if (self.db.profile.newAddonPatch) then
-		self.ui.patchnotes = GA_CreateUpdateFrame()
 		self.db.profile.newAddonPatch = false
 	end
 	------------ Debugge Development Settings -----------
@@ -778,7 +778,6 @@ function GuildAssist:OnEnable()
 	-- Called when the addon is enabled / Game is started and loaded
 	local player, realm = UnitFullName("player")
 	local full_name = player.."-"..realm
-	self.db:SetProfile(full_name)
 	self:Print("GuildAssist |cff00ff00successfully|r loaded!\n\r Welcome back |cffb620e8"..UnitName("player").."|r")
 	self:RegisterEvent("ZONE_CHANGED")
 	self:RegisterEvent("CHAT_MSG_GUILD_ACHIEVEMENT")
