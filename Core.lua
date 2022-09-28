@@ -26,6 +26,7 @@ end
 local defaults = {
 	profile = {
 		firstStart= true,
+		newAddonPatch = true,
 		playerName = UnitName("player"),
 		message = "Welcome to GuildAssist3",
 		showOnScreen = false,
@@ -35,6 +36,8 @@ local defaults = {
 		showHelpOnStart = false,
 		showWelcomeOnStart = false,
 		showDungeontracker = true,
+		isAutoInvite = false,
+		inviteWakeword = "No Wakeword set.",
 		discordmsg = "No Discord set.",
 		gratulationMessage = "No Gratulation set.",
 		sendAutoGratulation = false,
@@ -130,7 +133,7 @@ local generalSettings = {
 	}
 }
 local trackerSettings = {
-	order = 3,
+	order = 4,
 	name ="Dungeontracker Settings",
 	handler = GuildAssist,
 	desc = "Here you can setup the Dungeontracker settings.",
@@ -159,6 +162,48 @@ local trackerSettings = {
 			get = "IsShowDungeonTracker",
 			width = "full"
 		}
+	}
+}
+
+local inviteSettings = {
+	order = 3,
+	name ="Auto-Invite Settings",
+	handler = GuildAssist,
+	desc = "Here you can setup the Auto-Invite settings.",
+	type = "group",
+	width = "full",
+	args = {
+		inviteHeader ={
+			name = "Auto-Invite Settings",
+			order = 0,
+			type = "header",
+			width = "full"
+		},
+		inviteDesc = {
+			name = "Here you can adjust all settings for the Auto-Invite plugin.",
+			order = 1,
+			type = "description",
+			fontSize = "medium",
+			width = "full"
+		},
+		wakeWord = {
+			name = "Enter Set Gratulationmessage",
+			order = 2,
+			type = "input",
+			set = "SetInviteWakeword",
+			get = "GetInviteWakeword",
+			width = "full"
+		},
+
+		inviteToggle = {
+			name = "Toggle Auto-Invite",
+			desc = "Toggle the Auto-Invite plugin",
+			order = 6,
+			type = "toggle",
+			set = "ToggleAutoInvite",
+			get = "IsAutoInvite",
+			width = "full"
+		},
 	}
 }
 
@@ -353,11 +398,31 @@ local options = {
 					func = "SendTestDiscord",
 				},
 		}},
+--		inviteSetting = inviteSettings,
 		trackerSetting = trackerSettings,
 	},
 	}
 	--:UI-Achievement-WoodBorder
 -- setter and getter functions for options
+function GuildAssist:GetInviteWakeword(info)
+	return self.db.profile.inviteWakeword
+end
+
+function GuildAssist:SetInviteWakeword(info, value)
+	self.db.profile.inviteWakeword = value
+	self:Print("Auto-Invite Wakeword is set to: ", value)
+	
+end
+
+function GuildAssist:IsAutoInvite(info)
+	return self.db.profile.isAutoInvite
+end
+
+function GuildAssist:ToggleAutoInvite(info, value)
+	self.db.profile.isAutoInvite = value
+	self:Print("Auto-Invite is set to: ", value)
+end
+
 function GuildAssist:ToggleShowDungeontracker(info, value)
 	self.db.profile.showDungeontracker = value
 	self:Print("Show Dungeontracker set to: ", value)
@@ -690,10 +755,8 @@ function GuildAssist:OnInitialize()
 	end
 	-- enable dungeon tracker on LFG frame show
 	_G.PVEFrame:SetScript("OnShow",function (self, ...)
-		if not GuildAssist.ui.tracker:IsShown() and self.db.profile.showDungeontracker then
+		if not GuildAssist.ui.tracker:IsShown() and GuildAssist.db.profile.showDungeontracker then
 			GuildAssist.ui.tracker:Show()
-		else
-			return
 		end
 	end)
 	_G.PVEFrame:SetScript("OnHide", function (self, ...)
@@ -701,6 +764,11 @@ function GuildAssist:OnInitialize()
 			GuildAssist.ui.tracker:Hide()
 		end
 	end)
+
+	if (self.db.profile.newAddonPatch) then
+		self.ui.patchnotes = GA_CreateUpdateFrame()
+		self.db.profile.newAddonPatch = false
+	end
 	------------ Debugge Development Settings -----------
 	--self.ui.calendar = GA_CreateCalender()
 	

@@ -27,7 +27,16 @@ _G.GA_HelpStringTable = {
     },
 }
 
-
+_G.GA_Patchnotes = {
+    note2 ="- fix not saving minimap position between gamesessions",
+    note3 ="- fix not sending gratulation message",
+    note4 ="- Add toggle to disable/enable show welcome message at start",
+    note5 ="- Add profile management to save settings for character/account",
+    note6 ="- Create a calender plugin template frame",
+    note7 ="- add Rightclick + Shift / LeftClick + Shift for enable/disable discord automatic / gratulation automatic to minimapbutton",
+    note8 ="- create changlog window",
+    note9 ="- update alignment from some text",
+}
 _G.GA_HelpGratulation = {
     help2 = "This feature will send automaticly a gratulation message if a guildmember earn a achievment.",
     help3 = "To use the automatic Gratulation feature just enter your gratulation message into the Textbox and check the \"Send automatic Gratulation\" chechbox.",

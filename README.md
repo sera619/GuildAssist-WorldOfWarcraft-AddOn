@@ -38,11 +38,13 @@
 v4.1.8 (Release Update)
 
 > - fix not saving minimap position between gamesessions
+> - fix not sending gratulation message
 > - Add toggle to disable/enable show welcome message at start
+> - add toggle to enable/disable dungeontracker
 > - Add profile management to save settings for character/account
 > - Create a calender plugin template frame
 > - add Rightclick + Shift / LeftClick + Shift for enable/disable discord automatic / gratulation automatic to minimapbutton
-> - disable calendar ui
+> - create changlog window
 > - update alignment from some text
 
 v4.1.6 (Release Update)

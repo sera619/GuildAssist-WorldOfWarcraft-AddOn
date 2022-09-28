@@ -1,13 +1,46 @@
 local _, GuildAssist = ...; 
 local AceGUI = LibStub("AceGUI-3.0")
 local addOnVersion = "4.1.8"
-local branding = "GuildAssist3 v"..addOnVersion.." | Addon Design & Development © S3R43o3 2022"
+local branding = "GuildAssist3 v"..addOnVersion.." | Design & Development © S3R43o3 2022"
 
 local menuButton = "GameMenuButtonTemplate";
 local basicFrame = "BasicFrameTemplateWithInset";
 local largeGameFont = "GameFontNormalLarge";
 local largeHighlightFont = "GameFontHighlightLarge";
 local transparentFrame = "TooltipBackdropTemplate";
+local headFont = "Fonts\\MORPHEUS.TTF"
+
+-- Update frame
+function GA_CreateUpdateFrame()
+    local rootFrame = AceGUI:Create("Frame")
+    rootFrame:SetTitle("GuildAssist3 Patchnotes")
+    rootFrame:SetHeight(300)
+    rootFrame:SetWidth(600)
+    rootFrame:SetLayout("Flow")
+    rootFrame:SetStatusText(branding)
+
+    local header = AceGUI:Create("Label")
+    header:SetFont(headFont, 30, "THINOUTLINE")
+    header:SetColor(255, 0, 0)
+    header:SetFullWidth(true)
+    header:SetText("Patchnotes Version 4.1.8")
+    header:SetJustifyH("CENTER")
+    rootFrame:AddChild(header)
+
+    for k, v in pairs(_G.GA_Patchnotes) do
+        local note = AceGUI:Create("Label")
+        note:SetFont("Fonts\\FRIZQT__.TTF", 16, "THINOUTLINE")
+        
+        note:SetText(v)
+        note:SetFullWidth(true)
+        rootFrame:AddChild(note)
+        
+    end
+
+
+    return rootFrame
+end
+
 
 -- function that draws the widgets for the first tab
 local function DrawGroup1(container)
@@ -223,7 +256,6 @@ function GA_CreateHelpFrame()
     return rootFrame
 end
 
-
 function GA_CreateWelcomeFrame()
     local rootFrame = AceGUI:Create("Frame","welcomeFrame")
     rootFrame:SetParent("UIParent")
@@ -261,6 +293,7 @@ function GA_CreateWelcomeFrame()
         rootFrame:AddChild(text)
     return rootFrame
 end
+
 
 
 function GA_CreateMenu()
