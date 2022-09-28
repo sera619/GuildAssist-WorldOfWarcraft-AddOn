@@ -33,7 +33,7 @@
 
 ## Changelog ##
 
-v4.1.8 (Release Update)
+v4.1.9 (Release Update)
 
 > - fix not saving minimap position between gamesessions
 > - fix not sending gratulation message
