@@ -1,6 +1,6 @@
 local _, GuildAssist = ...; 
 local AceGUI = LibStub("AceGUI-3.0")
-local addOnVersion = "4.1.6"
+local addOnVersion = "4.1.8"
 local branding = "GuildAssist3 v"..addOnVersion.." | Addon Design & Development © S3R43o3 2022"
 
 local menuButton = "GameMenuButtonTemplate";
@@ -15,7 +15,6 @@ local function DrawGroup1(container)
     desc:SetText("This is Tab 1")
     desc:SetFullWidth(true)
     container:AddChild(desc)
-    
     local button = AceGUI:Create("Button")
     button:SetText("Tab 1 Button")
     button:SetWidth(200)
@@ -28,7 +27,6 @@ local function DrawGroup2(container)
     desc:SetText("This is Tab 2")
     desc:SetFullWidth(true)
     container:AddChild(desc)
-
     local button = AceGUI:Create("Button")
     button:SetText("Tab 2 Button")
     button:SetWidth(200)
@@ -77,6 +75,8 @@ function GA_CreateHelpFrame()
     commandHeader:SetFont("Fonts\\MORPHEUS.TTF", 22, "THICKOUTLINE")
     commandHeader:SetColor(195, 0, 0);
     commandHeader:SetText("Chat Commands")
+    commandHeader:SetJustifyH("CENTER")
+
     commandContainer:SetFullWidth(true)
 
     commandContainer:AddChild(commandHeader)
@@ -104,6 +104,7 @@ function GA_CreateHelpFrame()
     gratulationHeader:SetPoint("CENTER")
     gratulationHeader:SetFont("Fonts\\MORPHEUS.TTF", 22, "THICKOUTLINE")
     gratulationHeader:SetColor(195, 0, 0);
+    gratulationHeader:SetJustifyH("CENTER")
     gratulationHeader:SetText("Gratulation Automatic")
     gratulationHeader:SetFullWidth(true)
     
@@ -128,6 +129,7 @@ function GA_CreateHelpFrame()
     discordHeader:SetPoint("CENTER")
     discordHeader:SetFont("Fonts\\MORPHEUS.TTF", 22, "THICKOUTLINE")
     discordHeader:SetColor(195, 0, 0);
+    discordHeader:SetJustifyH("CENTER")
     discordHeader:SetText("Discord/Teamspeak Automatic")
 
     discordContainer:AddChild(discordHeader)
@@ -151,6 +153,9 @@ function GA_CreateHelpFrame()
     trackerHeader:SetPoint("CENTER")
     trackerHeader:SetFont("Fonts\\MORPHEUS.TTF", 22, "THICKOUTLINE")
     trackerHeader:SetColor(195, 0, 0);
+    
+    trackerHeader:SetJustifyH("CENTER")
+
     trackerHeader:SetText("Dungeon Tracker")
 
     trackerContainer:AddChild(trackerHeader)
@@ -176,6 +181,7 @@ function GA_CreateHelpFrame()
     generalhelpHeader:SetPoint("CENTER")
     generalhelpHeader:SetFont("Fonts\\MORPHEUS.TTF", 22, "THICKOUTLINE")
     generalhelpHeader:SetColor(195, 0, 0);
+    generalhelpHeader:SetJustifyH("CENTER")
     generalhelpHeader:SetText("General Help")
 
     generalhelpContainer:AddChild(generalhelpHeader)
@@ -219,38 +225,40 @@ end
 
 
 function GA_CreateWelcomeFrame()
-    local rootFrame = AceGUI:Create("Frame")
+    local rootFrame = AceGUI:Create("Frame","welcomeFrame")
+    rootFrame:SetParent("UIParent")
     rootFrame:SetTitle("Welcome to GuildAssist3")
     rootFrame:SetStatusText(branding)
     rootFrame:SetWidth(700)
     rootFrame:SetHeight(250)
-    rootFrame:SetLayout("Flow")
     rootFrame:SetFullWidth(true)
+    rootFrame:SetFullHeight(true)
+    rootFrame:SetLayout("Flow")
     rootFrame:SetCallback("OnClose", function (widget) 
         AceGUI:Release(widget)
     end)
-
-
-
+    
     local header = AceGUI:Create("Label")
 
-    header:SetFont("Fonts\\MORPHEUS.TTF", 32, "THICKOUTLINE")
+    header:SetFont("Fonts\\MORPHEUS.TTF", 44, "THINOUTLINE")
+    header:ClearAllPoints()
+    header:SetRelativeWidth(1)
     header:SetColor(195, 0, 0);
     header:SetText("Welcome")
-    header:SetFullWidth(true)
-    header:SetPoint("CENTER")
+    header:SetJustifyH("CENTER")
     rootFrame:AddChild(header)
-    
+    local full_string = ""
     
     for k, v in pairs(GA_WelcomeStringTable) do
+        full_string = full_string..v
+    end
         local text = AceGUI:Create("Label")
         text:SetFont("Fonts\\ARIALN.TTF", 16, "OUTLINE")
-        text:SetColor(255, 205, 0)
-        text:SetFullWidth(true)
-        text:SetText(v)
+        text:SetRelativeWidth(1)
         text:SetPoint("CENTER")
+        text:SetJustifyH("CENTER")
+        text:SetText(full_string)
         rootFrame:AddChild(text)
-    end
     return rootFrame
 end
 
@@ -292,7 +300,7 @@ end
 
 function GA_CreateInstanceTracker()
     -- base frame
-    local uiFrame = CreateFrame("Frame", "GA_CreateInstanceTracker", _G.PVEFrame, "UIPanelDialogTemplate");
+    local uiFrame = CreateFrame("Frame", "GA_CreateInstanceTracker", _G.UIParent, "UIPanelDialogTemplate");
     --[[    
         2291 	De Other Side
         2287 	Halls of Atonement
@@ -379,6 +387,7 @@ function GA_CreateInstanceTracker()
     uiFrame.mistOfTirneScithe:SetTextColor(0, 155, 0);
     uiFrame.spiresOfAscension:SetTextColor(0, 155, 0);
 
+    uiFrame:Hide()
     return uiFrame
 end
 
