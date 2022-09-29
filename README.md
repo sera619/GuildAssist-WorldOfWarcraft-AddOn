@@ -34,12 +34,18 @@
 
 ## Changelog ##
 
+v4.2.6.2 (Hotfix Update)
+
+> - remove debugg chatoutput
+> - fix auto gratulation send to your own achievments
+
 v4.2.6 (Release Update)
 
 > - New Feature: Auto-Partyinvite added
 > - fix some misspells
 > - Add new help section for autoinvite plugin
 > - add optionsection for auto-invite
+
 
 v4.1.9 (Release Update)
 

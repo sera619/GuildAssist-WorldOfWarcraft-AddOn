@@ -14,8 +14,6 @@ def packageAddon():
 
     files = ["embeds.xml", "tables.lua", "UI_Templates.lua", "Core.lua", "config.lua", "GuildAssist3.toc", "README.md"]
     folders = ["Libs", "img"]
-    #addon_path = "C:\\Games\World of Warcraft\\_retail_\\Interface\\AddOns\\GuildAssist3\\"
-    #package_path = "C:\\Games\World of Warcraft\\_retail_\\Interface\AddOns\\GuildAssist3\\packages\\"
     os.system("cls")
     print("\nGuildAssist3 Addon Builder\n")
     version = input("Enter new Version: ")

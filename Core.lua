@@ -533,9 +533,13 @@ end
 function GuildAssist:ToggleAutoInvite(info, value)
 	self.db.profile.isAutoInvite = value
 	self:Print("Auto-Invite is set to: ", value)
-	if (self.db.profile.isSendInviteMessage and self.db.profile.inviteMessageStart ~= "No Startmessage set.") then
-		SendChatMessage(self.db.profile.inviteMessageStart, "SAY")
+	if (self.db.profile.isSendInviteMessage and self.db.profile.inviteMessageStart ~= "No Startmessage set.") and value == true then
+		SendChatMessage(self.db.profile.inviteMessageStart, "GUILD")
 	end
+	if (self.db.profile.isSendInviteMessage and self.db.profile.inviteMessageStop ~= "No Stopmessage set.") and value == false then
+		SendChatMessage(self.db.profile.inviteMessageStop, "GUILD")
+	end
+
 end
 
 function GuildAssist:ToggleShowDungeontracker(info, value)
@@ -885,6 +889,11 @@ function GuildAssist:OnInitialize()
 		self.ui.patchnotes = GA_CreateUpdateFrame()
 		self.db.profile.newAddonPatch2 = false
 	end
+
+	if self.db.profile.isAutoInvite then
+		self.db.profile.isAutoInvite = false
+		GuildAssist:ToggleAutoInvite(_, false)
+	end
 	------------ Debugge Development Settings -----------
 	--self.ui.calendar = GA_CreateCalender()
 	
@@ -984,8 +993,12 @@ end
 
 function GuildAssist:CHAT_MSG_GUILD_ACHIEVEMENT(text, playerName, ...)
 	local arg4, arg5,_  = ...;
-	self:Print("playername: ", playerName)
-	self:Print("text: ", text)
+	local player = arg4
+	local myChar, myrealm = UnitFullName('player')
+	myChar = myChar.."-"..myrealm
+	if player == myChar then
+		return
+	end
 	if (self.db.profile.sendAutoGratulation and not gratulationSend )then
 		if(self.db.profile.sendAsciiTruck or self.db.profile.sendAsciiHeart)then
 			if (self.db.profile.sendAsciiHeart )then
