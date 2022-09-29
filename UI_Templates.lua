@@ -47,25 +47,23 @@ function GA_CreateCalender()
     calendarHeader:SetFullWidth(true)
     calendarHeader:SetJustifyH("CENTER")
     calendarHeader:SetText("Event Calender")
-    -- add headder    
     
     -- calendar day container
     local dayContainer = AceGUI:Create("SimpleGroup")
     dayContainer:SetLayout("Flow")
     dayContainer:SetFullWidth(true)
     dayContainer:SetFullHeight(true)
+    -- add headder    
     dayContainer:AddChild(calendarHeader)
 
-    
     local i = 1
     repeat
         local dayFrame = CreateCalenderDayButton("Tag "..tostring(i), "Text nummer: "..tostring(i))
-        
+
         dayContainer:AddChild(dayFrame)
         i = i + 1
     until i == 32
-    
-    
+
     rootFrame:AddChild(dayContainer)
 
     return rootFrame

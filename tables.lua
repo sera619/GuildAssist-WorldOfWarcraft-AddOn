@@ -28,14 +28,13 @@ _G.GA_HelpStringTable = {
 }
 
 _G.GA_Patchnotes = {
-    note2 ="- fix not saving minimap position between gamesessions",
-    note3 ="- fix not sending gratulation message",
-    note4 ="- Add toggle to disable/enable show welcome message at start",
-    note5 ="- Add profile management to save settings for character/account",
-    note6 ="- Create a calender plugin template frame",
-    note7 ="- add Rightclick + Shift / LeftClick + Shift for enable/disable discord automatic / gratulation automatic to minimapbutton",
-    note8 ="- create changlog window",
-    note9 ="- update alignment from some text",
+    n1 ="- Add new Feature Auto-Invite",
+    n2 ="This new feature allows you to invite guild members in your a group with a keyword that you have created. You can choose between the group sizes 5 man, 10 man, 20 man, 40 man. As soon as the maximum is reached, the plugin switches off automatically.",
+    n3 ="Check the Addon help for more details how to use and setup.",
+    n4= "- Fix some misspells",
+    n5 = "- Add new help section for autoinvite plugin",
+    n6 = "- Add optionsection for auto-invite",
+ 
 }
 _G.GA_HelpGratulation = {
     help2 = "This feature will send automaticly a gratulation message if a guildmember earn a achievment.",
@@ -59,13 +58,19 @@ _G.GA_HelpCustom ={
     help2 = "If you facing any bug oder have some other trouble with the addon also if you have any suggestion, please DONT BE SHY and contact me instantly, i will not bite!",
     help3 = "Any constructive feedback are welcome! This helps me to make the addon comfortable. THANK YOU!"
 }
+
+_G.GA_HelpInvite = {
+    help2 = "The Auto-Invite Plugin will invite player they whisper you with the keyword automaticly in your group.",
+    help3 = "To use enter a keyword in the optionsmenu and check the Auto-Invite Toggle checkbox. You can also adjust the maximum group size before the Addon stops invite player.",
+    help4 = "If you want you can set a announcement message that would be sended to notice your guild when you enable/disable the auto-invite.",
+    help5 = "You can choose between multiple group sizes and as limitation only guildmembers of your guild would be invited, more options are planned.",
+}
 _G.GA_WelcomeStringTable ={
     welcome2 = "Hello and welcome to GuildAssist3! |nThis is my very first World of Warcraft Addon that I code at all. So dont be that hard to me!",
     welcome3 = "This Addon currently havent much features but in future it is planned to be a interactive raid/dungeon calender with discordbot synchronization.",
     welcome4 = "|nFor this it also exist a Discord Bot that is coded by my own too. |nThis is a very early Version at all if you facing any bugs or some other trouble.",
     welcome5 = "Please contact me \"TrickOnFlick#2943\" on Battle.net, Thank you!",
     welcome6 = "|n|cffaa0000Please check the Interface Options Menu to setup GuildAssist3.|r"
-
 }
 
 _G.DungeonNamesDE = {

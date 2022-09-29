@@ -1,12 +1,13 @@
 # GUILDASSIST WoW AddOn #
 
-> A simple little addon to send automated guild chat messages when a guild member gets an achievement. You can choose between your own created message or predefined ASCII images.
+> A Addon that will simplifly some commen guildinteractions. As Example the addon can send gratulatioonmessaeges to guildchannel automaticly if a guildmember earns a achievment. You can choose between your own created message or predefined ASCII images.
 > Also save Discord/Teamspeak invitation links and send them to the guild chat via chat command "!discord" if activated.
-> The whole Project is now on Version 4.1.9 I refactor/redesign much like everything. As example the whole Addon can now be configured in the interface options from blizzad like all common Addons.
+> The whole Project is now on Version 4.2.6 I refactor/redesign much like everything. As example the whole Addon can now be configured in the interface options from blizzad like all common Addons.
 > For more information got to [Changelog](#changelog)
 
 ## Features ##
 
+> - Automatic partyinvitation from guildmembers if whisper you with a keyword
 > - allows you to use the keyboard arrow keys to scroll through your sent message history.
 > - Set the time in seconds between achieving the achievement and sending the congratulation message.
 > - Shows your currently locked mythic +0 dungeons as a compact list above PVE window (if PVE window is open)
@@ -32,6 +33,13 @@
 ![Instance Tracker](img/GUI_tracker.png)
 
 ## Changelog ##
+
+v4.2.6 (Release Update)
+
+> - New Feature: Auto-Partyinvite added
+> - fix some misspells
+> - Add new help section for autoinvite plugin
+> - add optionsection for auto-invite
 
 v4.1.9 (Release Update)
 

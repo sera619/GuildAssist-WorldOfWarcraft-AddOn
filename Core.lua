@@ -1,4 +1,3 @@
-
 local _, GuildAssist = ...;
 local gratulationSend = false
 local discordSend = false
@@ -26,7 +25,7 @@ end
 local defaults = {
 	profile = {
 		firstStart= true,
-		newAddonPatch = true,
+		newAddonPatch2 = true,
 		playerName = UnitName("player"),
 		message = "Welcome to GuildAssist3",
 		showOnScreen = false,
@@ -37,7 +36,13 @@ local defaults = {
 		showWelcomeOnStart = false,
 		showDungeontracker = true,
 		isAutoInvite = false,
+		isSendInviteMessage = false,
+		inviteGrpSize = 5,
 		inviteWakeword = "No Wakeword set.",
+		inviteWakewordPrefix = "!",
+		inviteMessageStart = "No Startmessage set.",
+		inviteMessageStop = "No Stopmessage set.",
+		
 		discordmsg = "No Discord set.",
 		gratulationMessage = "No Gratulation set.",
 		sendAutoGratulation = false,
@@ -132,6 +137,7 @@ local generalSettings = {
 		}
 	}
 }
+
 local trackerSettings = {
 	order = 4,
 	name ="Dungeontracker Settings",
@@ -186,22 +192,82 @@ local inviteSettings = {
 			fontSize = "medium",
 			width = "full"
 		},
-		wakeWord = {
-			name = "Enter Set Gratulationmessage",
+		wakewordDesc = {
+			name = "(Notice the warkword will have allways the prefix \"!\" - !example)",
 			order = 2,
+			type = "description",
+			fontSize = "medium",
+			width = "full"
+		},
+		wakeWord = {
+			name = "Enter your wakeword here",
+			order = 3,
 			type = "input",
 			set = "SetInviteWakeword",
 			get = "GetInviteWakeword",
 			width = "full"
 		},
-
+		groupSize = {
+			name = "Auto invite Max Group sice",
+			values = {
+				[5] = "5 man",
+				[10] = "10 man",
+				[20] = "20 man",
+				[25] = "25 man",
+				[40] = "40 man",
+ 			},
+			set = "SetAutoInviteGrpSize",
+			get = "GetAutoInviteGrpSize",
+			style = "dropdown",
+			type ="select",
+			order = 4,
+		},
+		inviteSpacer2 = {
+			name = " ",
+			order = 5,
+			type = "description",
+			fontSize = "medium",
+			width = "full"
+		},
+		inviteStart = {
+			name = "Enter your start announcement message here",
+			order =6,
+			type = "input",
+			set = "SetInviteStartMsg",
+			get = "GetInviteStartMsg",
+			width = "full"
+		},
+		inviteStop = {
+			name = "Enter your stop announcement message here",
+			order =7,
+			type = "input",
+			set = "SetInviteStopMsg",
+			get = "GetInviteStopMsg",
+			width = "full"
+		},
+		inviteSpacer1 = {
+			name = " ",
+			order = 14,
+			type = "description",
+			fontSize = "medium",
+			width = "full"
+		},
 		inviteToggle = {
 			name = "Toggle Auto-Invite",
 			desc = "Toggle the Auto-Invite plugin",
-			order = 6,
+			order = 16,
 			type = "toggle",
 			set = "ToggleAutoInvite",
 			get = "IsAutoInvite",
+			width = "full"
+		},
+		inviteAnnounceToggle = {
+			name = "Toggle Send Announcement",
+			desc = "Toggle send Announcement to guildchatchannel",
+			order = 15,
+			type = "toggle",
+			set = "ToggleSendInviteMsg",
+			get = "IsSendInviteMsg",
 			width = "full"
 		},
 	}
@@ -398,14 +464,53 @@ local options = {
 					func = "SendTestDiscord",
 				},
 		}},
---		inviteSetting = inviteSettings,
+		inviteSetting = inviteSettings,
 		trackerSetting = trackerSettings,
 	},
 }
 	--:UI-Achievement-WoodBorder
 -- setter and getter functions for options
-function GuildAssist:GetInviteWakeword(info)
-	return self.db.profile.inviteWakeword
+
+function GuildAssist:SetInviteStartMsg(info, value)
+	if (value == "") then
+		value = "No Startmessage set."
+	end
+	self.db.profile.inviteMessageStart = value
+	self:Print("Auto-Invite Startmessage set to :", tostring(value))
+end
+
+function GuildAssist:GetInviteStartMsg(info)
+	return self.db.profile.inviteMessageStart
+end
+
+function GuildAssist:SetInviteStopMsg(info, value)
+	if (value == "") then
+		value = "No Stopmessage set."
+	end
+	self.db.profile.inviteMessageStop = value
+	self:Print("Auto-Invite Stopmessage set to :", tostring(value))
+end
+
+function GuildAssist:GetInviteStopMsg(info)
+	return self.db.profile.inviteMessageStop
+end
+
+function GuildAssist:IsSendInviteMsg(info)
+	return self.db.profile.isSendInviteMessage
+end
+
+function GuildAssist:ToggleSendInviteMsg(info, value)
+	self.db.profile.isSendInviteMessage = value
+	self:Print("Send Auto-Invite message set to :", value)
+end
+
+function GuildAssist:SetAutoInviteGrpSize(info, value)
+	self.db.profile.inviteGrpSize = tonumber(value)
+	self:Print("Auto-Invite max groupsize set to :",value)
+end
+
+function GuildAssist:GetAutoInviteGrpSize(info)
+	return self.db.profile.inviteGrpSize
 end
 
 function GuildAssist:SetInviteWakeword(info, value)
@@ -417,6 +522,10 @@ function GuildAssist:SetInviteWakeword(info, value)
 	
 end
 
+function GuildAssist:GetInviteWakeword(info)
+	return self.db.profile.inviteWakeword
+end
+
 function GuildAssist:IsAutoInvite(info)
 	return self.db.profile.isAutoInvite
 end
@@ -424,6 +533,9 @@ end
 function GuildAssist:ToggleAutoInvite(info, value)
 	self.db.profile.isAutoInvite = value
 	self:Print("Auto-Invite is set to: ", value)
+	if (self.db.profile.isSendInviteMessage and self.db.profile.inviteMessageStart ~= "No Startmessage set.") then
+		SendChatMessage(self.db.profile.inviteMessageStart, "SAY")
+	end
 end
 
 function GuildAssist:ToggleShowDungeontracker(info, value)
@@ -442,75 +554,6 @@ end
 
 function GuildAssist:IsShowWelcomeOnStart(info)
 	return self.db.profile.showWelcomeOnStart
-end
-function GuildAssist:SendTestGratulation()
-	self:Print("Your Gratulationmessage:")
-	if (self.db.profile.sendAsciiTruck or self.db.profile.sendAsciiHeart)then
-		if (self.db.profile.sendAsciiHeart)then
-			GuildAssist:TestSendGZHeart()
-		elseif(self.db.profile.sendAsciiTruck) then
-			GuildAssist:TestSendGZTruck()
-		end
-	else
-		self:Print(self.db.profile.gratulationMessage)
-	end
-	
-end
-
-function GuildAssist:SendTestDiscord()
-	if(self.db.profile.discordmsg ~= "No Discord set.")then
-		self:Print("Your Discordmessage:")
-		self:Print("[Discord] "..self.db.profile.discordmsg)
-	end
-end
-
-function GuildAssist:TestSendGZTruck()
-	self:Print("l*********************l ll_")
-	self:Print("l____GZ___TRUCK__l ll\'\'\'\'\'l\'\'\'\'\'___")
-	self:Print("l_________________l lll_l_l_l___l)")
-	self:Print("l(@)*(@)********(@)**(@)****(@)")
-end
-
-function GuildAssist:TestSendGZHeart()
-	self:Print("(¯`v´¯).. Alles")
-	self:Print(" `•.¸.•´. Gute zu")
-	self:Print(" ¸.•´..... deinen Erfolg!")
-	self:Print("(¸¸.•¨¯`•»")
-end
-
-function GuildAssist:SendGZTruck()
-    C_Timer.After(0.15, function()
-        SendChatMessage("l*********************l ll_", "GUILD");
-    end)
-    C_Timer.After(0.2, function()
-        SendChatMessage("l____GZ___TRUCK__l ll\'\'\'\'\'l\'\'\'\'\'___", "GUILD");
-    end)
-
-    C_Timer.After(0.25, function()
-        SendChatMessage("l_________________l lll_l_l_l___l)", "GUILD");
-    end)
-    C_Timer.After(0.3, function()
-        SendChatMessage("l(@)*(@)********(@)**(@)****(@)","GUILD");
-    end)
-end
-
-function GuildAssist:SendGZHeart()
-    C_Timer.After(0.1, function()
-        SendChatMessage("(¯`v´¯).. Alles", "GUILD")
-    end)
-    C_Timer.After(0.2, function()
-        SendChatMessage(" `•.¸.•´. Gute zu", "GUILD")
-    end)
-    C_Timer.After(0.3, function()
-        SendChatMessage(" ¸.•´..... deinen Erfolg!", "GUILD")
-    end)
-    C_Timer.After(0.4, function()
-        SendChatMessage("(¸¸.•¨¯`•»", "GUILD")
-    end)
-end
-
-function GuildAssist:OpenHelpFrame()
-	self.ui.help = GA_CreateHelpFrame()
 end
 
 function GuildAssist:ToggleShowHelpOnStart(info, value)
@@ -650,7 +693,77 @@ function GuildAssist:ToggleShowOnScreen(info, value)
     self.db.profile.showOnScreen = value
 	self:Print("Show on screen: ", value)
 end
+---------------------------------------------------------
 
+function GuildAssist:SendTestGratulation()
+	self:Print("Your Gratulationmessage:")
+	if (self.db.profile.sendAsciiTruck or self.db.profile.sendAsciiHeart)then
+		if (self.db.profile.sendAsciiHeart)then
+			GuildAssist:TestSendGZHeart()
+		elseif(self.db.profile.sendAsciiTruck) then
+			GuildAssist:TestSendGZTruck()
+		end
+	else
+		self:Print(self.db.profile.gratulationMessage)
+	end
+	
+end
+
+function GuildAssist:SendTestDiscord()
+	if(self.db.profile.discordmsg ~= "No Discord set.")then
+		self:Print("Your Discordmessage:")
+		self:Print("[Discord] "..self.db.profile.discordmsg)
+	end
+end
+
+function GuildAssist:TestSendGZTruck()
+	self:Print("l*********************l ll_")
+	self:Print("l____GZ___TRUCK__l ll\'\'\'\'\'l\'\'\'\'\'___")
+	self:Print("l_________________l lll_l_l_l___l)")
+	self:Print("l(@)*(@)********(@)**(@)****(@)")
+end
+
+function GuildAssist:TestSendGZHeart()
+	self:Print("(¯`v´¯).. Alles")
+	self:Print(" `•.¸.•´. Gute zu")
+	self:Print(" ¸.•´..... deinen Erfolg!")
+	self:Print("(¸¸.•¨¯`•»")
+end
+
+function GuildAssist:SendGZTruck()
+    C_Timer.After(0.15, function()
+        SendChatMessage("l*********************l ll_", "GUILD");
+    end)
+    C_Timer.After(0.2, function()
+        SendChatMessage("l____GZ___TRUCK__l ll\'\'\'\'\'l\'\'\'\'\'___", "GUILD");
+    end)
+
+    C_Timer.After(0.25, function()
+        SendChatMessage("l_________________l lll_l_l_l___l)", "GUILD");
+    end)
+    C_Timer.After(0.3, function()
+        SendChatMessage("l(@)*(@)********(@)**(@)****(@)","GUILD");
+    end)
+end
+
+function GuildAssist:SendGZHeart()
+    C_Timer.After(0.1, function()
+        SendChatMessage("(¯`v´¯).. Alles", "GUILD")
+    end)
+    C_Timer.After(0.2, function()
+        SendChatMessage(" `•.¸.•´. Gute zu", "GUILD")
+    end)
+    C_Timer.After(0.3, function()
+        SendChatMessage(" ¸.•´..... deinen Erfolg!", "GUILD")
+    end)
+    C_Timer.After(0.4, function()
+        SendChatMessage("(¸¸.•¨¯`•»", "GUILD")
+    end)
+end
+
+function GuildAssist:OpenHelpFrame()
+	self.ui.help = GA_CreateHelpFrame()
+end
 
 local LDB = LibStub("LibDataBroker-1.1", true)
 local LDBIcon = LDB and LibStub("LibDBIcon-1.0", true)
@@ -768,9 +881,9 @@ function GuildAssist:OnInitialize()
 		end
 	end)
 
-	if (self.db.profile.newAddonPatch) then
-		self.db.profile.newAddonPatch = false
+	if (self.db.profile.newAddonPatch2) then
 		self.ui.patchnotes = GA_CreateUpdateFrame()
+		self.db.profile.newAddonPatch2 = false
 	end
 	------------ Debugge Development Settings -----------
 	--self.ui.calendar = GA_CreateCalender()
@@ -781,11 +894,13 @@ function GuildAssist:OnEnable()
 	-- Called when the addon is enabled / Game is started and loaded
 	local player, realm = UnitFullName("player")
 	local full_name = player.."-"..realm
-	self:Print("GuildAssist |cff00ff00successfully|r loaded!\n\r Welcome back |cffb620e8"..UnitName("player").."|r")
+	self:Print("GuildAssist |cff00ff00successfully|r loaded!\n\r Welcome back |cffb620e8"..UnitName("player").."|r|n")
 	self:RegisterEvent("ZONE_CHANGED")
 	self:RegisterEvent("CHAT_MSG_GUILD_ACHIEVEMENT")
 	self:RegisterEvent("CHAT_MSG_GUILD")
-	    
+	self:RegisterEvent("CHAT_MSG_WHISPER")
+	--self:Print(roster)
+	--SendChatMessage("!inv", "WHISPER",nil, UnitName("player"))
 end
 
 function GuildAssist:OnDisable()
@@ -798,6 +913,56 @@ function GuildAssist:SendDiscordLink()
 	C_Timer.After(self.db.profile.waitTimeDiscord, function ()
 		SendChatMessage(value, "GUILD")
 	end)
+end
+
+function GuildAssist:CHAT_MSG_WHISPER(arg1, arg2, arg3,...)
+	local _ = ...;
+	local msg = arg2
+	local whisperPlayerName = arg3
+	if (msg == "!"..self.db.profile.inviteWakeword and self.db.profile.inviteWakeword ~= "No Wakeword set.") then
+		--print("Invite player command recieved from ", whisperPlayerName)
+		if(self.db.profile.isAutoInvite) then
+			GuildAssist:AutoInvitePlayer(whisperPlayerName)
+		else
+			return
+		end
+	end
+end
+
+-- check if whisperer is in your guild
+function GuildAssist:IsInGuild(playername)
+	local t, m, _ = GetNumGuildMembers()
+	local isInGuild = false
+	for i = 1, t do
+		local n, _, _ , _, _ = GetGuildRosterInfo(i)
+		if n == playername then
+			isInGuild = true
+			break
+		end
+	end
+	return isInGuild
+end
+
+-- auto invite player
+function GuildAssist:AutoInvitePlayer(player)
+	local isGuild = GuildAssist:IsInGuild(player)
+	if (isGuild and self.db.profile.isAutoInvite) then
+		local grpSize = GetNumGroupMembers()
+		--print(grpSize)
+		if grpSize <= tonumber(self.db.profile.inviteGrpSize) then
+			--print("invite player")
+			SendChatMessage("You get a party invite... ", "WHISPER", nil, player)
+			C_PartyInfo.InviteUnit(player)
+			if grpSize == tonumber(self.db.profile.inviteGrpSize) then
+				GuildAssist:ToggleAutoInvite(_, false)
+			end
+		else
+			GuildAssist:ToggleAutoInvite(_, false)--print("max grp size reached turn off")
+		end
+
+	else
+		print("dont invite player")
+	end
 end
 
 function GuildAssist:CHAT_MSG_GUILD(arg1,arg2,...)
@@ -817,9 +982,10 @@ function GuildAssist:CHAT_MSG_GUILD(arg1,arg2,...)
 	end
 end
 
-
-function GuildAssist:CHAT_MSG_GUILD_ACHIEVEMENT(args, ...)
-	local arg1, arg2  = ...;
+function GuildAssist:CHAT_MSG_GUILD_ACHIEVEMENT(text, playerName, ...)
+	local arg4, arg5,_  = ...;
+	self:Print("playername: ", playerName)
+	self:Print("text: ", text)
 	if (self.db.profile.sendAutoGratulation and not gratulationSend )then
 		if(self.db.profile.sendAsciiTruck or self.db.profile.sendAsciiHeart)then
 			if (self.db.profile.sendAsciiHeart )then
@@ -856,8 +1022,6 @@ function GuildAssist:CHAT_MSG_GUILD_ACHIEVEMENT(args, ...)
 		end
 	end
 end
-
-
 
 function GuildAssist:ZONE_CHANGED()
 	if GetBindLocation() == GetSubZoneText() then

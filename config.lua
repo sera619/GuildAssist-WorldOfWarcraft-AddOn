@@ -1,6 +1,6 @@
 local _, GuildAssist = ...; 
 local AceGUI = LibStub("AceGUI-3.0")
-local addOnVersion = "4.1.9"
+local addOnVersion = "4.2.6"
 local branding = "GuildAssist3 v"..addOnVersion.." | Design & Development © S3R43o3 2022"
 
 local menuButton = "GameMenuButtonTemplate";
@@ -98,8 +98,32 @@ function GA_CreateHelpFrame()
     scroll:SetLayout("Flow") -- probably?
     scrollcontainer:AddChild(scroll)
 
-    
     --  add widgets to "scroll"
+    -- general help
+    local generalhelpContainer = AceGUI:Create("InlineGroup")
+    generalhelpContainer:SetFullWidth(true)
+    generalhelpContainer:SetLayout("Flow")
+
+    local generalhelpHeader = AceGUI:Create("Label")
+    generalhelpHeader:SetFullWidth(true)
+    generalhelpHeader:SetPoint("CENTER")
+    generalhelpHeader:SetFont("Fonts\\MORPHEUS.TTF", 22, "THICKOUTLINE")
+    generalhelpHeader:SetColor(195, 0, 0);
+    generalhelpHeader:SetJustifyH("CENTER")
+    generalhelpHeader:SetText("General Help")
+
+    generalhelpContainer:AddChild(generalhelpHeader)
+    for k, v in pairs(GA_HelpCustom) do
+        local helpText = AceGUI:Create("Label")
+        helpText:SetFontObject("GameFontNormal")
+        helpText:SetFullWidth(true)
+        helpText:SetJustifyH("CENTER")
+        helpText:SetText(v)
+        
+        generalhelpContainer:AddChild(helpText)
+    end
+    scroll:AddChild(generalhelpContainer)
+
     -- chat command help
     local commandContainer = AceGUI:Create("InlineGroup")
     commandContainer:SetLayout("List")
@@ -109,14 +133,11 @@ function GA_CreateHelpFrame()
     commandHeader:SetColor(195, 0, 0);
     commandHeader:SetText("Chat Commands")
     commandHeader:SetJustifyH("CENTER")
-
     commandContainer:SetFullWidth(true)
-
     commandContainer:AddChild(commandHeader)
 
     for k,v in pairs(GA_HelpStringTable) do
         --print("| k: ",k ,"| v: ", v.text)
-
         local helpText = AceGUI:Create("Label")
         helpText:SetFontObject("GameFontNormal")
 
@@ -124,7 +145,6 @@ function GA_CreateHelpFrame()
         helpText:SetText(v.header.." - "..v.text)
 
         commandContainer:AddChild(helpText)
-
     end
     scroll:AddChild(commandContainer)
 
@@ -182,15 +202,11 @@ function GA_CreateHelpFrame()
     trackerContainer:SetLayout("Flow")
 
     local trackerHeader = AceGUI:Create("Label")
-    trackerHeader:SetFullWidth(true)
-    trackerHeader:SetPoint("CENTER")
     trackerHeader:SetFont("Fonts\\MORPHEUS.TTF", 22, "THICKOUTLINE")
     trackerHeader:SetColor(195, 0, 0);
-    
+    trackerHeader:SetFullWidth(true)
     trackerHeader:SetJustifyH("CENTER")
-
     trackerHeader:SetText("Dungeon Tracker")
-
     trackerContainer:AddChild(trackerHeader)
     for k, v in pairs(GA_HelpDiscord) do
         local helpText = AceGUI:Create("Label")
@@ -202,32 +218,30 @@ function GA_CreateHelpFrame()
     end
     scroll:AddChild(trackerContainer)
 
+    -- gratulation automatic help
+    local inviteContainer = AceGUI:Create("InlineGroup")
+    inviteContainer:SetFullWidth(true)
+    inviteContainer:SetLayout("Flow")
 
-
-    -- general help
-    local generalhelpContainer = AceGUI:Create("InlineGroup")
-    generalhelpContainer:SetFullWidth(true)
-    generalhelpContainer:SetLayout("Flow")
-
-    local generalhelpHeader = AceGUI:Create("Label")
-    generalhelpHeader:SetFullWidth(true)
-    generalhelpHeader:SetPoint("CENTER")
-    generalhelpHeader:SetFont("Fonts\\MORPHEUS.TTF", 22, "THICKOUTLINE")
-    generalhelpHeader:SetColor(195, 0, 0);
-    generalhelpHeader:SetJustifyH("CENTER")
-    generalhelpHeader:SetText("General Help")
-
-    generalhelpContainer:AddChild(generalhelpHeader)
-    for k, v in pairs(GA_HelpCustom) do
+    local inviteHeader = AceGUI:Create("Label")
+    inviteHeader:SetPoint("CENTER")
+    inviteHeader:SetFont("Fonts\\MORPHEUS.TTF", 22, "THICKOUTLINE")
+    inviteHeader:SetColor(195, 0, 0);
+    inviteHeader:SetJustifyH("CENTER")
+    inviteHeader:SetText("Partyinvite Automatic")
+    inviteHeader:SetFullWidth(true)
+    
+    inviteContainer:AddChild(inviteHeader)
+    for k, v in pairs(GA_HelpInvite) do
         local helpText = AceGUI:Create("Label")
         helpText:SetFontObject("GameFontNormal")
         helpText:SetFullWidth(true)
         helpText:SetText(v)
         
-        generalhelpContainer:AddChild(helpText)
+        inviteContainer:AddChild(helpText)
     end
-    scroll:AddChild(generalhelpContainer)
-
+    scroll:AddChild(inviteContainer)
+    
     --[[
 
         local i = 1
@@ -294,8 +308,6 @@ function GA_CreateWelcomeFrame()
     return rootFrame
 end
 
-
-
 function GA_CreateMenu()
     -- create ui frame
     local frame = AceGUI:Create("Frame")
@@ -326,8 +338,6 @@ function GA_CreateMenu()
         button:SetWidth(200)
         frame:AddChild(button)
         ]]
-
-
     return frame
 end
 
@@ -398,7 +408,6 @@ function GA_CreateInstanceTracker()
     uiFrame.tazavesh = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.tazavesh:SetFontObject("GameFontHighlight");
     uiFrame.tazavesh:SetPoint("TOP", _G.GA_CreateInstanceTrackerDialogBG, "TOP", 0, -78);
-
 
     uiFrame.otherSide:SetText(DungeonNamesDE[5]);
     uiFrame.hallsOfAtonement:SetText(DungeonNamesDE[3]);
@@ -501,7 +510,6 @@ function GA_TrackDungeons()
         -- check english names
         for k = 1, #DungeonNamesEN do
             local eName = DungeonNamesEN[k]
-
             if (name == eName and difficulty == 23 and locked == true) then
                 --print(name)
                 table.insert(lockedDungeons, name)
