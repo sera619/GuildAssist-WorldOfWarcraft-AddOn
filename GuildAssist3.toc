@@ -1,6 +1,6 @@
 ## Interface: 90207
-## Title: |cff00fcfcGuildAssist3|r 4.2.6
-## Version: 4.2.6
+## Title: |cff00fcfcGuildAssist3|r 4.2.6.2
+## Version: 4.2.6.2
 ## Author: S3R43o3
 ## Notes: A little Wrapper for common Guildutility
 ## SavedVariables: GuildAssistDB, GuildAssistLDB

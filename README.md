@@ -46,7 +46,6 @@ v4.2.6 (Release Update)
 > - Add new help section for autoinvite plugin
 > - add optionsection for auto-invite
 
-
 v4.1.9 (Release Update)
 
 > - fix not saving minimap position between gamesessions
