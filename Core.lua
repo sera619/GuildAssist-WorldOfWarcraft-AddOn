@@ -1037,7 +1037,7 @@ function GuildAssist:OnInitialize()
 
 	if (self.db.profile.newAddonPatch3) then
 		self.ui.patchnotes = GA_CreateUpdateFrame()
-		--self.db.profile.newAddonPatch3 = false
+		self.db.profile.newAddonPatch3 = false
 	end
 
 	if self.db.profile.isAutoInvite then
