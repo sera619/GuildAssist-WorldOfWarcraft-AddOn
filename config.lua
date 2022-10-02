@@ -1,6 +1,6 @@
 local _, GuildAssist = ...; 
 local AceGUI = LibStub("AceGUI-3.0")
-local addOnVersion = "4.2.6.2"
+local addOnVersion = "4.2.8"
 local branding = "GuildAssist3 v"..addOnVersion.." | Design & Development © S3R43o3 2022"
 
 local menuButton = "GameMenuButtonTemplate";
@@ -25,15 +25,27 @@ function GA_CreateUpdateFrame()
     header:SetFullWidth(true)
     header:SetText("Patchnotes Version "..tostring(addOnVersion))
     header:SetJustifyH("CENTER")
-    rootFrame:AddChild(header)
 
+    local scrollcontainer = AceGUI:Create("SimpleGroup") -- "InlineGroup" is also good
+    scrollcontainer:SetFullWidth(true)
+    scrollcontainer:SetFullHeight(true) -- probably?
+    scrollcontainer:SetLayout("Fill") -- important!
+
+    rootFrame:AddChild(header)
+    rootFrame:AddChild(scrollcontainer)
+
+    local scroll = AceGUI:Create("ScrollFrame")
+    scroll:SetLayout("Flow") -- probably?
+    
+    scrollcontainer:AddChild(scroll)
+    
     for k, v in pairs(_G.GA_Patchnotes) do
         local note = AceGUI:Create("Label")
-        note:SetFont("Fonts\\FRIZQT__.TTF", 16, "THINOUTLINE")
+        note:SetFont("Fonts\\FRIZQT__.TTF", 14, "THINOUTLINE")
         
         note:SetText(v)
         note:SetFullWidth(true)
-        rootFrame:AddChild(note)
+        scroll:AddChild(note)
         
     end
 

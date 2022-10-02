@@ -1,6 +1,5 @@
 import os
 import shutil
-from time import time, sleep
 from dotenv import load_dotenv
 
 load_dotenv('.env')
@@ -55,7 +54,7 @@ def packageAddon():
     
     print("Delete temp packaging directory ...")
     shutil.rmtree(old_path)
-    print("GuildAssist3_"+version+".zip succesfully created!")
+    print("\nGuildAssist3_"+version+".zip succesfully created!")
 
     exit(0)
 

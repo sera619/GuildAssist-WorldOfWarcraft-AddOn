@@ -34,6 +34,18 @@
 
 ## Changelog ##
 
+v4.2.8 (Release Update)
+
+> - adjust Auto-Invite options order & design
+> - Add option to set the Whispermessage you send to player you have invited in party
+> - Add Option to toggle send whispermessage to player your have invited
+> - Fix some misspelling
+> - Add colors to default or not set messages
+> - Add new helptext for whispermessage to help frame
+> - create a Addon Packager for automatic packaging for "Curse Forge" in  Python
+> - Create more templates for the WIP feature "EventCalendar"
+> - Add helperfunctions for "EventCalendar"
+
 v4.2.6.2 (Hotfix Update)
 
 > - remove debugg chatoutput

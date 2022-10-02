@@ -25,7 +25,7 @@ end
 local defaults = {
 	profile = {
 		firstStart= true,
-		newAddonPatch2 = true,
+		newAddonPatch3 = true,
 		playerName = UnitName("player"),
 		message = "Welcome to GuildAssist3",
 		showOnScreen = false,
@@ -37,14 +37,16 @@ local defaults = {
 		showDungeontracker = true,
 		isAutoInvite = false,
 		isSendInviteMessage = false,
+		isSendWhisperMessage = false,
 		inviteGrpSize = 5,
-		inviteWakeword = "No Wakeword set.",
+		inviteWakeword = "|cffff0000No Wakeword set.|r",
 		inviteWakewordPrefix = "!",
-		inviteMessageStart = "No Startmessage set.",
-		inviteMessageStop = "No Stopmessage set.",
+		inviteMessageStart = "|cffff0000No Startmessage set.|r",
+		inviteMessageStop = "|cffff0000No Stopmessage set.|r",
+		inviteWhisperMessage = "|cffff0000No Whispermessage set.|r",
 		
-		discordmsg = "No Discord set.",
-		gratulationMessage = "No Gratulation set.",
+		discordmsg = "|cffff0000No Discord set.|r",
+		gratulationMessage = "|cffff0000No Gratulation set.|r",
 		sendAutoGratulation = false,
 		sendAutoDiscord = false,
 		waitTimeDiscord = 2,
@@ -54,6 +56,9 @@ local defaults = {
 		minimap = { 
 			hide = false,
 		},
+		minimap2 = {
+			hide = false,
+		}
 	},
 }
 
@@ -65,75 +70,91 @@ local generalSettings = {
 	type = "group",
 	width = "full",
 	args = {
-		generalHeader = {
-			type = "header",
-			name = "General Options",
-			desc = "Common GuildAssist options.",
-			order = 0
-		},
-		generalDesc = {
-			type = "description",
-			order = 1,
-			name = "General options for GuildAssist Addon.",
-			fontSize = "medium"
-		},
-		--[[
-		showMenuOnStart = {
-			type ="toggle",
-			name ="Show menu on Start",
-			desc = "Toggle to show addon menu at start.",
-			get = "IsShowMenuOnStart",
-			set = "ToggleShowMenuOnStart",
-			order = 2,
-			width = "full"
-		}, 
-		]]
-		showWelcomeOnStart ={
-			type = "toggle",
-			name = "Show Welcome at Start",
-			desc = "Toggle to show Welcomewindow at start.",
-			get = "IsShowWelcomeOnStart",
-			set = "ToggleShowWelcomeOnStart",
+		generalSection = {
+			type ="group",
 			width = "full",
-			order = 2,
+			name = "Common Options",
+			inline = true,
+			args ={
+				generalHeader = {
+					type = "header",
+					name = "General Options",
+					desc = "Common GuildAssist options.",
+					order = 0
+				},
+				generalDesc = {
+					type = "description",
+					order = 1,
+					name = "General options for GuildAssist Addon.",
+					fontSize = "medium"
+				},
+				--[[
+				showMenuOnStart = {
+					type ="toggle",
+					name ="Show menu on Start",
+					desc = "Toggle to show addon menu at start.",
+					get = "IsShowMenuOnStart",
+					set = "ToggleShowMenuOnStart",
+					order = 2,
+					width = "full"
+				}, 
+				]]
+				showWelcomeOnStart ={
+					type = "toggle",
+					name = "Show Welcome at Start",
+					desc = "Toggle to show Welcomewindow at start.",
+					get = "IsShowWelcomeOnStart",
+					set = "ToggleShowWelcomeOnStart",
+					width = "full",
+					order = 2,
+				},
+				showOptionsOnStart = {
+					type ="toggle",
+					name ="Show options menu on Start",
+					desc = "Toggle to show addon options at start.",
+					get = "IsShowOptionOnStart",
+					set = "ToggleShowOptionMenuOnStart",
+					order = 3,
+					width = "full"
+				},
+				showHelpOnStart = {
+					type ="toggle",
+					name ="Show help window on Start",
+					desc = "Toggle to show addon help at start.",
+					get = "IsShowHelpOnStart",
+					set = "ToggleShowHelpOnStart",
+					order = 4,
+					width = "full"
+				},
+			},
 		},
-		showOptionsOnStart = {
-			type ="toggle",
-			name ="Show options menu on Start",
-			desc = "Toggle to show addon options at start.",
-			get = "IsShowOptionOnStart",
-			set = "ToggleShowOptionMenuOnStart",
-			order = 3,
-			width = "full"
-		},
-		showHelpOnStart = {
-			type ="toggle",
-			name ="Show help window on Start",
-			desc = "Toggle to show addon help at start.",
-			get = "IsShowHelpOnStart",
-			set = "ToggleShowHelpOnStart",
-			order = 4,
-			width = "full"
-		},
-		generalHeaderHelp = {
-			type = "header",
-			name = "Need Help?",
-			desc = "Do you need help?",
-			order = 5
-		},
-		generalHelpDesc = {
-			type = "description",
-			order =6,
-			name = "If you want a list with chatcommands and features or faceing bugs or some other trouble just click here!",
+		helpSection = {
 			width = "full",
-			fontSize = "medium"
-			
-		},
-		generalHelpButton = {
-			type = "execute",
-			order = 7,
-			name = "Show Help",
-			func = "OpenHelpFrame"
+			name = "General Help",
+			type = "group",
+			inline = true,
+			args = {
+				generalHeaderHelp = {
+					type = "header",
+					name = "Need Help?",
+					desc = "Do you need help?",
+					order = 5
+				},
+				generalHelpDesc = {
+					type = "description",
+					order =6,
+					name = "If you want a list with chatcommands and features or faceing bugs or some other trouble just click here!",
+					width = "full",
+					fontSize = "medium"
+					
+				},
+				generalHelpButton = {
+					type = "execute",
+					order = 7,
+					name = "Show Help",
+					func = "OpenHelpFrame"
+				}
+			}
 		}
 	}
 }
@@ -179,48 +200,156 @@ local inviteSettings = {
 	type = "group",
 	width = "full",
 	args = {
-		inviteHeader ={
-			name = "Auto-Invite Settings",
-			order = 0,
-			type = "header",
-			width = "full"
-		},
-		inviteDesc = {
-			name = "Here you can adjust all settings for the Auto-Invite plugin.",
+		inviteSection = {
+			name ="Automatic Invite",
+			type = "group",
+			width = "full",
+			inline = true,
 			order = 1,
-			type = "description",
-			fontSize = "medium",
-			width = "full"
+			args = {
+				inviteHeader ={
+					name = "Auto-Invite Settings",
+					order = 0,
+					type = "header",
+					width = "full"
+				},
+				inviteDesc = {
+					name = "Here you can adjust all settings for the Auto-Invite plugin.",
+					order = 1,
+					type = "description",
+					fontSize = "medium",
+					width = "full"
+				},
+				inviteToggle = {
+					name = "Toggle Auto-Invite",
+					desc = "Toggle the Auto-Invite plugin",
+					order = 3,
+					type = "toggle",
+					set = "ToggleAutoInvite",
+					get = "IsAutoInvite",
+					width = "full"
+				},
+			}
 		},
-		wakewordDesc = {
-			name = "(Notice the warkword will have allways the prefix \"!\" - !example)",
+
+		wakewordSection = {
+			name ="Invite Wakeword",
+			type = "group",
+			width = "full",
+			inline = true,
 			order = 2,
-			type = "description",
-			fontSize = "medium",
-			width = "full"
+			args = {
+				wakewordDesc = {
+					name = "Please Notice:\nThe wakeword will have |cffff0000ALLWAYS|r the prefix \"!\"\nAs example: \"!example\"",
+					order = 1,
+					type = "description",
+					fontSize = "medium",
+					width = "full"
+				},
+				wakeWord = {
+					name = "Enter your wakeword here",
+					order = 2,
+					type = "input",
+					set = "SetInviteWakeword",
+					get = "GetInviteWakeword",
+					width = "full"
+				},
+			}
 		},
-		wakeWord = {
-			name = "Enter your wakeword here",
+
+		groupSizeSection = {
+			name = "Invite Group/Party",
+			type = "group",
+			width = "full",
+			inline = true,
 			order = 3,
-			type = "input",
-			set = "SetInviteWakeword",
-			get = "GetInviteWakeword",
-			width = "full"
+			args = {
+				groupSizeDescription = {
+					name = "Set the maxium players to invite before the Addon stop invite players.",
+					order = 0,
+					type = "description",
+					width = "full",
+					fontSize = "medium"
+				},
+				groupSize = {
+					name = "Max number of player",
+					values = {
+						[5] = "5 man",
+						[10] = "10 man",
+						[20] = "20 man",
+						[25] = "25 man",
+						[40] = "40 man",
+					 },
+					set = "SetAutoInviteGrpSize",
+					get = "GetAutoInviteGrpSize",
+					style = "dropdown",
+					type ="select",
+					order = 1,
+					width = "full"
+				},
+
+			}
 		},
-		groupSize = {
-			name = "Auto invite Max Group sice",
-			values = {
-				[5] = "5 man",
-				[10] = "10 man",
-				[20] = "20 man",
-				[25] = "25 man",
-				[40] = "40 man",
- 			},
-			set = "SetAutoInviteGrpSize",
-			get = "GetAutoInviteGrpSize",
-			style = "dropdown",
-			type ="select",
+
+		inviteMessageSection = {
+			name = "Invite Messages",
+			type = "group",
+			width = "full",
 			order = 4,
+			inline = true,
+			args = {		
+				inviteStart = {
+					name = "Enter your start announcement message here",
+					order = 1,
+					type = "input",
+					set = "SetInviteStartMsg",
+					get = "GetInviteStartMsg",
+					width = "full"
+				},
+				inviteStop = {
+					name = "Enter your stop announcement message here",
+					order = 2,
+					type = "input",
+					set = "SetInviteStopMsg",
+					get = "GetInviteStopMsg",
+					width = "full"
+				},
+				iniviteWhisperMsg = {
+					name = "Enter a Message that will be send to the player you invite in your group.",
+					order = 3,
+					type = "input",
+					set = "SetInviteWhisperMessage",
+					get = "GetInviteWhisperMessage",
+					width = "full"
+				},
+				inviteSpacer1 = {
+					name = " ",
+					order = 4,
+					type = "description",
+					fontSize = "medium",
+					width = "full"
+				},
+				inviteAnnounceToggle = {
+					name = "Toggle Send Announcement",
+					desc = "Toggle send Announcement to guildchatchannel",
+					order = 5,
+					type = "toggle",
+					set = "ToggleSendInviteMsg",
+					get = "IsSendInviteMsg",
+					width = "full"
+				},
+				inviteSendWhisperMsg = {
+					name = "Toggle send Whispermessage",
+					desc = "Enable/Disable whisper your Whispermessage to the player you invite",
+					order = 7,
+					type = "toggle",
+					get = "IsSendWhisperMessage",
+					set = "ToggleSendWhisperMessage",
+					width = "full"
+				}
+
+			}
+
 		},
 		inviteSpacer2 = {
 			name = " ",
@@ -229,47 +358,9 @@ local inviteSettings = {
 			fontSize = "medium",
 			width = "full"
 		},
-		inviteStart = {
-			name = "Enter your start announcement message here",
-			order =6,
-			type = "input",
-			set = "SetInviteStartMsg",
-			get = "GetInviteStartMsg",
-			width = "full"
-		},
-		inviteStop = {
-			name = "Enter your stop announcement message here",
-			order =7,
-			type = "input",
-			set = "SetInviteStopMsg",
-			get = "GetInviteStopMsg",
-			width = "full"
-		},
-		inviteSpacer1 = {
-			name = " ",
-			order = 14,
-			type = "description",
-			fontSize = "medium",
-			width = "full"
-		},
-		inviteToggle = {
-			name = "Toggle Auto-Invite",
-			desc = "Toggle the Auto-Invite plugin",
-			order = 16,
-			type = "toggle",
-			set = "ToggleAutoInvite",
-			get = "IsAutoInvite",
-			width = "full"
-		},
-		inviteAnnounceToggle = {
-			name = "Toggle Send Announcement",
-			desc = "Toggle send Announcement to guildchatchannel",
-			order = 15,
-			type = "toggle",
-			set = "ToggleSendInviteMsg",
-			get = "IsSendInviteMsg",
-			width = "full"
-		},
+
+
+
 	}
 }
 
@@ -471,9 +562,38 @@ local options = {
 	--:UI-Achievement-WoodBorder
 -- setter and getter functions for options
 
+
+function GuildAssist:ToggleSendWhisperMessage(info, value)
+	self.db.profile.isSendWhisperMessage = value
+	self:print("Auto-Invite send Whispermessage set to: ", value)
+end
+
+function GuildAssist:IsSendWhisperMessage(info)
+	return self.db.profile.isSendWhisperMessage
+	
+end
+
+function GuildAssist:SetInviteWhisperMessage(info, value)
+	if value == "" then
+		value = "|cffff0000No Whispermessage set.|r"
+	end
+	if (value == "No Whispermessage set.") then
+		value = "|cffff0000"..value.."|r"
+	end
+	self.db.profile.inviteWhisperMessage = value
+	self:Print("Auto-Invite Whispermessage set to:|n|cff00ff22"..tostring(value).."|r")
+end
+
+function GuildAssist:GetInviteWhisperMessage(info)
+	return self.db.profile.inviteWhisperMessage
+end
+
 function GuildAssist:SetInviteStartMsg(info, value)
 	if (value == "") then
 		value = "No Startmessage set."
+	end
+	if (value == "No Startmessage set.") then
+		value = "|cffff0000"..value.."|r"
 	end
 	self.db.profile.inviteMessageStart = value
 	self:Print("Auto-Invite Startmessage set to :", tostring(value))
@@ -486,6 +606,9 @@ end
 function GuildAssist:SetInviteStopMsg(info, value)
 	if (value == "") then
 		value = "No Stopmessage set."
+	end
+	if (value == "No Stopmessage set.") then
+		value = "|cffff0000"..value.."|r"
 	end
 	self.db.profile.inviteMessageStop = value
 	self:Print("Auto-Invite Stopmessage set to :", tostring(value))
@@ -516,6 +639,9 @@ end
 function GuildAssist:SetInviteWakeword(info, value)
 	if (value == "") then
 		value = "No Wakeword set."
+	end
+	if (value == "No Wakeword set.") then
+		value = "|cffff0000"..value.."|r"
 	end
 	self.db.profile.inviteWakeword = value
 	self:Print("Auto-Invite Wakeword is set to: ", value)
@@ -653,6 +779,9 @@ function GuildAssist:SetDiscordMessage(info, newValue)
 	if (newValue == "") then
 		newValue = "No Discord set."
 	end
+	if (newValue == "No Discord set.") then
+		newValue = "|cffff0000"..newValue.."|r"
+	end
 	self.db.profile.discordmsg = newValue
 	self:Print("Set Discord Message to: ", newValue)
 end
@@ -664,7 +793,10 @@ end
 
 function GuildAssist:SetGratulationMessage(info, newValue)
 	if (newValue == "") then
-		newValue = "No Gratulation set."
+		newValue = "No Startmessage set."
+	end
+	if (newValue == "No Startmessage set.") then
+		newValue = "|cffff0000"..newValue.."|r"
 	end
 	self.db.profile.gratulationMessage = newValue
 	self:Print("Set Gratulation Message to: ", newValue)
@@ -787,54 +919,71 @@ function GuildAssist:OnInitialize()
 	-- register minimapbutton 
 	if LDB then
 		local icon = LDB:NewDataObject("GuildAssistDB", {
-		type = "launcher",
-		text = "GuildAssist",
+			type = "launcher",
+			text = "GuildAssist",
 		icon = "Interface\\Icons\\inv_misc_enggizmos_27",
-		OnClick = function(_, button)
-			if button == "RightButton" and not IsShiftKeyDown() then
-				if (GuildAssist.ui.help:IsShown() == false) then
-					GuildAssist.ui.help = GA_CreateHelpFrame()
-				else
-					GuildAssist.ui.help:Hide()
+			OnClick = function(_, button)
+				if button == "RightButton" and not IsShiftKeyDown() then
+					if (GuildAssist.ui.help:IsShown() == false) then
+						GuildAssist.ui.help = GA_CreateHelpFrame()
+					else
+						GuildAssist.ui.help:Hide()
+					end
 				end
-			end
-			if button == "LeftButton" and not IsShiftKeyDown() then
-				if (_G.InterfaceOptionsFrame:IsShown() == false) then
-					_G.InterfaceOptionsFrame_OpenToCategory(GuildAssist.optionsFrame)
-					_G.InterfaceOptionsFrame_OpenToCategory(GuildAssist.optionsFrame)
-					--GuildAssist:SendGZTruck()
-				else
-					_G.InterfaceOptionsFrame:Hide()
+				if button == "LeftButton" and not IsShiftKeyDown() then
+					if (_G.InterfaceOptionsFrame:IsShown() == false) then
+						_G.InterfaceOptionsFrame_OpenToCategory(GuildAssist.optionsFrame)
+						_G.InterfaceOptionsFrame_OpenToCategory(GuildAssist.optionsFrame)
+						--GuildAssist:SendGZTruck()
+					else
+						_G.InterfaceOptionsFrame:Hide()
+					end
 				end
-			end
-			if(button == "LeftButton" and IsShiftKeyDown()) then
-				if (self.db.profile.sendAutoGratulation) then
-					self.db.profile.sendAutoGratulation = false
-					GuildAssist:ToggleAutoGratulation(_, false)
-				else
-					self.db.profile.sendAutoGratulation = true
-					GuildAssist:ToggleAutoGratulation(_, true)
+				if(button == "LeftButton" and IsShiftKeyDown()) then
+					if (self.db.profile.sendAutoGratulation) then
+						self.db.profile.sendAutoGratulation = false
+						GuildAssist:ToggleAutoGratulation(_, false)
+					else
+						self.db.profile.sendAutoGratulation = true
+						GuildAssist:ToggleAutoGratulation(_, true)
+					end
 				end
-			end
-			if(button == "RightButton" and IsShiftKeyDown()) then
-				if (self.db.profile.sendAutoDiscord) then
-					self.db.profile.sendAutoDiscord = false
-					GuildAssist:ToggleSendAutoDiscord(_,false)
-				else
-					self.db.profile.sendAutoDiscord = true
-					GuildAssist:ToggleSendAutoDiscord(_,true)
+				if(button == "RightButton" and IsShiftKeyDown()) then
+					if (self.db.profile.sendAutoDiscord) then
+						self.db.profile.sendAutoDiscord = false
+						GuildAssist:ToggleSendAutoDiscord(_,false)
+					else
+						self.db.profile.sendAutoDiscord = true
+						GuildAssist:ToggleSendAutoDiscord(_,true)
+					end
 				end
-			end
-		end,
-		OnTooltipShow = function(tt)
-			tt:AddLine("GuildAssist3")
-			tt:AddLine("|cffffff00LeftClick|r to open the GuildAssist Settings.")
-			tt:AddLine("|cffffff00RightClick|r to open the GuildAssist Help.")
-			tt:AddLine("|cffffff00LeftClick + [Shift]|r to enable/disable Auto-Gratulation.")
-			tt:AddLine("|cffffff00RightClick + [Shift]|r to enable/disable Auto-Discord.")
-		end,
-		})
+			end,
+			OnTooltipShow = function(tt)
+				tt:AddLine("|cffb00000GuildAssist3|r")
+				tt:AddLine("|cff2c6ac7LeftClick|r to open the GuildAssist Settings.")
+				tt:AddLine("|cff2c6ac7RightClick|r to open the GuildAssist Help.")
+				tt:AddLine("|cff2c6ac7LeftClick + [Shift]|r to enable/disable Auto-Gratulation.")
+				tt:AddLine("|cff2c6ac7RightClick + [Shift]|r to enable/disable Auto-Discord.")
+			end})
+		local icon2 = LDB:NewDataObject("GuildAssistDB2",{
+			type = "launcher",
+			text = "GuildAssist Calender",
+			icon = "Interface\\Icons\\priest_icon_chakra_blue",
+			OnClick = function(_,button)
+				if button == "LeftButton" then
+					if GuildAssist.ui.calendar:IsShown() then
+						GuildAssist.ui.calendar:Hide()
+					else	
+						GuildAssist.ui.calendar = GA_CreateCalender()
+					end
+				end
+			end,
+			OnTooltipShow = function(tt)
+				tt:AddLine("|cffb00000GuildAssist Calender|r")
+				tt:AddLine("|cff2c6ac7LeftClick|r Show GuildAssist Calender")
+			end})
 		if LDBIcon then
+			--LDBIcon:Register("GuildAssist3calender", icon2, self.db.profile.minimap2)
 			LDBIcon:Register("GuildAssist3", icon, self.db.profile.minimap)
 		end
 	end
@@ -846,9 +995,10 @@ function GuildAssist:OnInitialize()
 	-- register chat commands
 	self:RegisterChatCommand("guildassist","ChatCommand")
 	self:RegisterChatCommand("ga", "ChatCommand")
+	
 	-- Create all UI frames
 	self.ui = GA_CreateMenu()
-
+	
 	self.ui.tracker = GA_CreateInstanceTracker()
 	GA_ColorTextDungeon(self.ui.tracker)
 	
@@ -885,9 +1035,9 @@ function GuildAssist:OnInitialize()
 		end
 	end)
 
-	if (self.db.profile.newAddonPatch2) then
+	if (self.db.profile.newAddonPatch3) then
 		self.ui.patchnotes = GA_CreateUpdateFrame()
-		self.db.profile.newAddonPatch2 = false
+		--self.db.profile.newAddonPatch3 = false
 	end
 
 	if self.db.profile.isAutoInvite then
@@ -895,8 +1045,8 @@ function GuildAssist:OnInitialize()
 		GuildAssist:ToggleAutoInvite(_, false)
 	end
 	------------ Debugge Development Settings -----------
+--
 	--self.ui.calendar = GA_CreateCalender()
-	
 end
 
 function GuildAssist:OnEnable()
@@ -960,8 +1110,13 @@ function GuildAssist:AutoInvitePlayer(player)
 		--print(grpSize)
 		if grpSize <= tonumber(self.db.profile.inviteGrpSize) then
 			--print("invite player")
-			SendChatMessage("You get a party invite... ", "WHISPER", nil, player)
-			C_PartyInfo.InviteUnit(player)
+			if self.db.isSendWhisperMessage and not self.db.profile.inviteWhisperMessage == "No Whispermessage set." then
+				SendChatMessage(tostring(self.db.inviteWhisperMessage), "WHISPER", nil, player)
+			end
+			C_Timer.After(1.5, function ()
+				C_PartyInfo.InviteUnit(player)
+			end)
+
 			if grpSize == tonumber(self.db.profile.inviteGrpSize) then
 				GuildAssist:ToggleAutoInvite(_, false)
 			end

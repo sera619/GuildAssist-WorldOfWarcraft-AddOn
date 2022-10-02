@@ -28,13 +28,15 @@ _G.GA_HelpStringTable = {
 }
 
 _G.GA_Patchnotes = {
-    n1 ="- Add new Feature Auto-Invite",
-    n2 ="This new feature allows you to invite guild members in your a group with a keyword that you have created. You can choose between the group sizes 5 man, 10 man, 20 man, 40 man. As soon as the maximum is reached, the plugin switches off automatically.",
-    n3 ="Check the Addon help for more details how to use and setup.",
-    n4= "- Fix some misspells",
-    n5 = "- Add new help section for autoinvite plugin",
-    n6 = "- Add optionsection for auto-invite",
- 
+    n1 ="- adjust Auto-Invite options order & design",
+    n2 ="- Add option to set the Whispermessage you send to player you have invited in party",
+    n3 ="- Add Option to toggle send whispermessage to player your have invited",
+    n4= "- Fix some misspelling",
+    n5 = "- Add colors to default or not set messages",
+    n6 = "- Add new helptext for whispermessage to help frame",
+    n7 = "- create a Addon Packager for automatic packaging for \"Curse Forge\" in  Python",
+    n8 = "- Create more templates for the WIP feature \"EventCalendar\"",
+    n9 = "- Add helperfunctions for \"EventCalendar\"",
 }
 _G.GA_HelpGratulation = {
     help2 = "This feature will send automaticly a gratulation message if a guildmember earn a achievment.",
@@ -64,6 +66,7 @@ _G.GA_HelpInvite = {
     help3 = "To use enter a keyword in the optionsmenu and check the Auto-Invite Toggle checkbox. You can also adjust the maximum group size before the Addon stops invite player.",
     help4 = "If you want you can set a announcement message that would be sended to notice your guild when you enable/disable the auto-invite.",
     help5 = "You can choose between multiple group sizes and as limitation only guildmembers of your guild would be invited, more options are planned.",
+    help6 = "Set the Whispermessage to whisper a player that your addon invite in your party/raid."
 }
 _G.GA_WelcomeStringTable ={
     welcome2 = "Hello and welcome to GuildAssist3! |nThis is my very first World of Warcraft Addon that I code at all. So dont be that hard to me!",
