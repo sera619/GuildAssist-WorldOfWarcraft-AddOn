@@ -1,6 +1,6 @@
 local _, GuildAssist = ...; 
 local AceGUI = LibStub("AceGUI-3.0")
-local addOnVersion = "4.2.8.1"
+local addOnVersion = "4.3.2"
 local branding = "GuildAssist3 v"..addOnVersion.." | Design & Development © S3R43o3 2022"
 
 local menuButton = "GameMenuButtonTemplate";
@@ -355,7 +355,7 @@ end
 
 function GA_CreateInstanceTracker()
     -- base frame
-    local uiFrame = CreateFrame("Frame", "GA_CreateInstanceTracker", _G.UIParent, "UIPanelDialogTemplate");
+    local uiFrame = CreateFrame("Frame", "GA_CreateInstanceTrackerFrame", _G.UIParent, "HelpFrameContainerFrameTemplate");
     --[[    
         2291 	De Other Side
         2287 	Halls of Atonement
@@ -368,58 +368,59 @@ function GA_CreateInstanceTracker()
         2441 	Tazavesh the Veiled Market
     ]]
 
-    uiFrame:SetSize(400, 125);
-    uiFrame:SetPoint("TOPRIGHT", _G.PVEFrame, "TOPRIGHT", 0, 120);
+    uiFrame:SetSize(400, 100);
+    uiFrame:SetPoint("TOPRIGHT", _G.GroupFinderFrame, "TOPRIGHT", 0, 98);
+    --uiFrame:SetPoint("CENTER", UIParent, "CENTER", 0, 120);
 
     -- window title
     uiFrame.title = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.title:SetFontObject("GameFontHighlight");
-    uiFrame.title:SetPoint("TOPLEFT", _G.GA_CreateInstanceTrackerDialogBG, "TOPLEFT", 10, 15);
+    uiFrame.title:SetPoint("TOPLEFT", _G.GA_CreateInstanceTrackerFrame, "TOPLEFT", 5, 15);
     uiFrame.title:SetText("Guild Assist - Instance Tracker");
     uiFrame.title:SetTextColor(255, 0, 0);
 
     -- inner Title
     uiFrame.innerTitle = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.innerTitle:SetFontObject("GameFontNormal");
-    uiFrame.innerTitle:SetPoint("CENTER", _G.GA_CreateInstanceTrackerDialogBG, "CENTER", 0, 35);
+    uiFrame.innerTitle:SetPoint("CENTER", _G.GA_CreateInstanceTrackerFrame, "CENTER", 0, 38);
     uiFrame.innerTitle:SetText("Your free mythic instance are:");
     -- DUNGEON STRINGS
     -- de other side
     uiFrame.otherSide = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.otherSide:SetFontObject("GameFontHighlight");
-    uiFrame.otherSide:SetPoint("TOPLEFT", _G.GA_CreateInstanceTrackerDialogBG, "TOPLEFT", 15, -20);
+    uiFrame.otherSide:SetPoint("TOPLEFT", _G.GA_CreateInstanceTrackerFrame, "TOPLEFT", 15, -20);
     -- halls of atonement
     uiFrame.hallsOfAtonement = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.hallsOfAtonement:SetFontObject("GameFontHighlight");
-    uiFrame.hallsOfAtonement:SetPoint("TOPLEFT", _G.GA_CreateInstanceTrackerDialogBG, "TOPLEFT", 15, -35);
+    uiFrame.hallsOfAtonement:SetPoint("TOPLEFT", _G.GA_CreateInstanceTrackerFrame, "TOPLEFT", 15, -35);
     --	Mists of Tirna Scithe
     uiFrame.mistOfTirneScithe = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.mistOfTirneScithe:SetFontObject("GameFontHighlight");
-    uiFrame.mistOfTirneScithe:SetPoint("TOPLEFT", _G.GA_CreateInstanceTrackerDialogBG, "TOPLEFT", 15, -50);
+    uiFrame.mistOfTirneScithe:SetPoint("TOPLEFT", _G.GA_CreateInstanceTrackerFrame, "TOPLEFT", 15, -50);
 
     uiFrame.plaguefall = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.plaguefall:SetFontObject("GameFontHighlight");
-    uiFrame.plaguefall:SetPoint("TOPLEFT", _G.GA_CreateInstanceTrackerDialogBG, "TOPLEFT", 15, -65);
+    uiFrame.plaguefall:SetPoint("TOPLEFT", _G.GA_CreateInstanceTrackerFrame, "TOPLEFT", 15, -65);
 
     uiFrame.sanguineDepths = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.sanguineDepths:SetFontObject("GameFontHighlight");
-    uiFrame.sanguineDepths:SetPoint("TOPRIGHT", _G.GA_CreateInstanceTrackerDialogBG, "TOPRIGHT", -15, -20);
+    uiFrame.sanguineDepths:SetPoint("TOPRIGHT", _G.GA_CreateInstanceTrackerFrame, "TOPRIGHT", -15, -20);
 
     uiFrame.spiresOfAscension = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.spiresOfAscension:SetFontObject("GameFontHighlight");
-    uiFrame.spiresOfAscension:SetPoint("TOPRIGHT", _G.GA_CreateInstanceTrackerDialogBG, "TOPRIGHT", -15, -35);
+    uiFrame.spiresOfAscension:SetPoint("TOPRIGHT", _G.GA_CreateInstanceTrackerFrame, "TOPRIGHT", -15, -35);
 
     uiFrame.theNecroticWake = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.theNecroticWake:SetFontObject("GameFontHighlight");
-    uiFrame.theNecroticWake:SetPoint("TOPRIGHT", _G.GA_CreateInstanceTrackerDialogBG, "TOPRIGHT", -15, -50);
+    uiFrame.theNecroticWake:SetPoint("TOPRIGHT", _G.GA_CreateInstanceTrackerFrame, "TOPRIGHT", -15, -50);
 
     uiFrame.theaterOfPain = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.theaterOfPain:SetFontObject("GameFontHighlight");
-    uiFrame.theaterOfPain:SetPoint("TOPRIGHT", _G.GA_CreateInstanceTrackerDialogBG, "TOPRIGHT", -15, -65);
+    uiFrame.theaterOfPain:SetPoint("TOPRIGHT", _G.GA_CreateInstanceTrackerFrame, "TOPRIGHT", -15, -65);
 
     uiFrame.tazavesh = uiFrame:CreateFontString(nil, "OVERLAY");
     uiFrame.tazavesh:SetFontObject("GameFontHighlight");
-    uiFrame.tazavesh:SetPoint("TOP", _G.GA_CreateInstanceTrackerDialogBG, "TOP", 0, -78);
+    uiFrame.tazavesh:SetPoint("TOP", _G.GA_CreateInstanceTrackerFrame, "TOP", 0, -80);
 
     uiFrame.otherSide:SetText(DungeonNamesDE[5]);
     uiFrame.hallsOfAtonement:SetText(DungeonNamesDE[3]);
@@ -530,4 +531,70 @@ function GA_TrackDungeons()
     end
     return lockedDungeons;
     --print(type(id),name,difficulty,type( locked), locked, instanceIDMostSig , extended)
+end
+
+
+function GA_GratulationMessageFrame(db)
+    local rootFrame = AceGUI:Create("Window")
+
+    rootFrame:SetWidth(400)
+    rootFrame:SetHeight(450)
+    
+    local headText = AceGUI:Create("Label")
+    headText:SetFullWidth(true)
+    headText:SetFont(headFont, 30, "THICKOUTLINE")
+    headText:SetText("Message List")
+    headText:SetJustifyH("CENTER")
+    headText:SetColor(255, 0, 0);
+
+
+    local infoText = AceGUI:Create("Label")
+    infoText:SetFontObject("GameFontNormalLarge")
+    infoText:SetFullWidth(true)
+    infoText:SetJustifyH("CENTER")
+    infoText:SetText("Please notice that the removed Message will still show until you re-open this window again.")
+    infoText:SetColor(155, 15, 0)
+
+    local scrollcontainer = AceGUI:Create("SimpleGroup") -- "InlineGroup" is also good
+    scrollcontainer:SetFullWidth(true)
+    scrollcontainer:SetFullHeight(true) -- probably?
+    scrollcontainer:SetLayout("Fill") -- important!
+
+    rootFrame:AddChild(headText)
+    rootFrame:AddChild(infoText)
+    rootFrame:AddChild(scrollcontainer)
+
+    local scroll = AceGUI:Create("ScrollFrame")
+    scroll:SetFullWidth(true)
+    scroll:SetLayout("Flow") -- probably?
+    
+    scrollcontainer:AddChild(scroll)
+
+    for i = 1, #db do
+        local container = AceGUI:Create("InlineGroup")
+        container:SetFullWidth(true)
+
+        local text = AceGUI:Create("Label")
+        text:SetFullWidth(true)
+        text:SetFontObject("GameFontNormal")
+        text:SetText(db[i])
+        local deleteButton = AceGUI:Create("Button")
+        deleteButton:SetText("Delete")
+        deleteButton:SetCallback("OnClick", function (widget)
+            for j = 1, #db do
+                if db[i] == db[j] then
+                    table.remove(db,j)
+                end
+                GuildAssist:Print("Message removed from list")
+            end
+        end)
+        
+        container:AddChild(text)
+        container:AddChild(deleteButton)
+        scroll:AddChild(container)
+
+    end
+
+    return rootFrame
+    
 end

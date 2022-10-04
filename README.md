@@ -2,11 +2,12 @@
 
 > A Addon that will simplifly some commen guildinteractions. As Example the addon can send gratulatioonmessaeges to guildchannel automaticly if a guildmember earns a achievment. You can choose between your own created message or predefined ASCII images.
 > Also save Discord/Teamspeak invitation links and send them to the guild chat via chat command "!discord" if activated.
-> The whole Project is now on Version 4.2.6 I refactor/redesign much like everything. As example the whole Addon can now be configured in the interface options from blizzad like all common Addons.
+> The whole Project is now on Version 4.3.2 I refactor/redesign much like everything. As example the whole Addon can now be configured in the interface options from blizzad like all common Addons.
 > For more information got to [Changelog](#changelog)
 
 ## Features ##
 
+> - send automatic gratulation message to guildchatchannel if a guildmember earn a achievment, you can use a random list, single gratulation or ASCII images (predefined)
 > - Automatic partyinvitation from guildmembers if whisper you with a keyword
 > - allows you to use the keyboard arrow keys to scroll through your sent message history.
 > - Set the time in seconds between achieving the achievement and sending the congratulation message.
@@ -31,8 +32,19 @@
 
 ![Graphical UI](img/GUI.png)
 ![Instance Tracker](img/GUI_tracker.png)
+![Update 4.3.2](img/GUI_randommsg.png)
 
 ## Changelog ##
+
+v4.3.2 (Release Update)
+
+> - fix error when toggle \"Send Whispermessage\"
+> - add Option to set multiple gratulation messages
+> - Add Option to toggle send random whispermessage to player your have invited
+> - Adjust Gratulation-Setting Interface
+> - Add colors to chatinformation output for player
+> - Add Frame to show up saved Gratulationmessages
+> - add errorhandling for nil values in database
 
 v4.2.8 (Release Update)
 

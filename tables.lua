@@ -28,15 +28,15 @@ _G.GA_HelpStringTable = {
 }
 
 _G.GA_Patchnotes = {
-    n1 ="- adjust Auto-Invite options order & design",
-    n2 ="- Add option to set the Whispermessage you send to player you have invited in party",
-    n3 ="- Add Option to toggle send whispermessage to player your have invited",
-    n4= "- Fix some misspelling",
-    n5 = "- Add colors to default or not set messages",
-    n6 = "- Add new helptext for whispermessage to help frame",
-    n7 = "- create a Addon Packager for automatic packaging for \"Curse Forge\" in  Python",
-    n8 = "- Create more templates for the WIP feature \"EventCalendar\"",
-    n9 = "- Add helperfunctions for \"EventCalendar\"",
+    n1 ="- fix error when toggle \"Send Whispermessage\"",
+    n2 ="- add Option to set multiple gratulation messages",
+    n3 ="- Add Option to toggle send random whispermessage to player your have invited",
+    n4= "- Adjust Gratulation-Setting Interface",
+    n5 = "- Add colors to chatinformation output for player",
+    n6 = "- Add Frame to show up saved Gratulationmessages",
+    n7 = "- add errorhandling for nil values in database",
+    n8 = "- add new preview screenshot",
+    --n9 = "- Add helperfunctions for \"EventCalendar\"",
 }
 _G.GA_HelpGratulation = {
     help2 = "This feature will send automaticly a gratulation message if a guildmember earn a achievment.",

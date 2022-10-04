@@ -25,7 +25,7 @@ end
 local defaults = {
 	profile = {
 		firstStart= true,
-		newAddonPatch3 = true,
+		newAddonPatch4 = true,
 		playerName = UnitName("player"),
 		message = "Welcome to GuildAssist3",
 		showOnScreen = false,
@@ -44,7 +44,6 @@ local defaults = {
 		inviteMessageStart = "|cffff0000No Startmessage set.|r",
 		inviteMessageStop = "|cffff0000No Stopmessage set.|r",
 		inviteWhisperMessage = "|cffff0000No Whispermessage set.|r",
-		
 		discordmsg = "|cffff0000No Discord set.|r",
 		gratulationMessage = "|cffff0000No Gratulation set.|r",
 		sendAutoGratulation = false,
@@ -53,11 +52,16 @@ local defaults = {
 		waitTimeGratulation = 3,
 		sendAsciiTruck = false,
 		sendAsciiHeart = false,
+		isSendRandomMessage = false,
 		minimap = { 
 			hide = false,
 		},
 		minimap2 = {
 			hide = false,
+		},
+		gratulationMessageList = "",
+		randomlist = {
+
 		}
 	},
 }
@@ -303,6 +307,8 @@ local inviteSettings = {
 					order = 1,
 					type = "input",
 					set = "SetInviteStartMsg",
+					multiline = 1,
+
 					get = "GetInviteStartMsg",
 					width = "full"
 				},
@@ -310,13 +316,16 @@ local inviteSettings = {
 					name = "Enter your stop announcement message here",
 					order = 2,
 					type = "input",
+					multiline = 1,
+
 					set = "SetInviteStopMsg",
 					get = "GetInviteStopMsg",
 					width = "full"
 				},
 				iniviteWhisperMsg = {
-					name = "Enter a Message that will be send to the player you invite in your group.",
+					name = "Enter a Whisper Message.",
 					order = 3,
+					multiline = 1,
 					type = "input",
 					set = "SetInviteWhisperMessage",
 					get = "GetInviteWhisperMessage",
@@ -364,6 +373,7 @@ local inviteSettings = {
 	}
 }
 
+
 local options = {
 	name ="GuildAssist3 Options",
 	handler = GuildAssist,
@@ -371,119 +381,188 @@ local options = {
 	args = {
 		generalSetting = generalSettings,
 		gratulationSetting = {
-		name ="Gratulation Settings",
-		order = 1,
-		handler = GuildAssist,
-		desc = "Here you can setup the Gratulation Automatic settings.",
-		type = "group",
-		width = "full",
-		args = {
-			gratulationHeader = {
-				type = "header",
-				order = 0,
-				name = "Gratulation Settings",
-			},
-			generalDesc = {
-				type = "description",
-				order = 1,
-				name = "Automatic Gratulation options for GuildAssist Addon.",
-				fontSize = "medium"
-			},
-			showInChat = {
-				order = 4,
-				type = "toggle",
-				name = "Show message in Chat",
-				desc = "Toggles the display of the message in the chat window.",
-				get = "IsShowInChat",
-				set = "ToggleShowInChat",
-				width = "full"
-			},
-			showOnScreen = {
-				order = 3,
-				type = "toggle",
-				name = "Show message on Screen",
-				desc = "Toggles the display of the message on screen.",
-				get = "IsShowOnScreen",
-				set = "ToggleShowOnScreen",
-				width = "full"
-			},
-			gratulationMessage ={
-				order = 2,
-				type = "input",
-				name = "Enter Automatic Gratulationmessage",
-				desc = "The message to send if a guildmate get a achievement.",
-				get = "GetGratulationMessage",
-				set = "SetGratulationMessage",
-				width = "full"
-			},
-			sendAutoGratulation = {
-				order = 5,
-				type = "toggle",
-				name = "Send automatic Gratulation",
-				desc = "Enable/Disable sending automatic gratulationmessage to guild.",
-				get = "IsSendAutoGratulation",
-				set = "ToggleAutoGratulation",
-				width = "full"
-			},
-			asciiHeader = {
-				order = 7,
-				type = "header",
-				name = "Use ASCii Gratulation Images",
-			},
-			asciiDesc = {
-				order = 8,
-				type = "description",
-				name = "You can also choose a predefined ASCii Images as Gratulation Message.",
-				width = "full",
-				fontSize = "medium"
-			},
-			sendGratulationTruck = {
-				order = 9,
-				type = "toggle",
-				name = "Send ASCii Truck Gratulation",
-				desc = "Enable/Disable sending sending ASCii Truck as  gratulationmessage to guild.",
-				get = "IsSendAsciiTruck",
-				set = "ToggleSendAsciiTruck",
-				width = "full",
-			},
-			sendGratulationHeart = {
-				order = 10,
-				type = "toggle",
-				name = "Send ASCii Heart Gratulation",
-				desc = "Enable/Disable sending ASCii Heart as gratulationmessage to guild.",
-				get = "IsSendAsciiHeart",
-				set = "ToggleSendAsciiHeart",
-				width = "full",
-			},
-			waitTimeGratulation = {
-				type = "range",
-				name = "Time to wait before send gratulation after achievement earned.",
-				min = 1,
-				max = 10,
-				step = 0.5,
-				get = "GetWaitTimeAutoGratulation",
-				set = "SetWaitTimeAutoGratulation",
-				width = "full",
-				order = 11
-			},
-			testGratulationHeader = {
-				type = "header",
-				order = 12,
-				name = "Test Gratulation Message"
-			},
-			testGratulationDesc = {
-				type = "description",
-				order = 13,
-				name = "Send the final Gratulation to your chat window.",
-				fontSize = "medium"
-			},
-			sendTestGratulation = {
-				order = 14,
-				type = "execute",
-				name = "Send Test Gratulation",
-				func = "SendTestGratulation",
-			},
-		}},
+			name ="Gratulation Settings",
+			order = 1,
+			handler = GuildAssist,
+			desc = "Here you can setup the Gratulation Automatic settings.",
+			type = "group",
+			width = "full",
+			args = {
+				generalGratulation = {
+					type = "group",
+					inline = true,
+					name = "General Gratulation Settings",
+					order = 0,
+					width = "full",
+					args = {
+						gratulationHeader = {
+							type = "header",
+							order = 0,
+							name = "General Settings",
+						},
+						generalDesc = {
+							type = "description",
+							order = 1,
+							name = "Automatic Gratulation options for GuildAssist Addon.",
+							fontSize = "medium"
+						},
+						showInChat = {
+							order = 4,
+							type = "toggle",
+							name = "Show message in Chat",
+							desc = "Toggles the display of the message in the chat window.",
+							get = "IsShowInChat",
+							set = "ToggleShowInChat",
+							width = "full"
+						},
+						showOnScreen = {
+							order = 3,
+							type = "toggle",
+							name = "Show message on Screen",
+							desc = "Toggles the display of the message on screen.",
+							get = "IsShowOnScreen",
+							set = "ToggleShowOnScreen",
+							width = "full"
+						},
+						sendAutoGratulation = {
+							order = 5,
+							type = "toggle",
+							name = "Send automatic Gratulation",
+							desc = "Enable/Disable sending automatic gratulationmessage to guild.",
+							get = "IsSendAutoGratulation",
+							set = "ToggleAutoGratulation",
+							width = "full"
+						},
+						sendRandom = {
+							order = 6,
+							type = "toggle",
+							name = "Send Random Gratulation",
+							desc = "Enable/Disable send a random Message from List",
+							get = "IsSendRandomGratulation",
+							set = "ToggleSendRandomGratulation",
+							width = "full"
+						}
+					}
+				},
+				
+				gratulationMsgSettings = {
+					type = "group",
+					order = 2,
+					inline = true,
+					width ="full",
+					name = "Gratulation Message Settings",
+					args ={
+						messageHeader = {
+							type = "header",
+							name = "Gratulationmessage Settings",
+							order = 0,
+						},
+						messageDesc = {
+							type = "description",
+							fontSize = "medium",
+							order = 1,
+							name = "You can set your own Message |cffff0000OR|r use a Ascii-Image. Its also possible to setup more than one message and send them in a random order."
+						},
+						gratulationMessage ={
+							order = 2,
+							type = "input",
+							--multiline = 1,
+							name = "Enter Automatic Gratulationmessage",
+							desc = "The message to send if a guildmate get a achievement.",
+							get = "GetGratulationMessage",
+							set = "SetGratulationMessage",
+							width = "full"
+						},
+						gratulationMessageConHead = {
+							order = 3,
+							type = "header",
+							name = "Random Gratulation",
+							width = "full"
+						},
+						gratulationMessageConDesc = {
+							order = 4,
+							type = "description",
+							name = "All Messages you enter here will be saved in a List that you can use to send random messages from that list.",
+							fontSize = "medium"
+						},
+						gratulationMessageContainer = {
+							order = 5,
+							type = "input",
+							multiline = 1,
+							name = "Enter messages for randomlist",
+							set = "AddGratulationToList",
+							get = "GetGratulationFromList",
+							width = "full"
+						},
+						gratulationMessageConShow = {
+							order = 6,
+							type = "execute",
+							name = "Show Messages",
+							func = "ShowMessageList"
+						},
+						asciiHeader = {
+							order = 10,
+							type = "header",
+							name = "Use ASCii Gratulation Images",
+						},
+						asciiDesc = {
+							order = 11,
+							type = "description",
+							name = "You can also choose a predefined ASCii Images as Gratulation Message.",
+							width = "full",
+							fontSize = "medium"
+						},
+						sendGratulationTruck = {
+							order = 12,
+							type = "toggle",
+							name = "Send ASCii Truck Gratulation",
+							desc = "Enable/Disable sending sending ASCii Truck as  gratulationmessage to guild.",
+							get = "IsSendAsciiTruck",
+							set = "ToggleSendAsciiTruck",
+							width = "full",
+						},
+						sendGratulationHeart = {
+							order = 13,
+							type = "toggle",
+							name = "Send ASCii Heart Gratulation",
+							desc = "Enable/Disable sending ASCii Heart as gratulationmessage to guild.",
+							get = "IsSendAsciiHeart",
+							set = "ToggleSendAsciiHeart",
+							width = "full",
+						},
+						waitTimeGratulation = {
+							type = "range",
+							name = "Time to wait before send gratulation after achievement earned.",
+							min = 1,
+							max = 10,
+							step = 0.5,
+							get = "GetWaitTimeAutoGratulation",
+							set = "SetWaitTimeAutoGratulation",
+							width = "full",
+							order = 14
+						},
+						testGratulationHeader = {
+							type = "header",
+							order = 15,
+							name = "Test Gratulation Message"
+						},
+						testGratulationDesc = {
+							type = "description",
+							order = 16,
+							name = "Send the final Gratulation to your chat window.",
+							fontSize = "medium"
+						},
+						sendTestGratulation = {
+							order = 17,
+							type = "execute",
+							name = "Send Test Gratulation",
+							func = "SendTestGratulation",
+						},
+					}
+				},
+
+			}
+		},
 		discordSetting = {
 			order = 2,
 			name ="Discord Settings",
@@ -561,11 +640,28 @@ local options = {
 }
 	--:UI-Achievement-WoodBorder
 -- setter and getter functions for options
+function GuildAssist:IsSendRandomGratulation(info)
+	return self.db.profile.isSendRandomMessage
+end
 
+function GuildAssist:ToggleSendRandomGratulation(info, value)
+	if #self.db.profile.randomlist == 0 then
+		self:Print("No Messages in list please setup min |cffff00002|r messages.")
+		return
+	end
+	if GuildAssist:IsSendAsciiHeart() == true then
+		GuildAssist:ToggleSendAsciiHeart(_, false)
+	end
+	if GuildAssist:IsSendAsciiTruck() == true then
+		GuildAssist:ToggleSendAsciiTruck(_, false)
+	end
+	self.db.profile.isSendRandomMessage = value
+	self:Print("Send Randomgratulation set to: ", value)
+end
 
 function GuildAssist:ToggleSendWhisperMessage(info, value)
 	self.db.profile.isSendWhisperMessage = value
-	self:print("Auto-Invite send Whispermessage set to: ", value)
+	self:Print("Auto-Invite send Whispermessage set to:|n|cff00ff22"..tostring(value).."|r")
 end
 
 function GuildAssist:IsSendWhisperMessage(info)
@@ -596,7 +692,7 @@ function GuildAssist:SetInviteStartMsg(info, value)
 		value = "|cffff0000"..value.."|r"
 	end
 	self.db.profile.inviteMessageStart = value
-	self:Print("Auto-Invite Startmessage set to :", tostring(value))
+	self:Print("Auto-Invite Startmessage set to:|n|cff00ff22"..tostring(value).."|r")
 end
 
 function GuildAssist:GetInviteStartMsg(info)
@@ -611,7 +707,7 @@ function GuildAssist:SetInviteStopMsg(info, value)
 		value = "|cffff0000"..value.."|r"
 	end
 	self.db.profile.inviteMessageStop = value
-	self:Print("Auto-Invite Stopmessage set to :", tostring(value))
+	self:Print("Auto-Invite Stopmessage set to:|n|cff00ff22"..tostring(value).."|r")
 end
 
 function GuildAssist:GetInviteStopMsg(info)
@@ -701,10 +797,13 @@ end
 
 function GuildAssist:ToggleSendAsciiHeart(info, value)
 	if (value == true and GuildAssist:IsSendAsciiTruck() == true) then
-		GuildAssist:ToggleSendAsciiTruck(false)
+		GuildAssist:ToggleSendAsciiTruck(_, false)
+	end
+	if value == true and GuildAssist:IsSendRandomGratulation() == true then
+		GuildAssist:ToggleSendRandomGratulation(_, false)
 	end
 	self.db.profile.sendAsciiHeart = value
-	self:Print("Use ASCii Heart set to: ", value)
+	self:Print("Use ASCii Heart set to: ", self.db.profile.sendAsciiHeart)
 end
 
 -- toggle ascii truck
@@ -714,10 +813,13 @@ end
 
 function GuildAssist:ToggleSendAsciiTruck(info, value)
 	if (value == true and GuildAssist:IsSendAsciiHeart() == true) then
-		GuildAssist:ToggleSendAsciiHeart(false)
+		GuildAssist:ToggleSendAsciiHeart(_,false)
+	end
+	if value == true and GuildAssist:IsSendRandomGratulation() == true then
+		GuildAssist:ToggleSendRandomGratulation(_, false)
 	end
 	self.db.profile.sendAsciiTruck = value
-	self:Print("Use ASCii Truck set to: ", value)
+	self:Print("Use ASCii Truck set to: ", self.db.profile.sendAsciiTruck )
 end
 
 -- set wait time before gratulation
@@ -791,11 +893,13 @@ function GuildAssist:GetGratulationMessage(info)
 	return self.db.profile.gratulationMessage
 end
 
+
+
 function GuildAssist:SetGratulationMessage(info, newValue)
 	if (newValue == "") then
-		newValue = "No Startmessage set."
+		newValue = "No Gratulation set."
 	end
-	if (newValue == "No Startmessage set.") then
+	if (newValue == "No Gratulation set.") then
 		newValue = "|cffff0000"..newValue.."|r"
 	end
 	self.db.profile.gratulationMessage = newValue
@@ -899,6 +1003,46 @@ end
 
 function GuildAssist:OpenHelpFrame()
 	self.ui.help = GA_CreateHelpFrame()
+end
+
+function  GuildAssist:AddGratulationToList(info, value)
+	self.db.profile.gratulationMessageList = ""
+	table.insert(self.db.profile.randomlist, value)
+	self:Print("New Gratulation Message set to list:|n|cffff0000"..tostring(value).."|r")
+	
+end
+
+function GuildAssist:GetGratulationFromList(info)
+	return self.db.profile.gratulationMessageList
+end
+
+
+function GuildAssist:GetMsgFromList()
+	for i = 1 , #self.db.profile.randomlist do
+		self:Print(self.db.profile.randomlist[i])
+	end
+	
+end
+
+function GuildAssist:ShowMessageList()
+	if self.ui.messagelistFrame ~= nil then
+		return
+	end
+	self.ui.messagelistFrame = GA_GratulationMessageFrame(self.db.profile.randomlist)
+	--self.db.profile.gratulationMessageList	
+end
+
+function GuildAssist:SendRandomGratulation()
+	gratulationSend = true
+	local num = math.random(1, #self.db.profile.randomlist)
+	C_Timer.After(tonumber(self.db.profile.waitTimeGratulation), function ()
+		SendChatMessage(self.db.profile.randomlist[num])
+	end)
+	self:Print("Message sended: ",self.db.profile.randomlist[num])
+	C_Timer.After(2, function ()
+		gratulationSend = false
+	end)
+	
 end
 
 local LDB = LibStub("LibDataBroker-1.1", true)
@@ -1035,9 +1179,9 @@ function GuildAssist:OnInitialize()
 		end
 	end)
 
-	if (self.db.profile.newAddonPatch3) then
+	if (self.db.profile.newAddonPatch4) then
 		self.ui.patchnotes = GA_CreateUpdateFrame()
-		self.db.profile.newAddonPatch3 = false
+		self.db.profile.newAddonPatch4 = false
 	end
 
 	if self.db.profile.isAutoInvite then
@@ -1173,7 +1317,7 @@ function GuildAssist:CHAT_MSG_GUILD_ACHIEVEMENT(text, playerName, ...)
 					gratulationSend = false
 				end)
 			end
-		elseif ( not self.db.profile.sendAsciiHeart and not self.db.profile.sendAsciiTruck ) and self.db.profile.sendAutoGratulation and not gratulationSend then
+		elseif ( not self.db.profile.sendAsciiHeart and not self.db.profile.sendAsciiTruck ) and self.db.profile.sendAutoGratulation and not gratulationSend and not self.db.profile.isSendRandomMessage then
 			if self.db.profile.gratulationMessage ~= "No Gratulation set." then
 				gratulationSend = true
 				C_Timer.After(self.db.profile.waitTimeGratulation, function ()
@@ -1185,6 +1329,8 @@ function GuildAssist:CHAT_MSG_GUILD_ACHIEVEMENT(text, playerName, ...)
 			else
 				return self:Print("Cant send a empty Gratulation, please set one or use a premade ASCii Image!")
 			end
+		elseif ( not self.db.profile.sendAsciiHeart and not self.db.profile.sendAsciiTruck ) and self.db.profile.sendAutoGratulation and self.db.profile.isSendRandomMessage and not gratulationSend then
+			GuildAssist:SendRandomGratulation()
 		else
 			return self:Print("|cffff0000Something with Ascii or Gratulation Message went wrong!|r")
 		end
